@@ -5,10 +5,15 @@ import CharSplitText from '../components-v2/CharSplitText';
 import { RevealV2 } from '../hooks/useScrollReveal';
 import heroes from '../data/heroes.json';
 import lands from '../data/lands.json';
+import { gsap } from 'gsap';
+import { Flip } from 'gsap/Flip';
+
+gsap.registerPlugin(Flip);
 
 const HeroesV2 = () => {
   const [activeLand, setActiveLand] = useState('all');
   const [expanded, setExpanded] = useState(null);
+  const gridRef = React.useRef(null);
 
   useEffect(() => {
     document.title = 'The Heroes — SOE Rhythm Quest';
@@ -18,6 +23,40 @@ const HeroesV2 = () => {
     if (activeLand === 'all') return heroes;
     return heroes.filter((h) => h.landId === activeLand);
   }, [activeLand]);
+
+  const handleFilterChange = (landId) => {
+    if (landId === activeLand) return;
+    const cards = gridRef.current ? gridRef.current.querySelectorAll('.v2-card') : null;
+    const state = cards ? Flip.getState(cards) : null;
+    setActiveLand(landId);
+    if (state) {
+      requestAnimationFrame(() => {
+        Flip.from(state, {
+          duration: 0.5,
+          ease: 'power2.inOut',
+          stagger: 0.03,
+          scale: true,
+          onEnter: (elements) => gsap.fromTo(elements, { opacity: 0, scale: 0.88 }, { opacity: 1, scale: 1, duration: 0.35 }),
+          onLeave: (elements) => gsap.to(elements, { opacity: 0, scale: 0.88, duration: 0.25 }),
+        });
+      });
+    }
+  };
+
+  const handleToggleCard = (heroId) => {
+    const cards = gridRef.current ? gridRef.current.querySelectorAll('.v2-card') : null;
+    const state = cards ? Flip.getState(cards) : null;
+    setExpanded(prev => (prev === heroId ? null : heroId));
+    if (state) {
+      requestAnimationFrame(() => {
+        Flip.from(state, {
+          duration: 0.45,
+          ease: 'power2.out',
+          nested: true,
+        });
+      });
+    }
+  };
 
   return (
     <div className="heroes-v2">
@@ -51,7 +90,7 @@ const HeroesV2 = () => {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '3rem' }}>
             <button
               className={`v2-btn ${activeLand === 'all' ? 'v2-btn--gold' : 'v2-btn--outline'}`}
-              onClick={() => setActiveLand('all')}
+              onClick={() => handleFilterChange('all')}
               style={{ fontSize: '0.78rem', padding: '0.55rem 1.4rem' }}
             >
               All
@@ -60,7 +99,7 @@ const HeroesV2 = () => {
               <button
                 key={land.id}
                 className={`v2-btn ${activeLand === land.id ? 'v2-btn--gold' : 'v2-btn--outline'}`}
-                onClick={() => setActiveLand(land.id)}
+                onClick={() => handleFilterChange(land.id)}
                 style={{ fontSize: '0.78rem', padding: '0.55rem 1.4rem' }}
               >
                 {land.icon} {land.name}
@@ -70,6 +109,7 @@ const HeroesV2 = () => {
 
           {/* Card grid */}
           <div
+            ref={gridRef}
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
@@ -81,8 +121,9 @@ const HeroesV2 = () => {
               return (
                 <button
                   key={h.id}
+                  data-flip-id={`hero-v2-${h.id}`}
                   className="v2-card"
-                  onClick={() => setExpanded(isOpen ? null : h.id)}
+                  onClick={() => handleToggleCard(h.id)}
                   style={{
                     textAlign: 'center',
                     cursor: 'pointer',

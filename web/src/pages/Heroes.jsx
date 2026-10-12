@@ -5,6 +5,10 @@ import JsonLd from '../components/JsonLd';
 import { heroesSchema } from '../utils/schema';
 import { ShaderBackground } from '../components/ui/AnimatedShaderHero';
 import { assetPath } from '../utils/assetPath';
+import { gsap } from 'gsap';
+import { Flip } from 'gsap/Flip';
+
+gsap.registerPlugin(Flip);
 
 
 /* ── Reveal on scroll ── */
@@ -82,6 +86,7 @@ const CharacterCard = ({ char, index, isExpanded, onToggle }) => {
     return (
         <RevealSection delay={index * 0.08}>
             <div
+                data-flip-id={`hero-card-${char.name}`}
                 className={`char-card glass-card ${char.featured ? 'char-card--featured' : ''} ${isExpanded ? 'char-card--expanded' : ''}`}
                 onClick={onToggle}
                 role="button"
@@ -138,10 +143,46 @@ const Characters = () => {
     const { t } = useTranslation();
     const [expandedId, setExpandedId] = useState(null);
     const [filter, setFilter] = useState('All');
+    const gridRef = React.useRef(null);
 
     const rawLands = [...new Set(characters.map(c => c.land))];
     const lands = [{ id: 'All', label: t('heroes.filter_all') }, ...rawLands.map(l => ({ id: l, label: t(`heroes.lands.${l}`) }))];
     const filtered = filter === 'All' ? characters : characters.filter(c => c.land === filter);
+
+    const handleFilterChange = (newFilter) => {
+        if (newFilter === filter) return;
+        const cards = gridRef.current ? gridRef.current.querySelectorAll('.char-card') : null;
+        const state = cards ? Flip.getState(cards) : null;
+        setFilter(newFilter);
+        if (state) {
+            requestAnimationFrame(() => {
+                Flip.from(state, {
+                    duration: 0.5,
+                    ease: 'power2.inOut',
+                    stagger: 0.03,
+                    scale: true,
+                    absolute: false,
+                    onEnter: (elements) => gsap.fromTo(elements, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.35 }),
+                    onLeave: (elements) => gsap.to(elements, { opacity: 0, scale: 0.9, duration: 0.25 }),
+                });
+            });
+        }
+    };
+
+    const handleToggleCard = (charName) => {
+        const cards = gridRef.current ? gridRef.current.querySelectorAll('.char-card') : null;
+        const state = cards ? Flip.getState(cards) : null;
+        setExpandedId(prev => (prev === charName ? null : charName));
+        if (state) {
+            requestAnimationFrame(() => {
+                Flip.from(state, {
+                    duration: 0.45,
+                    ease: 'power2.out',
+                    nested: true,
+                });
+            });
+        }
+    };
 
     return (
         <ShaderBackground>
@@ -178,7 +219,7 @@ const Characters = () => {
                                 <button
                                     key={land.id}
                                     className={`char-filter-btn ${filter === land.id ? 'char-filter-btn--active' : ''}`}
-                                    onClick={() => setFilter(land.id)}
+                                    onClick={() => handleFilterChange(land.id)}
                                 >
                                     {land.label}
                                 </button>
@@ -191,14 +232,14 @@ const Characters = () => {
             {/* ── Character Grid ── */}
             <section className="section">
                 <div className="container">
-                    <div className="char-grid">
+                    <div ref={gridRef} className="char-grid">
                         {filtered.map((char, i) => (
                             <CharacterCard
                                 key={char.name}
                                 char={char}
                                 index={i}
                                 isExpanded={expandedId === char.name}
-                                onToggle={() => setExpandedId(expandedId === char.name ? null : char.name)}
+                                onToggle={() => handleToggleCard(char.name)}
                             />
                         ))}
                     </div>
