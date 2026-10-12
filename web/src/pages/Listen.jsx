@@ -22,6 +22,7 @@ import { trackLead, trackInitiateCheckout } from '../utils/analytics';
 import { submitSoeInterest } from '../services/soeSubmissions';
 import { isGateUnlocked, setGateUnlocked, getCapturedEmail, isValidEmail } from '../utils/gateAuth';
 import DmOptInBridge from '../components/DmOptInBridge';
+import KineticMusicalAccent from '../components/ui/KineticMusicalAccent';
 import './MediaRoom.css';
 import './Listen.css';
 
@@ -205,6 +206,11 @@ const Listen = () => {
           <h1 className="listen-hero__title">
             Hear What <em>Learning</em> Sounds Like
           </h1>
+          <KineticMusicalAccent
+            color="#FF6F00"
+            secondaryColor="#5ba4c9"
+            isPlaying={isUnlocked}
+          />
           <p className="section-subtitle listen-hero__subtitle">
             19 acoustic songs gifted freely ($0) to founding families. Experience the music first, then pair it with our 66-page companion storybook, <em>The Sound of Essentials: Rhythm Quest</em> ($19), to bring all 15 heroes into your child's hands.
           </p>

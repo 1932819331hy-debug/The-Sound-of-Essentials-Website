@@ -5,6 +5,7 @@ import { assetPath } from '../utils/assetPath';
 import FullSection from '../components-v2/FullSection';
 import CharSplitText from '../components-v2/CharSplitText';
 import { RevealV2 } from '../hooks/useScrollReveal';
+import KineticMusicalAccent from '../components/ui/KineticMusicalAccent';
 import BrevoSubscribeForm from '../components/BrevoSubscribeForm';
 import tracksData from '../data/tracks.json';
 import { audioUrl } from '../utils/audioUrl';
@@ -75,6 +76,11 @@ const ListenV2 = () => {
           <CharSplitText tag="h1" className="v2-display v2-display--section" stagger={24}>
             Hear What Learning Sounds Like
           </CharSplitText>
+          <KineticMusicalAccent
+            color="#FF6F00"
+            secondaryColor="#7fb685"
+            isPlaying={isUnlocked}
+          />
           <RevealV2 className="v2-reveal--delay-2">
             <p className="v2-serif-italic" style={{ fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', marginTop: '1rem' }}>
               Designed for the developing brain — not the algorithm.
