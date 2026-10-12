@@ -1133,4 +1133,25 @@ main {
 @keyframes charSceneIn {
   from { opacity: 0; transform: scale(0.95); }
   to   { opacity: 1; transform: scale(1); }
-}
+}
+
+/* ==========================================================================
+   Kinetic Headlines (GSAP SplitText Typography System)
+   ========================================================================== */
+.kinetic-headline {
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.kinetic-word {
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+}
+
+.kinetic-char {
+  display: inline-block;
+  position: relative;
+  transform-origin: 50% 100%;
+}
+

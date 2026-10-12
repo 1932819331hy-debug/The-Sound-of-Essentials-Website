@@ -1,46 +1,33 @@
-import React, { useMemo } from 'react';
-import { useCharReveal } from '../hooks/useScrollReveal';
+import React from 'react';
+import KineticHeadline from '../components/KineticHeadline';
 
 /**
- * CharSplitText — Renders text with each character in its own <span>,
- * enabling per-character scroll-triggered reveal animations.
- *
- * Kaikaku.ai-inspired character-by-character staggered reveal.
- *
- * @param {string} tag — HTML tag to render (h1, h2, p, span)
- * @param {string} children — The text content
- * @param {string} className — Additional class names
- * @param {number} stagger — Delay between characters in ms
+ * CharSplitText — Upgraded with GreenSock SplitText.
+ * Preserves the exact same API contract while providing physics-based kinetic reveals.
  */
 const CharSplitText = ({
   tag = 'h1',
   children,
   className = '',
-  stagger = 30,
+  stagger = 25,
+  variant = 'musical-bounce',
   ...props
 }) => {
-  const Tag = tag; // capitalize for dynamic JSX element
-  const { ref } = useCharReveal({ staggerMs: stagger });
-
-  const chars = useMemo(() => {
-    if (typeof children !== 'string') return null;
-    return children.split('').map((char, i) => {
-      if (char === ' ') {
-        return <span key={i} className="v2-char-space">{' '}</span>;
-      }
-      return (
-        <span key={i} className="v2-char">
-          {char}
-        </span>
-      );
-    });
-  }, [children]);
+  // Convert millisecond delay (e.g. stagger={28}) to seconds for GSAP
+  const staggerSeconds = typeof stagger === 'number' && stagger > 1 ? stagger / 1000 : (stagger || 0.025);
 
   return (
-    <Tag ref={ref} className={`v2-char-split ${className}`} {...props}>
-      {chars}
-    </Tag>
+    <KineticHeadline
+      tag={tag}
+      className={`v2-char-split ${className}`}
+      variant={variant}
+      stagger={staggerSeconds}
+      {...props}
+    >
+      {children}
+    </KineticHeadline>
   );
 };
 
 export default CharSplitText;
+

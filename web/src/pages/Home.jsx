@@ -11,6 +11,7 @@ import ExpandableGallery from '../components/ExpandableGallery';
 import { assetCssUrl, assetPath } from '../utils/assetPath';
 import Floating3DBook from '../components/ui/Floating3DBook';
 import StickyThumbCta from '../components/ui/StickyThumbCta';
+import KineticHeadline from '../components/KineticHeadline';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -139,7 +140,15 @@ const Home = () => {
                   <span className="hero__badge">✨ {t('home.hero_offer.eyebrow')}</span>
                 </div>
                 <h1 className="hero__title">
-                  <span className="hero__title-text">{t('home.hero_offer.title_main')}</span>
+                  <KineticHeadline
+                    tag="span"
+                    variant="musical-bounce"
+                    className="hero__title-text"
+                    delay={0.15}
+                    scrollTrigger={false}
+                  >
+                    {t('home.hero_offer.title_main')}
+                  </KineticHeadline>
                   <span className="hero__sticker-wrap" title="Free Today!">
                     <img
                       src={assetPath('/assets/stickers/free-today-sticker.webp')}
@@ -502,9 +511,15 @@ const Home = () => {
           <RevealSection>
             <div className="credibility-banner glass-card">
               <div className="credibility-badge">🌿 OUR STANCE & PROMISE</div>
-              <h2 className="credibility-quote">
+              <KineticHeadline
+                tag="h2"
+                variant="fade-up"
+                className="credibility-quote"
+                type="words"
+                stagger={0.04}
+              >
                 “{t('home.credibility.quote')}”
-              </h2>
+              </KineticHeadline>
               <p className="credibility-sub">{t('home.credibility.sub')}</p>
               
               <div className="credibility-pillars">
@@ -542,9 +557,9 @@ const Home = () => {
         <div className="container">
           <RevealSection className="text-center">
             <div className="section-label">📚 The Companion Ecosystem</div>
-            <h2 className="section-title">
-              Every Word Has a <span className="text-gold">World Behind It</span>
-            </h2>
+            <KineticHeadline tag="h2" className="section-title" variant="musical-bounce">
+              Every Word Has a World Behind It
+            </KineticHeadline>
             <p className="section-subtitle" style={{ margin: '0 auto 2.5rem auto', maxWidth: '680px' }}>
               4,000+ words. 125 illustrated scenes. 7 Lands. The SOE Rhythm Quest Picture Dictionary and Rhythm Ready
               Workbook expand auditory learning into rich visual and tactile mastery.
