@@ -226,9 +226,9 @@ const HeadphonesSale = () => {
 
               <div className="hp-cta-group">
                 <a
-                  href={STRIPE_HEADPHONES_URL}
+                  href={`${STRIPE_HEADPHONES_URL}${STRIPE_HEADPHONES_URL.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(`AWATRUE-HK05-${selectedVariant.id}`)}`}
                   className="btn-stripe-pay"
-                  onClick={() => handleCheckoutClick('AWATRUE-HK05-7485DB', 'AWATRUE HK05 Kids Headphones', 24.99)}
+                  onClick={() => handleCheckoutClick(`AWATRUE-HK05-${selectedVariant.id}`, `AWATRUE HK05 Kids Headphones (${selectedVariant.name})`, 24.99)}
                 >
                   <span>⚡ Order with Stripe Checkout</span>
                   <span style={{ opacity: 0.9, fontSize: '0.95rem' }}>($24.99)</span>
@@ -347,10 +347,10 @@ const HeadphonesSale = () => {
               Save $30.99 + Free Shipping
             </p>
             <a
-              href={STRIPE_BUNDLE_URL}
+              href={`${STRIPE_BUNDLE_URL}${STRIPE_BUNDLE_URL.includes('?') ? '&' : '?'}client_reference_id=${encodeURIComponent(`SOE-BUNDLE-${selectedVariant.id}`)}`}
               className="btn-stripe-pay"
               style={{ width: '100%' }}
-              onClick={() => handleCheckoutClick('SOE-HP-WB-BUNDLE', 'Headphones + Workbook Bundle', 39.00)}
+              onClick={() => handleCheckoutClick(`SOE-HP-WB-BUNDLE-${selectedVariant.id}`, `Headphones + Workbook Bundle (${selectedVariant.name})`, 39.00)}
             >
               Get The Bundle · $39 →
             </a>

@@ -59,3 +59,13 @@ The curriculum spans 5 Core Domains of Essential Learning mapped across 7 Lands 
 - **Sound Before Symbol:** Auditory phonological awareness precedes reading text.
 - **Neuro-Affirming Pacing:** ASMR-quality sound design, intentional pauses, and low-stimulation acoustics.
 - **Ages 2 to 7 Scope:** Precision alignment with toddler, preschool, kindergarten, Grade 1, and Grade 2 developmental milestones.
+
+## The Concord & Community Tokenization (Patron & Institutional Stewardship)
+- **The Education Concord:** The sovereign capitalization and governing guild of educators, acoustic musicians, speech pathologists, and cultural patrons.
+- **25% Master Catalog Royalty Pool:** Automated smart contract revenue splits distributing 25% of net catalog licensing and subscription royalties to staked Concord members.
+- **Physical Heirlooms & Phygital Mints:** 
+  - Bronze/Copper Token Album ($85, 180g metallic wax + embedded NFC chip).
+  - Concord Founder Box Set ($275, multi-product heirloom library).
+  - Sovereign Concord Patron Node ($2,500, bespoke master trunk + 0.1% catalog royalty split).
+- **"Share the Sound" Ambassador Program:** Frictionless parent and educator referral loop offering 30% to 35% bounties when families ascend from the free 19-track album gift to the $19 ebook, $35 print workbook, and $14.99/mo Rhythm Pass.
+

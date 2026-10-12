@@ -15,18 +15,22 @@ async function updateDb() {
       cost_price = 7.01,
       selling_price = 24.99,
       compare_at_price = 34.99,
-      supplier_name = 'AliExpress (NUBWO Official Store)',
+      supplier_name = 'Amazon US (Awatrue Store)',
       supplier_sku = 'AWATRUE-HK05-7485DB',
       tiktok_sync_status = 'live',
       specs_json = '{
         "model": "AWATRUE HK05",
+        "asin": "B0F1D77FLB",
         "volume_limit": "74dB / 85dB Dual SafeAudio (WHO Standard)",
         "radiation": "Zero (Wired Non-Bluetooth)",
         "drivers": "2 x 40mm Dynamic Neodymium",
         "connector": "3.5mm Gold-Plated Stereo Jack",
         "cable_length": "1.5m (4.9 ft) Braided Tangle-Free",
         "compliance": "CPC, CPSIA, CE, RoHS Certified",
-        "supplier_url": "https://www.aliexpress.us/item/3256809596144362.html"
+        "supplier_url": "https://www.amazon.com/awatrue-Headphones-School-Stereo-Airplane/dp/B0F1D77FLB",
+        "backup_supplier_url": "https://www.awatrue.com/products/awatrue-hk05-wired-kids-headphones-with-74-85db-volume-limit",
+        "fulfillment_channel": "Amazon Prime / Multi-Channel Fulfillment (2-3 Day US Delivery)",
+        "stock_status": "in_stock"
       }'::jsonb
     WHERE slug LIKE '%headphones%' OR supplier_sku LIKE '%HEADPHONE%';
   `;

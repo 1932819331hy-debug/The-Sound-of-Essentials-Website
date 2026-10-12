@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "test:canon": "node scripts/soe-canon-guard.mjs",
     "test:gates": "node scripts/soe-canon-guard.mjs && eslint .",
+    "recon:weekly": "node scripts/weekly-search-recon.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

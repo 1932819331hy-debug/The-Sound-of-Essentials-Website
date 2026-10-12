@@ -238,11 +238,13 @@
     "category": "sensory-hardware",
     "supplier": {
       "model": "AWATRUE HK05",
-      "store": "NUBWO Official Store",
-      "itemId": "3256809596144362",
-      "supplierUrl": "https://www.aliexpress.us/item/3256809596144362.html",
-      "costPrice": 7.01,
-      "rating": "4.8/5.0 (121+ sold)"
+      "store": "Awatrue Official Store / Amazon US",
+      "asin": "B0F1D77FLB",
+      "supplierUrl": "https://www.amazon.com/awatrue-Headphones-School-Stereo-Airplane/dp/B0F1D77FLB",
+      "backupSupplierUrl": "https://www.awatrue.com/products/awatrue-hk05-wired-kids-headphones-with-74-85db-volume-limit",
+      "costPrice": 7.50,
+      "deliveryTime": "2-3 business days (US)",
+      "rating": "4.8/5.0 Verified"
     },
     "variants": [
       {

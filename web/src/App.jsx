@@ -47,6 +47,7 @@ const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const DmcaPolicy = lazy(() => import('./pages/DmcaPolicy'));
 const InstitutionsQpc = lazy(() => import('./pages/InstitutionsQpc'));
 import CookieConsent from './components/CookieConsent';
+import AskSeriphiaModal from './components/AskSeriphiaModal';
 
 // ── V2 Redesign Routes (parallel, isolated under /v2) ───────────
 const HomeV2      = lazy(() => import('./pages-v2/HomeV2'));
@@ -178,6 +179,7 @@ const App = () => {
         </Suspense>
       </main>
       <CookieConsent />
+      {!isV2 && !isAdmin && <AskSeriphiaModal />}
       {!isV2 && !isAdmin && <Footer />}
     </div>
   );

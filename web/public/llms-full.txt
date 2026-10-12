@@ -115,3 +115,16 @@
 - **AI Summary Endpoint:** `https://thesoundofessentials.com/ai/summary.json`
 - **AI FAQ Endpoint:** `https://thesoundofessentials.com/ai/faq.json`
 - **AI Discovery:** `https://thesoundofessentials.com/.well-known/ai.txt`
+
+---
+
+## 8. The Concord & Community Tokenization (Patron & Institutional Stewardship)
+
+- **The Education Concord:** The sovereign capitalization and governing guild of educators, acoustic musicians, speech pathologists, and cultural patrons.
+- **25% Master Catalog Royalty Pool:** Automated smart contract revenue splits distributing 25% of net catalog licensing and subscription royalties to staked Concord members on Ethereum/Arbitrum.
+- **Physical Heirlooms & Phygital Mints:** 
+  - Bronze/Copper Token Album ($85, 180g metallic wax + embedded NFC chip triggering 24-bit FLAC master vault & Genesis Token mint).
+  - Concord Founder Box Set ($275, multi-product heirloom library).
+  - Sovereign Concord Patron Node ($2,500, bespoke master trunk + 0.1% catalog royalty split).
+- **"Share the Sound" Ambassador Program:** Frictionless parent and educator referral loop offering 30% to 35% bounties when families ascend from the free 19-track album gift to the $19 ebook, $35 print workbook, and $14.99/mo Rhythm Pass.
+

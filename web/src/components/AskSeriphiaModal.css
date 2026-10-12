@@ -1,0 +1,447 @@
+/* ==========================================================================
+   ASK SERIPHIA MODAL (Open Intelligent UI / Generative Tool Suite)
+   Design System: Bright & Playful (Cream, Orange #FF6F00, Green #4CAF50, Purple #7B1FA2)
+   ========================================================================== */
+
+/* Floating Launcher Button */
+.seriphia-launcher {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #FF6F00, #E65100);
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 0.75rem 1.4rem;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  box-shadow: 0 8px 25px rgba(255, 111, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seriphia-launcher:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(255, 111, 0, 0.5);
+}
+
+.seriphia-launcher__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  object-fit: cover;
+  background: #FFF8F0;
+}
+
+.seriphia-launcher__sparkle {
+  font-size: 1.1rem;
+}
+
+/* Modal Overlay & Backdrop */
+.seriphia-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 18, 24, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.seriphia-modal-window {
+  background: #FFFFFF;
+  border: 1px solid rgba(255, 111, 0, 0.2);
+  border-radius: 28px;
+  max-width: 920px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  position: relative;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  animation: seriphia-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes seriphia-enter {
+  from { opacity: 0; transform: scale(0.95) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Header */
+.seriphia-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
+  background: #FAF9F7;
+  border-bottom: 1px solid #EDF2F7;
+}
+
+.seriphia-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.seriphia-header-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #FF6F00;
+  object-fit: cover;
+}
+
+.seriphia-header-titles h3 {
+  font-family: 'Fredoka', 'More Sugar', sans-serif;
+  font-size: 1.35rem;
+  color: #1A202C;
+  margin: 0;
+}
+
+.seriphia-header-titles p {
+  font-size: 0.82rem;
+  color: #718096;
+  margin: 0.2rem 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.seriphia-header-titles .status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4CAF50;
+  display: inline-block;
+}
+
+.seriphia-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  color: #A0AEC0;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 50%;
+  line-height: 1;
+  transition: all 0.2s;
+}
+
+.seriphia-close-btn:hover {
+  color: #E53935;
+  background: #EDF2F7;
+}
+
+/* Tool Navigation Tabs */
+.seriphia-tool-tabs {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.8rem 2rem;
+  background: #FFFFFF;
+  border-bottom: 1px solid #F0F0F0;
+  overflow-x: auto;
+}
+
+.seriphia-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  border: 1px solid transparent;
+  background: #F7FAFC;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #4A5568;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.seriphia-tab-btn:hover {
+  background: #EDF2F7;
+}
+
+.seriphia-tab-btn.active {
+  background: rgba(255, 111, 0, 0.1);
+  color: #FF6F00;
+  border-color: rgba(255, 111, 0, 0.25);
+}
+
+/* Modal Body */
+.seriphia-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  background: #FFFFFF;
+}
+
+/* ── Tool 1: Lesson Extender ── */
+.lesson-extender-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 650px) {
+  .lesson-extender-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lesson-select-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #2D3748;
+  margin-bottom: 0.4rem;
+}
+
+.lesson-select-group select {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #CBD5E0;
+  background: #FAF9F7;
+  font-size: 0.92rem;
+  color: #1A202C;
+  outline: none;
+}
+
+.lesson-select-group select:focus {
+  border-color: #FF6F00;
+}
+
+.lesson-card-output {
+  background: #FFFDF9;
+  border: 2px solid #FFEDD5;
+  border-radius: 20px;
+  padding: 1.8rem;
+  box-shadow: 0 4px 16px rgba(255, 111, 0, 0.05);
+}
+
+.lesson-card-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 0.8rem;
+}
+
+.lesson-card-output h4 {
+  font-family: 'Fredoka', 'More Sugar', sans-serif;
+  font-size: 1.5rem;
+  color: #1A202C;
+  margin: 0 0 0.5rem;
+}
+
+.lesson-card-focus {
+  font-size: 0.95rem;
+  color: #718096;
+  margin-bottom: 1.2rem;
+}
+
+.lesson-section {
+  margin-bottom: 1.2rem;
+}
+
+.lesson-section-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #A0AEC0;
+  margin-bottom: 0.4rem;
+}
+
+.lesson-materials-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.lesson-material-pill {
+  background: #EDF2F7;
+  color: #2D3748;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.lesson-script-box {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-left: 4px solid #FF6F00;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #2D3748;
+}
+
+.lesson-actions {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.lesson-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lesson-btn.primary {
+  background: #FF6F00;
+  color: #ffffff;
+}
+
+.lesson-btn.primary:hover {
+  background: #E65100;
+}
+
+.lesson-btn.secondary {
+  background: #EDF2F7;
+  color: #4A5568;
+}
+
+.lesson-btn.secondary:hover {
+  background: #E2E8F0;
+}
+
+/* ── Tool 2: Sensory Metronome ── */
+.metronome-container {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.metronome-pulse-display {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: #FFF8F0;
+  border: 3px solid #FF6F00;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka', 'More Sugar', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #FF6F00;
+  transition: transform 0.1s ease;
+  box-shadow: 0 10px 25px rgba(255, 111, 0, 0.15);
+}
+
+.metronome-pulse-display.pulsing {
+  transform: scale(1.1);
+  box-shadow: 0 12px 30px rgba(255, 111, 0, 0.35);
+}
+
+.metronome-slider-box {
+  background: #F7FAFC;
+  padding: 1.5rem;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #EDF2F7;
+}
+
+.metronome-tempo-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2D3748;
+  margin-bottom: 0.8rem;
+}
+
+.metronome-tag {
+  display: inline-block;
+  background: rgba(76, 175, 80, 0.15);
+  color: #2E7D32;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  margin-left: 0.5rem;
+}
+
+.metronome-toggle-btn {
+  background: #FF6F00;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 0.85rem 2.2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(255, 111, 0, 0.3);
+  transition: all 0.2s;
+}
+
+.metronome-toggle-btn:hover {
+  background: #E65100;
+  transform: translateY(-2px);
+}
+
+.metronome-toggle-btn.running {
+  background: #E53935;
+}
+
+.metronome-science-callout {
+  margin-top: 1.8rem;
+  background: #F0F9FF;
+  border: 1px solid #BAE6FD;
+  border-radius: 16px;
+  padding: 1rem 1.4rem;
+  font-size: 0.88rem;
+  color: #0369A1;
+  line-height: 1.5;
+  text-align: left;
+}
+
+/* Modal Footer */
+.seriphia-modal-footer {
+  padding: 1rem 2rem;
+  background: #FAF9F7;
+  border-top: 1px solid #EDF2F7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.seriphia-footer-concierge {
+  font-size: 0.85rem;
+  color: #718096;
+}
+
+.seriphia-footer-concierge a {
+  color: #FF6F00;
+  font-weight: 700;
+  text-decoration: none;
+}

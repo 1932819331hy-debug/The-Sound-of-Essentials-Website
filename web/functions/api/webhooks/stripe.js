@@ -111,6 +111,9 @@ export async function onRequestPost(context) {
             VALUES ($1, 'stripe_checkout', $2, $3, $4);
           `;
 
+          const shippingDetails = session.shipping_details || session.customer_details?.address || null;
+          const refId = session.client_reference_id || '';
+
           await queryNeon(databaseUrl, activitySql, [
             contactId,
             `Stripe Order ($${orderTotal.toFixed(2)})`,
@@ -122,11 +125,59 @@ export async function onRequestPost(context) {
               currency: session.currency,
               payment_status: session.payment_status,
               customer_details: session.customer_details,
+              shipping_details: shippingDetails,
+              client_reference_id: refId,
             }),
           ]);
+
+          // 3. Insert into shop_orders dropship queue
+          try {
+            const orderNum = `SOE-${Date.now().toString().slice(-6)}`;
+            let itemTitle = 'SOE Early Learning Product';
+            if (refId.includes('AWATRUE-HK05')) {
+              const variantName = refId.replace('AWATRUE-HK05-', '').replace(/-/g, ' ');
+              itemTitle = `AWATRUE HK05 Safe Sensory Kids Headphones (${variantName})`;
+            } else if (refId.includes('BUNDLE')) {
+              const variantName = refId.replace('SOE-BUNDLE-', '').replace(/-/g, ' ');
+              itemTitle = `SOE Sensory Listening & Workbook Bundle (${variantName})`;
+            } else if (orderTotal >= 24) {
+              itemTitle = 'AWATRUE HK05 Sensory Kids Headphones (Standard)';
+            }
+
+            const itemsPayload = JSON.stringify([{
+              title: itemTitle,
+              qty: 1,
+              price: orderTotal,
+              sku: refId || 'SOE-ORDER',
+              variant: refId
+            }]);
+
+            const insertShopOrderSql = `
+              INSERT INTO shop_orders (
+                order_number, source, external_order_id, contact_id, customer_name, customer_email, customer_phone,
+                shipping_address, items, subtotal, shipping_fee, total_amount, payment_status, fulfillment_status
+              )
+              VALUES ($1, 'web_store', $2, $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9, 0.00, $9, 'paid', 'unfulfilled')
+              ON CONFLICT (order_number) DO NOTHING;
+            `;
+
+            await queryNeon(databaseUrl, insertShopOrderSql, [
+              orderNum,
+              session.id,
+              contactId,
+              fullName,
+              email,
+              phone,
+              JSON.stringify(shippingDetails || {}),
+              itemsPayload,
+              orderTotal
+            ]);
+          } catch (shopOrderErr) {
+            console.warn('shop_orders insertion warning:', shopOrderErr);
+          }
         }
 
-        // 3. Sync to Brevo Buyers List
+        // 4. Sync to Brevo Buyers List
         if (brevoApiKey) {
           await addContactToBrevo(brevoApiKey, email, fullName, brevoBuyersListId);
         }
