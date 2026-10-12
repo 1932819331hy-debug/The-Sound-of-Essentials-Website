@@ -74,7 +74,11 @@ const App = () => {
   });
   const handleSplashFinished = useCallback(() => {
     setShowSplash(false);
-    try { sessionStorage.setItem('soe_splash_seen', '1'); } catch {}
+    try {
+      sessionStorage.setItem('soe_splash_seen', '1');
+    } catch {
+      /* ignore storage access restrictions */
+    }
   }, []);
   const isV2 = location.pathname === '/v2' || location.pathname.startsWith('/v2/');
   const isAdmin = location.pathname.startsWith('/admin') || location.pathname.startsWith('/crm');

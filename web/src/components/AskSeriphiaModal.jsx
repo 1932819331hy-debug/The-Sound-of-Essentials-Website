@@ -377,7 +377,7 @@ https://thesoundofessentials.com`;
             }
           }}
         >
-          <div className="seriphia-modal-window">
+          <div className="seriphia-modal-window" data-lenis-prevent>
             {/* Modal Header */}
             <div className="seriphia-modal-header">
               <div className="seriphia-header-left">
