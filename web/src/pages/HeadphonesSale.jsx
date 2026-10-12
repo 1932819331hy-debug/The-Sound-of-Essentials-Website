@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { assetPath } from '../utils/assetPath';
 import { trackInitiateCheckout } from '../utils/analytics';
+import KineticHeadline from '../components/KineticHeadline';
 import './HeadphonesSale.css';
 
 const STRIPE_HEADPHONES_URL = 'https://buy.stripe.com/test_cNi6oH01eacl8gC5IC6Vq07';
@@ -204,10 +205,16 @@ const HeadphonesSale = () => {
               </div>
             </div>
 
-            <h1 className="hp-title">
+            <KineticHeadline
+              tag="h1"
+              className="hp-title"
+              variant="musical-bounce"
+              delay={0.1}
+              scrollTrigger={false}
+            >
               <span className="hp-title-highlight">"Just Add Headphones"</span>
               <span className="hp-title-lead"> to The Sound of Essentials musical learning experience to elevate the adventure for our young learners.</span>
-            </h1>
+            </KineticHeadline>
 
             <p className="hp-subtitle">
               The <strong>AWATRUE HK05 Kids Headphones</strong> with <strong>"Safe Sound, Pure Discovery."</strong> are engineered specifically for young ears. Features dual <strong>74dB / 85dB safe volume limiting</strong>, powerful <strong>40mm dynamic stereo drivers</strong>, zero-radiation 3.5mm wired acoustics, breathable protein-leather ear pillows, and a 1.5m tangle-free braided cord. Tested and certified for school, travel, and sensory-friendly learning.
@@ -280,7 +287,13 @@ const HeadphonesSale = () => {
 
         {/* ── 6 Core Sensory Highlights ── */}
         <section className="hp-grid-section">
-          <h2 className="hp-section-title">Built for Early Learners, Not Screen Overload</h2>
+          <KineticHeadline
+            tag="h2"
+            className="hp-section-title"
+            variant="musical-bounce"
+          >
+            Built for Early Learners, Not Screen Overload
+          </KineticHeadline>
           <p className="hp-section-subtitle">
             Why pediatric audiologists, educators, and conscious caregivers choose the AWATRUE HK05 
             volume-limited wired headphones for daily phonics immersion and music discovery.
@@ -322,7 +335,13 @@ const HeadphonesSale = () => {
         <section className="hp-bundle-banner">
           <div>
             <span className="hp-bundle-badge">🌟 Best Value Starter Pack</span>
-            <h2 className="hp-bundle-title">Sensory Listening &amp; 8-Week Readiness Bundle</h2>
+            <KineticHeadline
+              tag="h2"
+              className="hp-bundle-title"
+              variant="musical-bounce"
+            >
+              Sensory Listening &amp; 8-Week Readiness Bundle
+            </KineticHeadline>
             <p className="hp-bundle-desc">
               Everything your child needs for a complete screen-free learning revolution:
               Get the <strong>AWATRUE HK05 Safe Kids Headphones</strong> shipped to your door, 

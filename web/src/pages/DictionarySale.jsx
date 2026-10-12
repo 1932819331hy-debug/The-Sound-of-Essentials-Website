@@ -7,6 +7,7 @@ import { assetPath } from '../utils/assetPath';
 import ProofInThePause from '../components/ui/ProofInThePause';
 import StickyThumbCta from '../components/ui/StickyThumbCta';
 import { trackInitiateCheckout } from '../utils/analytics';
+import KineticHeadline from '../components/KineticHeadline';
 import './DictionarySale.css';
 
 /* ── Land-specific stats from the pipeline knowledge base ── */
@@ -117,10 +118,16 @@ const DictionarySale = () => {
         <div className="dict-hero__inner">
           <div className="dict-hero__copy">
             <span className="dict-hero__badge">📖 Available Now — Digital EPUB</span>
-            <h1 className="dict-hero__title">
+            <KineticHeadline
+              tag="h1"
+              className="dict-hero__title"
+              variant="musical-bounce"
+              delay={0.1}
+              scrollTrigger={false}
+            >
               Every Word Has a
               <span className="dict-hero__title-accent">World Behind It</span>
-            </h1>
+            </KineticHeadline>
             <p className="section-subtitle dict-hero__subtitle">
               The most immersive picture dictionary ever designed for young learners.
               4,000+ words. 125 illustrated scenes. 7 magical lands.

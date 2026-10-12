@@ -5,6 +5,7 @@ import { RevealSection } from '../hooks/useReveal';
 import { assetPath } from '../utils/assetPath';
 import BrevoSubscribeForm from '../components/BrevoSubscribeForm';
 import { submitSoeInterest } from '../services/soeSubmissions';
+import KineticHeadline from '../components/KineticHeadline';
 
 const JoinQuest = () => {
     const { t } = useTranslation();
@@ -54,10 +55,15 @@ const JoinQuest = () => {
                 <div className="container text-center" style={{ position: 'relative', zIndex: 1 }}>
                     <div className="animate-fade-up">
                         <div className="section-label">{t('join.hero_label')}</div>
-                        <h1>
-                            {t('join.hero_title_1')}
+                        <KineticHeadline
+                            tag="h1"
+                            variant="musical-bounce"
+                            delay={0.1}
+                            scrollTrigger={false}
+                        >
+                            {t('join.hero_title_1')}{' '}
                             <span className="text-gold">{t('join.hero_title_2')}</span>
-                        </h1>
+                        </KineticHeadline>
                         <p className="section-subtitle" style={{ margin: '1rem auto' }}>
                             {t('join.hero_subtitle')}
                         </p>
@@ -72,7 +78,12 @@ const JoinQuest = () => {
                         <div className="newsletter-block glass-card">
                             <div className="newsletter-block__content">
                                 <span className="newsletter-block__icon">📬</span>
-                                <h2>{t('join.stay_connected')}</h2>
+                                <KineticHeadline
+                                    tag="h2"
+                                    variant="musical-bounce"
+                                >
+                                    {t('join.stay_connected')}
+                                </KineticHeadline>
                                 <p>{t('join.newsletter_desc')}</p>
                             </div>
 
@@ -93,9 +104,13 @@ const JoinQuest = () => {
                 <div className="container">
                     <RevealSection className="text-center">
                         <div className="section-label">{t('join.who_we_serve')}</div>
-                        <h2 className="section-title">
+                        <KineticHeadline
+                            tag="h2"
+                            className="section-title"
+                            variant="musical-bounce"
+                        >
                             {t('join.find_your_role_1')}<span className="text-sage">{t('join.find_your_role_2')}</span>{t('join.find_your_role_3')}
-                        </h2>
+                        </KineticHeadline>
                     </RevealSection>
 
                     <div className="audience-grid">
@@ -155,9 +170,13 @@ const JoinQuest = () => {
                 <div className="container">
                     <RevealSection className="text-center">
                         <div className="section-label">{t('join.partnerships_label')}</div>
-                        <h2 className="section-title">
+                        <KineticHeadline
+                            tag="h2"
+                            className="section-title"
+                            variant="musical-bounce"
+                        >
                             {t('join.build_together_1')}<span className="text-plum">{t('join.build_together_2')}</span>
-                        </h2>
+                        </KineticHeadline>
                         <p className="section-subtitle" style={{ margin: '0 auto 2rem auto' }}>
                             {t('join.partnerships_subtitle')}
                         </p>

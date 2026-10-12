@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ResearchAssistant from '../components/ResearchAssistant';
 import { assetPath } from '../utils/assetPath';
 import { RevealSection } from '../hooks/useReveal';
+import KineticHeadline from '../components/KineticHeadline';
 
 const Science = () => {
     const { t } = useTranslation();
@@ -15,7 +16,14 @@ const Science = () => {
                 <div className="container text-center">
                     <div className="animate-fade-up">
                         <div className="section-label">Pedagogy & Science</div>
-                        <h1>Science of the <span className="text-gold">Sound</span></h1>
+                        <KineticHeadline
+                            tag="h1"
+                            variant="musical-bounce"
+                            delay={0.1}
+                            scrollTrigger={false}
+                        >
+                            Science of the <span className="text-gold">Sound</span>
+                        </KineticHeadline>
                         <p className="section-subtitle" style={{ margin: '1rem auto' }}>
                             Chronicles of the Clock: Understanding the neurological architecture behind every rhythm.
                         </p>
@@ -28,9 +36,13 @@ const Science = () => {
                 <div className="container">
                     <RevealSection className="text-center">
                         <div className="section-label">{t('universe.science_label')}</div>
-                        <h2 className="section-title">
+                        <KineticHeadline
+                            tag="h2"
+                            className="section-title"
+                            variant="musical-bounce"
+                        >
                             {t('universe.science_title_1')} <span className="text-plum">{t('universe.science_title_2')}</span>
-                        </h2>
+                        </KineticHeadline>
                         <p className="section-subtitle" style={{ margin: '0 auto 3rem auto' }}>
                             {t('universe.science_subtitle')}
                         </p>
@@ -62,9 +74,13 @@ const Science = () => {
                 <div className="container">
                     <RevealSection className="text-center">
                         <div className="section-label">{t('science.rhythm_label')}</div>
-                        <h2 className="section-title">
+                        <KineticHeadline
+                            tag="h2"
+                            className="section-title"
+                            variant="musical-bounce"
+                        >
                             {t('science.rhythm_title_1')} <span className="text-gold">{t('science.rhythm_title_2')}</span>
-                        </h2>
+                        </KineticHeadline>
                         <p className="section-subtitle" style={{ margin: '0 auto 4rem auto' }}>
                             {t('science.rhythm_subtitle')}
                         </p>
@@ -137,7 +153,13 @@ const Science = () => {
 
                         <RevealSection delay={0.2}>
                             <div className="science-intro">
-                                <h2 className="section-title">Beyond the <span className="text-sage">Melody</span></h2>
+                                <KineticHeadline
+                                    tag="h2"
+                                    className="section-title"
+                                    variant="musical-bounce"
+                                >
+                                    Beyond the <span className="text-sage">Melody</span>
+                                </KineticHeadline>
                                 <p>
                                     It may seem just like lyrics to a catchy song, but dive deeper and you'll see a brilliantly disguised lesson in <strong>Temporal Scaffolding and Numeracy</strong>.
                                 </p>
@@ -179,7 +201,13 @@ const Science = () => {
 
                         <RevealSection delay={0.2}>
                             <div className="science-intro">
-                                <h2 className="section-title">{t('science.beyond2_title_1')} <span className="text-sage">{t('science.beyond2_title_2')}</span></h2>
+                                <KineticHeadline
+                                    tag="h2"
+                                    className="section-title"
+                                    variant="musical-bounce"
+                                >
+                                    {t('science.beyond2_title_1')} <span className="text-sage">{t('science.beyond2_title_2')}</span>
+                                </KineticHeadline>
                                 <p>
                                     {t('science.beyond2_desc_1')}<sup>[2][6]</sup>
                                 </p>
@@ -197,7 +225,13 @@ const Science = () => {
                 <div className="container">
                     <RevealSection className="text-center">
                         <div className="section-label">{t('science.breakdown_label')}</div>
-                        <h2 className="section-title">{t('science.breakdown_title_1')} <span className="text-plum">{t('science.breakdown_title_2')}</span></h2>
+                        <KineticHeadline
+                            tag="h2"
+                            className="section-title"
+                            variant="musical-bounce"
+                        >
+                            {t('science.breakdown_title_1')} <span className="text-plum">{t('science.breakdown_title_2')}</span>
+                        </KineticHeadline>
                         <p className="section-subtitle" style={{ margin: '0 auto 4rem auto' }}>
                             {t('science.breakdown_subtitle')}
                         </p>

@@ -56,7 +56,9 @@ const HomeV2 = () => {
           </RevealV2>
         </div>
 
-        <span className="v2-hero-brand">RHYTHM QUEST</span>
+        <CharSplitText tag="span" className="v2-hero-brand" stagger={30}>
+          RHYTHM QUEST
+        </CharSplitText>
         <div className="v2-scroll-hint">↓</div>
       </FullSection>
 

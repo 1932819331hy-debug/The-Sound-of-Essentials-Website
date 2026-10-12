@@ -23,6 +23,7 @@ import { submitSoeInterest } from '../services/soeSubmissions';
 import { isGateUnlocked, setGateUnlocked, getCapturedEmail, isValidEmail } from '../utils/gateAuth';
 import DmOptInBridge from '../components/DmOptInBridge';
 import KineticMusicalAccent from '../components/ui/KineticMusicalAccent';
+import KineticHeadline from '../components/KineticHeadline';
 import './MediaRoom.css';
 import './Listen.css';
 
@@ -203,9 +204,15 @@ const Listen = () => {
       <section className="listen-hero">
         <div className="container">
           <span className="listen-hero__eyebrow">🎵 {isUnlocked ? 'Full Quest Unlocked • 19 Tracks' : 'Free Preview • 19 Tracks'}</span>
-          <h1 className="listen-hero__title">
+          <KineticHeadline
+            tag="h1"
+            className="listen-hero__title"
+            variant="musical-bounce"
+            delay={0.1}
+            scrollTrigger={false}
+          >
             Hear What <em>Learning</em> Sounds Like
-          </h1>
+          </KineticHeadline>
           <KineticMusicalAccent
             color="#FF6F00"
             secondaryColor="#5ba4c9"
@@ -250,7 +257,13 @@ const Listen = () => {
             <>
               <div className="ethical-heist-callout">
                 <span className="badge-tag">{t('listen.ethicalHeistBadge')}</span>
-                <h2 className="heist-title">{t('listen.ethicalHeistTitle')}</h2>
+                <KineticHeadline
+                  tag="h2"
+                  className="heist-title"
+                  variant="musical-bounce"
+                >
+                  {t('listen.ethicalHeistTitle')}
+                </KineticHeadline>
                 <p className="heist-subtitle">{t('listen.ethicalHeistSubtitle')}</p>
 
                 {/* Primary Direct D2C Email Capture Form */}
@@ -350,9 +363,13 @@ const Listen = () => {
         <div className="container">
           <RevealSection className="text-center">
             <div className="section-label">🎶 The Full Tracklist</div>
-            <h2 className="section-title">
+            <KineticHeadline
+              tag="h2"
+              className="section-title"
+              variant="musical-bounce"
+            >
               19 Tracks. 7 Lands. <span className="text-gold">One Quest.</span>
-            </h2>
+            </KineticHeadline>
             <p className="section-subtitle" style={{ margin: '0 auto 2.5rem auto', maxWidth: '560px' }}>
               Every track is a structured lesson in disguise, spanning language, math, science,
               movement, and social-emotional growth.
@@ -438,7 +455,13 @@ const Listen = () => {
           <div className="container">
             <div className="listen-optin__card">
               <span className="listen-optin__icon">🎧</span>
-              <h2 className="listen-optin__heading">Unlock the Full Quest</h2>
+              <KineticHeadline
+                tag="h2"
+                className="listen-optin__heading"
+                variant="musical-bounce"
+              >
+                Unlock the Full Quest
+              </KineticHeadline>
               <p className="listen-optin__subtext">
                 Enter your email to unlock all 19 tracks, access the full private player,
                 and start a free 5-day sensory learning journey.
@@ -560,7 +583,13 @@ const Listen = () => {
               <div className="container">
                 <RevealSection className="text-center">
                   <div className="section-label">🎨 World Art Gallery</div>
-                  <h2 className="section-title">Scenes from <span className="text-gold">the Seven Lands</span></h2>
+                  <KineticHeadline
+                    tag="h2"
+                    className="section-title"
+                    variant="musical-bounce"
+                  >
+                    Scenes from <span className="text-gold">the Seven Lands</span>
+                  </KineticHeadline>
                   <p className="section-subtitle" style={{ margin: '0 auto 2.5rem auto' }}>
                     Explore the hand-drawn storybook scenes that bring the Rhythm Quest universe to life.
                   </p>
@@ -597,7 +626,13 @@ const Listen = () => {
               <div className="container">
                 <RevealSection className="text-center">
                   <div className="section-label">📸 Behind the Quest</div>
-                  <h2 className="section-title">A World <span className="text-sage">Brought to Life</span></h2>
+                  <KineticHeadline
+                    tag="h2"
+                    className="section-title"
+                    variant="musical-bounce"
+                  >
+                    A World <span className="text-sage">Brought to Life</span>
+                  </KineticHeadline>
                   <p className="section-subtitle" style={{ margin: '0 auto 2.5rem auto' }}>
                     Glimpses from the world of SOE: heroes, scenes, and moments from the Seven Lands.
                   </p>

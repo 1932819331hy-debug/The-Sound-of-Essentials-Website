@@ -11,6 +11,7 @@ import tracksData from '../data/tracks.json';
 import { trackLead } from '../utils/analytics';
 import { triggerQuestCelebration, TiltCard } from '../components/ui/DesignSpells';
 import { isGateUnlocked, setGateUnlocked, getCapturedEmail, isValidEmail } from '../utils/gateAuth';
+import KineticHeadline from '../components/KineticHeadline';
 
 const Player = () => {
   const { t } = useTranslation();
@@ -125,7 +126,13 @@ const Player = () => {
                   />
                 </TiltCard>
                 <div className="player-gate-badge">🎧 100% Free · Instant Unlock</div>
-                <h2 className="player-gate-title">Enter your email to start listening</h2>
+                <KineticHeadline
+                  tag="h2"
+                  className="player-gate-title"
+                  variant="musical-bounce"
+                >
+                  Enter your email to start listening
+                </KineticHeadline>
                 <p className="player-gate-desc">
                   Join thousands of conscious parents and homeschoolers using music-first phonics and somatic rhythm for early learning.
                 </p>
@@ -187,9 +194,15 @@ const Player = () => {
                     </Link>
                   </div>
 
-                  <h1 className="player-hero-headliner__title">
+                  <KineticHeadline
+                    tag="h1"
+                    className="player-hero-headliner__title"
+                    variant="musical-bounce"
+                    delay={0.1}
+                    scrollTrigger={false}
+                  >
                     The Sound of <span className="accent-text" style={{ color: 'var(--color-orange, #FF6F00)' }}>Essentials</span>
-                  </h1>
+                  </KineticHeadline>
                   <h2 className="player-hero-headliner__subtitle">
                     A Musical Learning Experience · Rhythm Quest
                   </h2>

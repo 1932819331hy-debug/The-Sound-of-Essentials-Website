@@ -7,6 +7,7 @@ import { ShaderBackground } from '../components/ui/AnimatedShaderHero';
 import { assetPath } from '../utils/assetPath';
 import { gsap } from 'gsap';
 import { Flip } from 'gsap/Flip';
+import KineticHeadline from '../components/KineticHeadline';
 
 gsap.registerPlugin(Flip);
 
@@ -194,10 +195,16 @@ const Characters = () => {
                 <div className="container text-center">
                     <div className="animate-fade-up">
                         <div className="section-label">{t('heroes.hero_label')}</div>
-                        <h1 className="section-title">
+                        <KineticHeadline
+                            tag="h1"
+                            className="section-title"
+                            variant="musical-bounce"
+                            delay={0.1}
+                            scrollTrigger={false}
+                        >
                             {t('heroes.hero_title_1')}{' '}
                             <span className="accent-text">{t('heroes.hero_title_2')}</span>
-                        </h1>
+                        </KineticHeadline>
                         <div className="divider divider-center" />
                         <p className="section-subtitle">
                             {t('heroes.hero_subtitle')}
@@ -251,10 +258,14 @@ const Characters = () => {
                 <div className="container">
                     <RevealSection>
                         <div className="section-label">Join the Movement</div>
-                        <h2 className="section-title">
+                        <KineticHeadline
+                            tag="h2"
+                            className="section-title"
+                            variant="musical-bounce"
+                        >
                             {t('heroes.cta_title_1')}{' '}
                             <span className="accent-text">{t('heroes.cta_title_2')}</span>?
-                        </h2>
+                        </KineticHeadline>
                         <div className="divider divider-center" />
                         <p className="section-subtitle">
                             {t('heroes.cta_subtitle')}

@@ -1141,6 +1141,7 @@ main {
 .kinetic-headline {
   position: relative;
   will-change: transform, opacity;
+  animation: none !important;
 }
 
 .kinetic-word {

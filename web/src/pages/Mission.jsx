@@ -5,6 +5,7 @@ import GooeyMarquee from '../components/GooeyMarquee';
 import StoryScroll, { FlowSection } from '../components/StoryScroll';
 import { assetCssUrl, assetPath } from '../utils/assetPath';
 import PhilanthropicDonationSection from '../components/PhilanthropicDonationSection';
+import KineticHeadline from '../components/KineticHeadline';
 
 /* ── Reveal Hook ── */
 const useReveal = () => {
@@ -112,9 +113,13 @@ const MissionSceneGallery = () => {
       <div className="container">
         <RevealSection className="text-center">
           <div className="section-label">🌍 The Seven Lands</div>
-          <h2 className="section-title">
+          <KineticHeadline
+            tag="h2"
+            className="section-title"
+            variant="musical-bounce"
+          >
             A World Built for <span className="text-gold">Every Child</span>
-          </h2>
+          </KineticHeadline>
           <p className="section-subtitle" style={{ margin: '0 auto 2.5rem auto' }}>
             Each land in the Rhythm Quest universe mirrors a real domain of learning —
             bringing vocabulary, music, and movement to life through immersive scenes.
@@ -156,9 +161,14 @@ const Mission = () => {
                 <div className="container text-center">
                     <div className="mission-hero-card animate-fade-up">
                         <div className="section-label">Our Mission</div>
-                        <h1>
+                        <KineticHeadline
+                            tag="h1"
+                            variant="musical-bounce"
+                            delay={0.1}
+                            scrollTrigger={false}
+                        >
                             A <span className="accent-text">State of Emergency</span>
-                        </h1>
+                        </KineticHeadline>
                         <p className="section-subtitle">
                             The world's most vulnerable children are running out of time.
                             SOE exists to change that equation through the universal language of music.
@@ -188,11 +198,15 @@ const Mission = () => {
                 <p className="flow-section__label">01 — The Origin</p>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(255, 255, 255, 0.35)' }} />
                 <div>
-                  <h2 className="flow-section__headline">
+                  <KineticHeadline
+                    tag="h2"
+                    className="flow-section__headline"
+                    variant="musical-bounce"
+                  >
                     A Solution.<br />
                     Not<br />
                     A Sale.
-                  </h2>
+                  </KineticHeadline>
                 </div>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(255, 255, 255, 0.35)' }} />
                 <p className="flow-section__body">
@@ -229,11 +243,15 @@ const Mission = () => {
                 <p className="flow-section__label">02 — The Equitable Exchange</p>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(255,255,255,0.25)' }} />
                 <div>
-                  <h2 className="flow-section__headline">
+                  <KineticHeadline
+                    tag="h2"
+                    className="flow-section__headline"
+                    variant="musical-bounce"
+                  >
                     An<br />
                     Equitable<br />
                     Exchange
-                  </h2>
+                  </KineticHeadline>
                 </div>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(255,255,255,0.25)' }} />
                 <p className="flow-section__body">
@@ -269,11 +287,15 @@ const Mission = () => {
                 <p className="flow-section__label">03 — The New Standard</p>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} />
                 <div>
-                  <h2 className="flow-section__headline">
+                  <KineticHeadline
+                    tag="h2"
+                    className="flow-section__headline"
+                    variant="musical-bounce"
+                  >
                     Integrity.<br />
                     Not<br />
                     Extraction.
-                  </h2>
+                  </KineticHeadline>
                 </div>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }} />
                 <p className="flow-section__body">
@@ -309,11 +331,15 @@ const Mission = () => {
                 <p className="flow-section__label">04 — True Titans</p>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(0,0,0,0.15)' }} />
                 <div>
-                  <h2 className="flow-section__headline">
+                  <KineticHeadline
+                    tag="h2"
+                    className="flow-section__headline"
+                    variant="musical-bounce"
+                  >
                     Apps Fade.<br />
                     Truth<br />
                     Endures.
-                  </h2>
+                  </KineticHeadline>
                 </div>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(0,0,0,0.15)' }} />
                 <p className="flow-section__body">
@@ -349,11 +375,15 @@ const Mission = () => {
                 <p className="flow-section__label">05 — The Invitation</p>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(255,255,255,0.3)' }} />
                 <div>
-                  <h2 className="flow-section__headline">
+                  <KineticHeadline
+                    tag="h2"
+                    className="flow-section__headline"
+                    variant="musical-bounce"
+                  >
                     Join<br />
                     The<br />
                     Quest
-                  </h2>
+                  </KineticHeadline>
                 </div>
                 <hr className="flow-section__divider" style={{ borderColor: 'rgba(255,255,255,0.3)' }} />
                 <p className="flow-section__body">

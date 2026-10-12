@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { pseoPages } from '../data/pseoData';
 import JsonLd from '../components/JsonLd';
+import KineticHeadline from '../components/KineticHeadline';
 import './SolutionsHub.css';
 
 const getPageUrl = (p) => {
@@ -56,7 +57,15 @@ const SolutionsHub = () => {
       <header className="hub-hero">
         <div className="hub-container">
           <div className="hub-eyebrow">The Living Ecosystem</div>
-          <h1 className="hub-title">Early Learning Solutions &amp; Frameworks</h1>
+          <KineticHeadline
+            tag="h1"
+            className="hub-title"
+            variant="musical-bounce"
+            delay={0.1}
+            scrollTrigger={false}
+          >
+            Early Learning Solutions &amp; Frameworks
+          </KineticHeadline>
           <p className="hub-subtitle">
             Grounding early childhood in intentional acoustic rhythm, 4,000+ words of vocabulary, and sensory sanctuary across ages 2 to 7.
           </p>

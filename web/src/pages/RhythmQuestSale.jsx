@@ -7,6 +7,7 @@ import ProofInThePause from '../components/ui/ProofInThePause';
 import StickyThumbCta from '../components/ui/StickyThumbCta';
 import { trackInitiateCheckout, appendUtmsToUrl } from '../utils/analytics';
 import ConciergeBadge from '../components/ConciergeBadge';
+import KineticHeadline from '../components/KineticHeadline';
 import './RhythmQuestSale.css';
 
 /**
@@ -238,10 +239,16 @@ const RhythmReadyHero = () => {
           <div className="rq-hero__copy">
             <span className="rq-hero__badge">📚 Workbook &amp; Curriculum · 8 Weeks · 40 Days · K–3</span>
 
-            <h1 className="rq-hero__title">
+            <KineticHeadline
+              tag="h1"
+              className="rq-hero__title"
+              variant="musical-bounce"
+              delay={0.1}
+              scrollTrigger={false}
+            >
               Workbook &amp; Curriculum
               <span className="rq-hero__title-accent">8 Weeks. 40 Days. 240+ Activities.</span>
-            </h1>
+            </KineticHeadline>
 
             <p className="section-subtitle rq-hero__hook">
               A multi-sensory, cross-curricular daily learning quest across the Seven Lands.
@@ -463,9 +470,13 @@ const RhythmReadyProof = () => {
         <div className="container">
           <RevealSection className="text-center rq-proof__head">
             <div className="section-label">Pedagogical Framework</div>
-            <h2 className="section-title">
+            <KineticHeadline
+              tag="h2"
+              className="section-title"
+              variant="musical-bounce"
+            >
               Built for Real Retentive Power. <span className="text-gold">Backed by Science.</span>
-            </h2>
+            </KineticHeadline>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>
               Every activity is structured to foster joy, physical movement, and deep cognitive retention.
             </p>
@@ -596,9 +607,13 @@ const RhythmReadyWhatsInside = () => {
       <div className="container">
         <RevealSection className="text-center">
           <div className="section-label">The Daily 6-Block Routine</div>
-          <h2 className="section-title">
+          <KineticHeadline
+            tag="h2"
+            className="section-title"
+            variant="musical-bounce"
+          >
             Six Daily Blocks. <span className="text-gold">16 Minutes a Day.</span>
-          </h2>
+          </KineticHeadline>
           <p className="section-subtitle">
             Every single day follows a predictable, neuro-affirming sequence that children look forward to.
           </p>
@@ -680,9 +695,14 @@ const RhythmReadyRoadmap = () => {
       <div className="container">
         <RevealSection className="text-center">
           <div className="section-label">8-Week Scope &amp; Sequence</div>
-          <h2 className="section-title" id="ss-qmap-title">
+          <KineticHeadline
+            tag="h2"
+            className="section-title"
+            variant="musical-bounce"
+            id="ss-qmap-title"
+          >
             The 8-Week Scope: <span className="text-plum">40 Days of Learning</span>
-          </h2>
+          </KineticHeadline>
           <p className="section-subtitle">
             Explore what your child will discover across all seven lands during their 8-week journey.
           </p>
@@ -812,10 +832,14 @@ const RhythmReadyOffer = () => {
       <div className="container">
         <RevealSection className="text-center">
           <div className="section-label">The Complete Curriculum</div>
-          <h2 className="section-title">
+          <KineticHeadline
+            tag="h2"
+            className="section-title"
+            variant="musical-bounce"
+          >
             8 Weeks of Structured Learning.
             <span className="rq-offer__title-accent"> Choose Your Format.</span>
-          </h2>
+          </KineticHeadline>
           <p className="section-subtitle" style={{ margin: '0 auto' }}>
             Instant digital PDF download or 454-page physical workbook delivered to your door with Free US Shipping.
           </p>

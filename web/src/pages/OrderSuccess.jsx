@@ -5,6 +5,7 @@ import { assetPath } from '../utils/assetPath';
 import { triggerQuestCelebration, TiltCard, MagneticPill } from '../components/ui/DesignSpells';
 import { FULFILLMENT_FILES, getDeliveryUrl, triggerBrowserDownload } from '../utils/deliveryUrl';
 import { setGateUnlocked, isValidEmail } from '../utils/gateAuth';
+import KineticHeadline from '../components/KineticHeadline';
 import './OrderSuccess.css';
 
 const OrderSuccess = () => {
@@ -66,9 +67,15 @@ const OrderSuccess = () => {
             🌟
           </motion.div>
           <span className="order-success__eyebrow">Order Confirmed • {orderId}</span>
-          <h1 className="order-success__title">
+          <KineticHeadline
+            tag="h1"
+            className="order-success__title"
+            variant="musical-bounce"
+            delay={0.1}
+            scrollTrigger={false}
+          >
             Your Quest Has <span className="text-gold">Begun!</span>
-          </h1>
+          </KineticHeadline>
           <p className="order-success__subtitle">
             Thank you for investing in mindful, music-powered education.
             {customerEmail ? (

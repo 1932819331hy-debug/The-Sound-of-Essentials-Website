@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { submitSoeInterest } from '../services/soeSubmissions';
 import { trackLead } from '../utils/analytics';
 import JsonLd from '../components/JsonLd';
+import KineticHeadline from '../components/KineticHeadline';
 import './InstitutionsQpc.css';
 
 export default function InstitutionsQpc() {
@@ -83,7 +84,15 @@ export default function InstitutionsQpc() {
       <header className="qpc-hero">
         <div className="qpc-container">
           <span className="qpc-badge">{t('institutions.badge')}</span>
-          <h1 className="qpc-title">{t('institutions.title')}</h1>
+          <KineticHeadline
+            tag="h1"
+            className="qpc-title"
+            variant="musical-bounce"
+            delay={0.1}
+            scrollTrigger={false}
+          >
+            {t('institutions.title')}
+          </KineticHeadline>
           <p className="qpc-subtitle">{t('institutions.subtitle')}</p>
 
           <div className="qpc-stepper" aria-label="Funnel Steps">
