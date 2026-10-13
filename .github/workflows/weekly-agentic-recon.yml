@@ -1,0 +1,105 @@
+name: Weekly Agentic Website Recon & Work Order Loop
+
+on:
+  schedule:
+    # Runs every Monday at 00:00 UTC (Brenden House Searchmaxxed weekly loop)
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: agentic-recon
+  cancel-in-progress: false
+
+jobs:
+  recon-loop:
+    name: Autonomous Search & LLM Recon Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install Dependencies
+        run: npm ci
+        working-directory: web
+
+      - name: Verify Helix Gate 1 Canon Invariants
+        run: npm run test:canon
+        working-directory: web
+
+      - name: Execute Weekly Recon Loop
+        run: npm run recon:weekly
+        working-directory: web
+
+      - name: Commit Updated Recon Reports
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add web/reports/
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(agentic-recon): update weekly search recon work order [skip ci]"
+            git push origin main
+          else
+            echo "Zero report diffs detected. Working tree clean."
+          fi
+
+      - name: Create or Update GitHub Issue for Weekly Work Order
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const reportPath = path.resolve('web', 'reports', 'weekly-search-recon-report.md');
+            if (!fs.existsSync(reportPath)) {
+              console.log('Recon report not found, skipping issue creation.');
+              return;
+            }
+
+            const reportContent = fs.readFileSync(reportPath, 'utf8');
+            const dateStr = new Date().toISOString().split('T')[0];
+            const issueTitle = `🤖 Weekly Agentic Recon & Self-Improvement Work Order (${dateStr})`;
+
+            // Search for open issues with the agentic-loop label
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'agentic-loop',
+              state: 'open'
+            });
+
+            if (issues.length > 0) {
+              // Update the existing open issue
+              const existingIssue = issues[0];
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingIssue.number,
+                title: issueTitle,
+                body: reportContent
+              });
+              console.log(`Updated existing Agentic Work Order issue #${existingIssue.number}`);
+            } else {
+              // Create a new issue
+              const newIssue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: issueTitle,
+                body: reportContent,
+                labels: ['agentic-loop', 'seo', 'weekly-recon']
+              });
+              console.log(`Created new Agentic Work Order issue #${newIssue.data.number}`);
+            }
