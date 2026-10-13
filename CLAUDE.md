@@ -142,7 +142,7 @@ SOE-Picture-Dictionary/
 ├── workbook/                      # Rhythm Ready Workbook source + generated pages
 │   ├── workbook_content.json      # 664 lines of activity data
 │   └── generate_workbook.py
-├── vercel.json                    # Vercel deployment config
+├── web/wrangler.toml              # Cloudflare Pages & edge functions config
 └── README.md
 ```
 
@@ -420,11 +420,12 @@ Converts source images to optimized WebP for production use.
 - **Config locations:** `vite.config.js` (`base`) and `main.jsx` (`BrowserRouter basename`)
 - **SPA handling:** `public/404.html` redirects via sessionStorage
 
-### Vercel (Secondary)
-- **Config:** `vercel.json` in repo root
-- **Install:** `cd web && npm install`
-- **Build:** `cd web && npm run build`
+### Cloudflare Pages (Free Full-Stack / Edge API)
+- **Config:** `web/wrangler.toml`
+- **Edge Functions:** `web/functions/api/` (Handles `/api/submit` with Neon DB + Brevo CRM)
+- **Deploy:** `npm run deploy:cf` (runs `vite build` then `wrangler pages deploy dist`)
 - **Output:** `web/dist`
+- **Live Endpoint:** `https://soe-website-b7j.pages.dev`
 
 > ⚠️ If the repo name or Pages path changes, update both `web/vite.config.js` (`base`) and `web/src/main.jsx` (`BrowserRouter basename`).
 

@@ -82,7 +82,7 @@ export async function submitSoeInterest({
     honeypot,
   };
 
-  // 1. Primary: Try relative /api/submit (Vercel & Cloudflare native)
+  // 1. Primary: Try relative /api/submit (Cloudflare Pages Functions native)
   try {
     const response = await fetch('/api/submit', {
       method: 'POST',
