@@ -8,6 +8,7 @@ import ProofInThePause from '../components/ui/ProofInThePause';
 import StickyThumbCta from '../components/ui/StickyThumbCta';
 import { trackInitiateCheckout } from '../utils/analytics';
 import KineticHeadline from '../components/KineticHeadline';
+import PDPQuestionChips from '../components/PDPQuestionChips';
 import './DictionarySale.css';
 
 /* ── Land-specific stats from the pipeline knowledge base ── */
@@ -369,7 +370,7 @@ const DictionarySale = () => {
                   <span className="dict-price-card__discount-badge">SAVE 30%</span>
                 </div>
                 <p className="dict-price-card__hook">
-                  The complete 4,000+ word visual vocabulary journey across 125 illustrated scenes. Instant digital EPUB delivery.
+                  The complete 4,000+ word visual vocabulary journey across 125 illustrated scenes. Pre-sale reservation · Digital delivery upon release.
                 </p>
                 <ul className="dict-price-card__features">
                   <li>✓ 4,000+ verified vocabulary words</li>
@@ -377,6 +378,7 @@ const DictionarySale = () => {
                   <li>✓ All 7 Lands &amp; 15 heroes included</li>
                   <li>✓ Phonetic pronunciation guides</li>
                   <li>✓ Bilingual EN/ES support</li>
+                  <li>✓ Pre-sale reservation · Delivered upon release</li>
                 </ul>
                 <a
                   href="https://buy.stripe.com/test_14AfZhcO02JT40m9YS6Vq06"
@@ -402,7 +404,7 @@ const DictionarySale = () => {
                   Everything for a full year of music-powered learning. Complete digital access across all core and premium products.
                 </p>
                 <ul className="dict-price-card__features">
-                  <li>✓ Essential Picture Dictionary ($55 value)</li>
+                  <li>✓ Essential Picture Dictionary ($55 value · Pre-sale release)</li>
                   <li>✓ 19-Track Rhythm Quest Album ($0 free)</li>
                   <li>✓ 66-Page Rhythm Quest Storybook ($19 value)</li>
                   <li>✓ Rhythm Ready Workbook Digital ($21 value)</li>
@@ -418,6 +420,8 @@ const DictionarySale = () => {
                 </a>
               </div>
             </div>
+
+            <PDPQuestionChips preset="dictionary" label="Pre-Sale Questions?" />
           </RevealSection>
         </div>
       </section>

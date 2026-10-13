@@ -8,6 +8,7 @@ import StickyThumbCta from '../components/ui/StickyThumbCta';
 import { trackInitiateCheckout, appendUtmsToUrl } from '../utils/analytics';
 import ConciergeBadge from '../components/ConciergeBadge';
 import KineticHeadline from '../components/KineticHeadline';
+import PDPQuestionChips from '../components/PDPQuestionChips';
 import './RhythmQuestSale.css';
 
 /**
@@ -975,6 +976,8 @@ const RhythmReadyOffer = () => {
                     : 'Switch to Physical Print ($45 · Free Shipping)'}
                 </button>
               </div>
+
+              <PDPQuestionChips preset="workbook" label="Have questions before ordering?" />
             </aside>
           </div>
         </RevealSection>
@@ -1061,7 +1064,7 @@ const DictionaryPreSaleOffer = () => {
                 <li className="rq-offer__item">
                   <span className="rq-offer__tick" aria-hidden="true">✓</span>
                   <span>
-                    <strong>Instant Digital EPUB Delivery Upon Release.</strong> High-fidelity digital format readable on any device.
+                    <strong>Digital EPUB Delivery Upon Release.</strong> High-fidelity digital format readable on any device.
                   </span>
                 </li>
               </ul>
@@ -1102,6 +1105,8 @@ const DictionaryPreSaleOffer = () => {
                   Direct priority delivery to your inbox upon release, including all 125 illustrated scenes and companion updates.
                 </span>
               </div>
+
+              <PDPQuestionChips preset="dictionary" label="Pre-Sale Questions?" />
             </aside>
           </div>
         </RevealSection>

@@ -24,6 +24,7 @@ import { isGateUnlocked, setGateUnlocked, getCapturedEmail, isValidEmail } from 
 import DmOptInBridge from '../components/DmOptInBridge';
 import KineticMusicalAccent from '../components/ui/KineticMusicalAccent';
 import KineticHeadline from '../components/KineticHeadline';
+import PDPQuestionChips from '../components/PDPQuestionChips';
 import './MediaRoom.css';
 import './Listen.css';
 
@@ -537,6 +538,8 @@ const Listen = () => {
                   🔒 <em>Please check the parental confirmation box above to reveal the free album unlock form.</em>
                 </div>
               )}
+
+              <PDPQuestionChips preset="listen" label="Questions about the music & listening?" />
             </div>
           </div>
         </section>
