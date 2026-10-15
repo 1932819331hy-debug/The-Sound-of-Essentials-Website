@@ -11,6 +11,7 @@ const CookieConsent = () => {
       const consent = localStorage.getItem('soe_privacy_consent');
       if (!consent) {
         setIsVisible(true);
+        document.body.classList.add('has-cookie-consent');
       } else if (consent === 'granted' && typeof window !== 'undefined' && window.clarity) {
         window.clarity('consent', true);
       }
@@ -18,6 +19,10 @@ const CookieConsent = () => {
       // Fallback if localStorage is inaccessible
       setIsVisible(false);
     }
+
+    return () => {
+      document.body.classList.remove('has-cookie-consent');
+    };
   }, []);
 
   const handleAccept = () => {
@@ -29,6 +34,7 @@ const CookieConsent = () => {
     } catch {
       // ignore
     }
+    document.body.classList.remove('has-cookie-consent');
     setIsVisible(false);
   };
 
@@ -41,6 +47,7 @@ const CookieConsent = () => {
     } catch {
       // ignore
     }
+    document.body.classList.remove('has-cookie-consent');
     setIsVisible(false);
   };
 

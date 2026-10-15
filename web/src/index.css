@@ -810,6 +810,24 @@ main {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
+@media (max-width: 768px) {
+  .scroll-top-btn {
+    bottom: calc(var(--sticky-cta-height, 0px) + 1rem + env(safe-area-inset-bottom, 0px));
+    left: 1rem;
+    right: auto;
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    z-index: 997;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  }
+
+  body.has-cookie-consent .scroll-top-btn {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
 /* ── Accessibility ── */
 :focus-visible {
   outline: 3px solid var(--color-blue);

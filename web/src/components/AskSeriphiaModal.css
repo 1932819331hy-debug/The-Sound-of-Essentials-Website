@@ -14,7 +14,7 @@
   gap: 0.75rem;
   background: linear-gradient(135deg, #FF6F00, #E65100);
   color: #ffffff;
-  border: none;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
   border-radius: 50px;
   padding: 0.75rem 1.4rem;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -22,7 +22,10 @@
   font-weight: 700;
   box-shadow: 0 8px 25px rgba(255, 111, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease,
+              opacity 0.25s ease;
 }
 
 .seriphia-launcher:hover {
@@ -50,7 +53,7 @@
   background: rgba(18, 18, 24, 0.65);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  z-index: 1000;
+  z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -445,3 +448,68 @@
   font-weight: 700;
   text-decoration: none;
 }
+
+/* ── Mobile Layout & Banner Coordination ── */
+@media (max-width: 768px) {
+  .seriphia-launcher {
+    /* Floats cleanly above the sticky lead magnet footer / thumb CTA */
+    bottom: calc(var(--sticky-cta-height, 0px) + 1rem + env(safe-area-inset-bottom, 0px));
+    right: 1rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.86rem;
+    gap: 0.5rem;
+    box-shadow: 0 6px 20px rgba(255, 111, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  .seriphia-launcher__avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .seriphia-launcher__sparkle {
+    font-size: 0.95rem;
+  }
+
+  /* When Cookie Consent is active, hide launcher so banners never stack */
+  body.has-cookie-consent .seriphia-launcher {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(14px);
+  }
+
+  /* Modal Window on Mobile */
+  .seriphia-modal-backdrop {
+    padding: 0.75rem;
+  }
+
+  .seriphia-modal-window {
+    border-radius: 20px;
+    max-height: 94vh;
+  }
+
+  .seriphia-modal-header {
+    padding: 1rem 1.25rem;
+  }
+
+  .seriphia-nav-tabs {
+    padding: 0.5rem 1rem;
+    gap: 0.35rem;
+  }
+
+  .seriphia-tab-btn {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .seriphia-modal-body {
+    padding: 1.25rem 1rem;
+  }
+
+  .seriphia-modal-footer {
+    padding: 0.85rem 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+}
+

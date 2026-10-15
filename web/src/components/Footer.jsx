@@ -409,6 +409,12 @@ const Footer = () => {
             justify-content: center;
           }
         }
+
+        @media (max-width: 768px) {
+          body.has-sticky-cta .site-footer {
+            padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+          }
+        }
       `}</style>
     </footer>
   );

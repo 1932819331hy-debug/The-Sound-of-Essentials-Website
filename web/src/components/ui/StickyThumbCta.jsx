@@ -19,15 +19,27 @@ export const StickyThumbCta = ({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const updateVisibility = () => {
       const currentScroll = window.scrollY || document.documentElement.scrollTop;
-      setIsVisible(currentScroll > showThreshold);
+      const visible = currentScroll > showThreshold;
+      setIsVisible(visible);
+      if (visible) {
+        document.body.classList.add('has-sticky-cta');
+        document.documentElement.style.setProperty('--sticky-cta-height', '72px');
+      } else {
+        document.body.classList.remove('has-sticky-cta');
+        document.documentElement.style.setProperty('--sticky-cta-height', '0px');
+      }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    updateVisibility();
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', updateVisibility);
+      document.body.classList.remove('has-sticky-cta');
+      document.documentElement.style.setProperty('--sticky-cta-height', '0px');
+    };
   }, [showThreshold]);
 
   const isAnchor = targetUrl.startsWith('#');
