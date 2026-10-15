@@ -857,8 +857,9 @@
     },
     "concierge": {
         "online": "Educator Concierge Active",
-        "text": "Have questions about ages 2–7 readiness? Text our curriculum team directly: ",
-        "phone": "1-800-555-RHYTHM",
+        "text": "Have questions about ages 2–7 readiness? Email our curriculum team directly: ",
+        "email": "info@soelearn.com",
+        "phone": "info@soelearn.com",
         "callout": "Real educators, zero chatbots. Available Mon-Fri 8am-6pm EST."
     }
 }

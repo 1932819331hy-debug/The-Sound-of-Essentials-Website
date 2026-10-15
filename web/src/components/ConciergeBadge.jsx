@@ -15,9 +15,9 @@ export default function ConciergeBadge({ variant = 'card' }) {
           <span className="status-text">{t('concierge.online', 'Educator Concierge Active')}</span>
         </div>
         <p className="concierge-badge__body">
-          {t('concierge.text', 'Have questions about ages 2–7 readiness? Text our curriculum team directly: ')}
-          <a href="sms:+18005557498" className="concierge-badge__link">
-            {t('concierge.phone', '1-800-555-RHYTHM')}
+          {t('concierge.text', 'Have questions about ages 2–7 readiness? Email our curriculum team directly: ')}
+          <a href="mailto:info@soelearn.com" className="concierge-badge__link">
+            {t('concierge.email', 'info@soelearn.com')}
           </a>
         </p>
         <span className="concierge-badge__callout">

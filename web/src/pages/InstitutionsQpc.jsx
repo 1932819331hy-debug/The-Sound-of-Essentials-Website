@@ -393,7 +393,7 @@ export default function InstitutionsQpc() {
 
               <div className="qpc-direct-contact">
                 <p>{t('institutions.direct_email')}</p>
-                <p>Or text our Educator Concierge directly at: <strong>1-800-555-RHYTHM</strong></p>
+                <p>Educator Concierge Direct: <a href="mailto:info@soelearn.com"><strong>info@soelearn.com</strong></a></p>
               </div>
             </motion.section>
           )}

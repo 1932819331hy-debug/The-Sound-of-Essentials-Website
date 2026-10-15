@@ -595,7 +595,7 @@ https://thesoundofessentials.com`;
             <div className="seriphia-modal-footer">
               <div className="seriphia-footer-concierge">
                 Need customized support for your classroom or homeschool pod?{' '}
-                <a href="sms:+18005557498">Text 1-800-555-RHYTHM</a>
+                <a href="mailto:info@soelearn.com">Email info@soelearn.com</a>
               </div>
               <a
                 href="/workbook"

@@ -857,8 +857,9 @@
     },
     "concierge": {
         "online": "Conciergerie éducative active",
-        "text": "Des questions sur l'éveil pour les 2–7 ans ? Envoyez un message à notre équipe pédagogique : ",
-        "phone": "1-800-555-RHYTHM",
+        "text": "Des questions sur l'éveil pour les 2–7 ans ? Écrivez directement à notre équipe pédagogique : ",
+        "email": "info@soelearn.com",
+        "phone": "info@soelearn.com",
         "callout": "De vrais éducateurs, aucun robot. Du lundi au vendredi."
     }
 }

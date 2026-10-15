@@ -857,8 +857,9 @@
     },
     "concierge": {
         "online": "Conserjería educativa activa",
-        "text": "¿Preguntas sobre la preparación de 2 a 7 años? Envía un mensaje a nuestro equipo curricular: ",
-        "phone": "1-800-555-RHYTHM",
+        "text": "¿Preguntas sobre la preparación de 2 a 7 años? Escribe directamente a nuestro equipo curricular: ",
+        "email": "info@soelearn.com",
+        "phone": "info@soelearn.com",
         "callout": "Educadores reales, cero bots. Disponible de lunes a viernes."
     }
 }
