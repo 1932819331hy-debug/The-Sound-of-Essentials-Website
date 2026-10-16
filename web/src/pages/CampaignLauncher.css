@@ -1,0 +1,272 @@
+/* ==========================================================================
+   SOE Market Campaign Launch System (MCLS) — Zeely-Style Cockpit
+   Bright & Playful Theme (Cream #FFF8F0 + Orange #FF6F00 + Warm Terracotta)
+   ========================================================================== */
+
+.mcls-dashboard {
+  background: var(--color-bg, #FFF8F0);
+  min-height: 100vh;
+  padding: calc(var(--space-2xl, 4rem) + 40px) 1.5rem 4rem;
+  color: var(--color-text-dark, #2B2016);
+  font-family: var(--font-body, 'Inter', sans-serif);
+}
+
+.mcls-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mcls-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.mcls-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #FF6F00 0%, #FFA000 100%);
+  color: #FFFFFF;
+  font-family: var(--font-heading, 'Fredoka', cursive);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 18px;
+  border-radius: 50px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 4px 12px rgba(255, 111, 0, 0.25);
+}
+
+.mcls-title {
+  font-family: var(--font-heading, 'Fredoka', cursive);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: #2B2016;
+  margin: 0 0 0.5rem;
+}
+
+.mcls-subtitle {
+  font-size: 1.1rem;
+  color: #6B5E51;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Grid Layout */
+.mcls-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .mcls-grid {
+    grid-template-columns: 1.15fr 0.85fr;
+  }
+}
+
+.mcls-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  border: 1px solid rgba(220, 205, 185, 0.5);
+  box-shadow: 0 8px 30px rgba(43, 32, 22, 0.06);
+  padding: 2rem;
+}
+
+.mcls-card-title {
+  font-family: var(--font-heading, 'Fredoka', cursive);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2B2016;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Engine Mode Pills */
+.mcls-mode-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.mcls-mode-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  border: 2px solid #EADBCC;
+  background: #FFFDF9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mcls-mode-pill.active {
+  border-color: #FF6F00;
+  background: rgba(255, 111, 0, 0.06);
+  box-shadow: 0 4px 14px rgba(255, 111, 0, 0.15);
+}
+
+.mcls-mode-pill-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #2B2016;
+}
+
+.mcls-mode-pill-desc {
+  font-size: 0.82rem;
+  color: #7A6D60;
+  margin-top: 2px;
+}
+
+.mcls-mode-pill-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #EFE6DC;
+  color: #5A4E42;
+}
+
+.mcls-mode-pill.active .mcls-mode-pill-badge {
+  background: #FF6F00;
+  color: #FFFFFF;
+}
+
+/* Form Controls */
+.mcls-field-group {
+  margin-bottom: 1.25rem;
+}
+
+.mcls-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #3F3327;
+  margin-bottom: 0.4rem;
+}
+
+.mcls-select, .mcls-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1.5px solid #EADBCC;
+  background: #FFFFFF;
+  font-size: 0.95rem;
+  color: #2B2016;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.mcls-select:focus, .mcls-input:focus {
+  border-color: #FF6F00;
+}
+
+.mcls-range-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mcls-range {
+  flex: 1;
+  accent-color: #FF6F00;
+}
+
+.mcls-range-val {
+  font-weight: 800;
+  color: #FF6F00;
+  font-size: 1.1rem;
+  min-width: 70px;
+  text-align: right;
+}
+
+/* Ad Preview Box */
+.mcls-preview-box {
+  background: #FFFDF9;
+  border-radius: 16px;
+  border: 1px dashed #DCCDBE;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.mcls-layer-item {
+  margin-bottom: 1rem;
+}
+
+.mcls-layer-tag {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #FF6F00;
+  margin-bottom: 0.2rem;
+}
+
+.mcls-layer-text {
+  font-size: 0.92rem;
+  color: #3A2E22;
+  line-height: 1.45;
+}
+
+/* Launch Button */
+.mcls-btn-launch {
+  width: 100%;
+  background: linear-gradient(135deg, #FF6F00 0%, #E65100 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 50px;
+  font-family: var(--font-heading, 'Fredoka', cursive);
+  font-weight: 800;
+  font-size: 1.15rem;
+  padding: 1.1rem 2rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 111, 0, 0.35);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.mcls-btn-launch:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 111, 0, 0.45);
+}
+
+.mcls-btn-launch:active {
+  transform: translateY(0);
+}
+
+/* Telemetry Stats */
+.mcls-stats-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mcls-stat-box {
+  background: #FFF8F0;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid #F0E3D3;
+  text-align: center;
+}
+
+.mcls-stat-num {
+  font-family: var(--font-heading, 'Fredoka', cursive);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #FF6F00;
+}
+
+.mcls-stat-label {
+  font-size: 0.78rem;
+  color: #7A6D60;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 2px;
+}

@@ -31,6 +31,7 @@ const Player     = lazy(() => import('./pages/Player'));
 const OrderSuccess = lazy(() => import('./pages/OrderSuccess'));
 const Gallery    = lazy(() => import('./pages/Gallery'));
 const AdsShowcase = lazy(() => import('./pages/AdsShowcase'));
+const CampaignLauncher = lazy(() => import('./pages/CampaignLauncher'));
 const AdminCrm   = lazy(() => import('./pages/AdminCrm'));
 const ProgrammaticPersonaPage = lazy(() => import('./pages/ProgrammaticPersonaPage'));
 const SolutionsHub = lazy(() => import('./pages/SolutionsHub'));
@@ -133,6 +134,8 @@ const App = () => {
                 <Route path="/ads"        element={<AnimatedPage><AdsShowcase /></AnimatedPage>} />
                 <Route path="/ads-showcase" element={<AnimatedPage><AdsShowcase /></AnimatedPage>} />
                 <Route path="/campaigns"  element={<AnimatedPage><AdsShowcase /></AnimatedPage>} />
+                <Route path="/launcher"   element={<AnimatedPage><CampaignLauncher /></AnimatedPage>} />
+                <Route path="/mcls"       element={<AnimatedPage><CampaignLauncher /></AnimatedPage>} />
                 <Route path="/order-success" element={<AnimatedPage><OrderSuccess /></AnimatedPage>} />
                 <Route path="/download"   element={<AnimatedPage><OrderSuccess /></AnimatedPage>} />
                 {/* Programmatic SEO Solutions Engine */}
