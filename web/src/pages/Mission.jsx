@@ -573,6 +573,22 @@ const Mission = () => {
           color: var(--color-text-dark-secondary, #4a4a68);
         }
 
+        /* ── Story Scroll Slides Paragraph Body in Milky Week ── */
+        .mission-page .flow-section__body {
+          font-family: var(--font-milky);
+          font-size: clamp(1.25rem, 2.7vw, 2.1rem);
+          line-height: 1.55;
+          letter-spacing: 0.02em;
+        }
+
+        .mission-page .flow-column__text {
+          font-family: var(--font-milky);
+          font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+          line-height: 1.55;
+          letter-spacing: 0.01em;
+          opacity: 0.95;
+        }
+
         /* ── Stats ── */
         .manifesto-stats {
           display: grid;

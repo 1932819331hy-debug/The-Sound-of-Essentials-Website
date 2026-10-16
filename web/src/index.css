@@ -23,6 +23,16 @@
   font-display: swap;
 }
 
+/* Milky Week — self-hosted playful display & subtext font */
+@font-face {
+  font-family: 'Milky Week';
+  src: url('/assets/fonts/MilkyWeek-KV8Yp.ttf') format('truetype'),
+       url('/assets/fonts/MilkyWeek.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 :root {
   /* ── Bright & Playful Palette ── */
@@ -91,6 +101,7 @@
   --font-accent: 'Fredoka', sans-serif;
   --font-cursive: 'Have Idea', 'Dancing Script', cursive;
   --font-sugar: 'More Sugar', 'Fredoka', cursive;
+  --font-milky: 'Milky Week', 'Fredoka', cursive, sans-serif;
 
   /* ── Safe Area Insets ── */
   --safe-area-top: env(safe-area-inset-top, 0px);

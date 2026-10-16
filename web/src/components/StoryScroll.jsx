@@ -180,10 +180,11 @@ const StoryScroll = ({
 
         .flow-section__body {
           max-width: 55ch;
-          font-family: var(--font-body);
-          font-size: clamp(1rem, 2.2vw, 1.6rem);
+          font-family: var(--font-milky);
+          font-size: clamp(1.25rem, 2.7vw, 2.1rem);
           font-weight: 400;
-          line-height: 1.65;
+          line-height: 1.55;
+          letter-spacing: 0.02em;
           color: inherit;
         }
 
@@ -215,10 +216,11 @@ const StoryScroll = ({
         }
 
         .flow-column__text {
-          font-family: var(--font-body);
-          font-size: clamp(0.85rem, 1.3vw, 1rem);
-          line-height: 1.65;
-          opacity: 0.85;
+          font-family: var(--font-milky);
+          font-size: clamp(0.95rem, 1.4vw, 1.2rem);
+          line-height: 1.55;
+          letter-spacing: 0.01em;
+          opacity: 0.95;
           color: inherit;
         }
 
