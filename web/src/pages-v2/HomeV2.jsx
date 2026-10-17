@@ -15,7 +15,7 @@ const HomeV2 = () => {
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    document.title = 'SOE Rhythm Quest — Designed for the Developing Brain';
+    document.title = 'The Sound of Essentials | Screen-Free Early Learning, Preschool Music & Sensory Readiness for Ages 2–7';
   }, []);
 
   const goListen = (e) => {

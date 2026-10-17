@@ -88,7 +88,7 @@ const DictionarySale = () => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    document.title = 'SOE Rhythm Quest: Essential Picture Dictionary — 4,000+ Words Across 7 Lands';
+    document.title = 'Essential Picture Dictionary | 4,200+ Words & 157 Visual Scenes for Speech, Vocabulary & Early Literacy';
   }, []);
 
   /* Build the character parade — double the array for seamless loop */

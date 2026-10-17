@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS crm_activities (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     contact_id UUID REFERENCES crm_contacts(id) ON DELETE CASCADE,
     deal_id UUID REFERENCES crm_deals(id) ON DELETE SET NULL,
-    activity_type VARCHAR(50) NOT NULL CHECK (activity_type IN ('album_unlock', 'form_submit', 'stripe_order', 'quest_milestone', 'admin_note', 'email_sent', 'call_log', 'task_complete')),
+    activity_type VARCHAR(50) NOT NULL CHECK (activity_type IN ('album_unlock', 'form_submit', 'shopify_order', 'stripe_order', 'stripe_checkout', 'quest_milestone', 'admin_note', 'note', 'email_sent', 'email_outreach', 'call_log', 'call', 'meeting', 'task_complete')),
     title VARCHAR(255) NOT NULL,
     description TEXT,
     metadata JSONB DEFAULT '{}'::jsonb,

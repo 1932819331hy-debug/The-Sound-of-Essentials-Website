@@ -1276,7 +1276,7 @@ const RhythmReadyFaq = () => (
    ═══════════════════════════════════════════════════════════════ */
 const RhythmQuestSale = () => {
   useEffect(() => {
-    document.title = 'The Sound of Essentials: Rhythm Ready Workbook — 8-Week Readiness Quest (Ages 2–7)';
+    document.title = 'Rhythm Ready Workbook | 8-Week Screen-Free Preschool Readiness & Kindergarten Prep Activities (Ages 2–7)';
   }, []);
 
   const carouselOrder = [

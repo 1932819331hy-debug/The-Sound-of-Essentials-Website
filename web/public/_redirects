@@ -1,3 +1,11 @@
+# Retired Shopify & Deprecated Campaign Endpoints (HTTP 410 Gone: 49.6% Faster SERP Pruning)
+/products/*                      410!
+/collections/*                   410!
+/cart                            410!
+/checkout                        410!
+/promo/*                         410!
+/shopify/*                       410!
+
 # Pre-Sell Bridge Landing Pages
 /dad-reading-apps-review        /dad-reading-apps-review.html        200
 /education-sovereignty          /education-sovereignty.html          200

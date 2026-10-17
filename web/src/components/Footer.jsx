@@ -52,24 +52,36 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Curriculum Lands Directory */}
           <div className="footer__col">
-            <h4 className="footer__heading">{t('footer.explore')}</h4>
-            <Link to="/" className="footer__link">{t('navbar.home')}</Link>
-            <Link to="/heroes" className="footer__link">{t('navbar.heroes')}</Link>
-            <Link to="/gallery" className="footer__link">📖 Storybook Gallery</Link>
-            <Link to="/science" className="footer__link">{t('footer.sci_sound')}</Link>
-            <Link to="/mission" className="footer__link">{t('navbar.mission')}</Link>
-            <Link to="/join" className="footer__link">✉️ {t('navbar.contact', 'Contact Us')}</Link>
+            <h4 className="footer__heading">Curriculum Lands</h4>
+            <Link to="/universe#harmonia" className="footer__link">🎵 Harmonia (Language)</Link>
+            <Link to="/universe#numeria" className="footer__link">🔢 Numeria (Math)</Link>
+            <Link to="/universe#vitalis" className="footer__link">🏃 Vitalis (Movement)</Link>
+            <Link to="/universe#luminosity" className="footer__link">💡 Luminosity (Civics)</Link>
+            <Link to="/universe#aquaria" className="footer__link">🌊 Aquaria (Emotional Calm)</Link>
+            <Link to="/universe#terrasol" className="footer__link">🌱 Terrasol (Science)</Link>
+            <Link to="/universe#celestia" className="footer__link">⏳ Celestia (Time)</Link>
           </div>
 
-          {/* Shop & Quest Products */}
+          {/* Shop & Quest Products (Prices Stripped to Prevent SERP Disqualification) */}
           <div className="footer__col">
-            <h4 className="footer__heading">Shop &amp; Quest</h4>
+            <h4 className="footer__heading">Core Products</h4>
             <Link to="/listen" className="footer__link">🎧 Free 19-Track Album</Link>
-            <Link to="/workbook" className="footer__link">📚 Workbook &amp; Curriculum ($21)</Link>
-            <Link to="/workbook#dictionary-presale" className="footer__link">📖 Picture Dictionary ($55 Pre-Sale)</Link>
-            <Link to="/join" className="footer__link">{t('hero.join_button')}</Link>
+            <Link to="/rhythm-ready" className="footer__link">📚 Rhythm Ready Workbook</Link>
+            <Link to="/workbook#dictionary-presale" className="footer__link">📖 Essential Picture Dictionary</Link>
+            <Link to="/starter-pack" className="footer__link">🌟 Quest Starter Bedtime Kit</Link>
+            <Link to="/gallery" className="footer__link">🎨 Storybook Gallery</Link>
+          </div>
+
+          {/* Research & Standards Authority */}
+          <div className="footer__col">
+            <h4 className="footer__heading">Research &amp; Standards</h4>
+            <Link to="/science" className="footer__link">🔬 Sound Before Symbol</Link>
+            <Link to="/solutions" className="footer__link">🏛️ Head Start &amp; NAEYC</Link>
+            <Link to="/solutions#ece-directors" className="footer__link">🏫 School &amp; Clinic Licensing</Link>
+            <Link to="/ally-annex" className="footer__link">🤝 Educational Partners</Link>
+            <Link to="/mission" className="footer__link">🧭 Our Mission</Link>
           </div>
 
           {/* Stay Connected */}
@@ -165,8 +177,8 @@ const Footer = () => {
 
         .footer__grid {
           display: grid;
-          grid-template-columns: 2fr 1fr 1fr 1.2fr;
-          gap: 3rem;
+          grid-template-columns: 1.5fr 1fr 1fr 1.1fr 1.2fr;
+          gap: 2rem;
           margin-bottom: 3.5rem;
         }
 

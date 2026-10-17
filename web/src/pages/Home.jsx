@@ -17,7 +17,7 @@ const Home = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    document.title = 'The Sound of Essentials | Music-Driven Early Learning';
+    document.title = 'The Sound of Essentials | Screen-Free Early Learning, Preschool Music & Sensory Readiness for Ages 2–7';
   }, []);
 
   /* ── Interactive State: FAQ Accordion ── */

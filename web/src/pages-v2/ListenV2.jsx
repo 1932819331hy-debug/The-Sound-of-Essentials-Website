@@ -20,7 +20,7 @@ const ListenV2 = () => {
   const [justUnlocked, setJustUnlocked] = useState(false);
 
   useEffect(() => {
-    document.title = 'Listen — SOE Rhythm Quest';
+    document.title = "Rhythm Quest 19-Track Album | Screen-Free Sensory Children's Music & Movement Songs for Toddlers & Pre-K";
   }, []);
 
   const tracks = tracksData.map((track) => ({

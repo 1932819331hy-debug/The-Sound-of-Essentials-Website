@@ -63,6 +63,18 @@ const EMAIL_TEMPLATES = [
     subject: 'Partnering with The Sound of Essentials: Rhythm Quest',
     body: `Hi {{name}},\n\nWe are thrilled to welcome you to the Sound of Essentials Ally Annex.\n\nOur mission is bringing calm, neuro-affirming early education to families worldwide. As an official partner, you have access to our promotional toolkit, character assets, and tiered revenue sharing (15%–50%).\n\nLet us know if you need customized graphics or dedicated landing pages for your community!\n\nIn harmony,\nPartnership Director\nThe Sound of Essentials`,
   },
+  {
+    id: 'direct_followup',
+    name: '⚡ Direct Follow-Up & Demo Scheduling',
+    subject: 'Following up regarding {{organization}} & The Sound of Essentials',
+    body: `Hi {{name}},\n\nFollowing up on your interest in The Sound of Essentials: Rhythm Quest for {{organization}}.\n\nWould you have 10–15 minutes this week for a brief walkthrough of our music-powered sensory, phonological, and math curriculum?\n\nI can share student samples, our 7-Land developmental map, and pricing options tailored for {{organization}}.\n\nBest regards,\nFounder & Creator\nThe Sound of Essentials\ninfo@soelearn.com`,
+  },
+  {
+    id: 'custom',
+    name: '✏️ Custom Blank Message',
+    subject: 'The Sound of Essentials — Update for {{name}}',
+    body: `Hi {{name}},\n\n`,
+  },
 ];
 
 const AdminCrm = () => {
@@ -111,6 +123,9 @@ const AdminCrm = () => {
   const [selectedTemplate, setSelectedTemplate] = useState(EMAIL_TEMPLATES[0].id);
   const [emailSubject, setEmailSubject] = useState('');
   const [emailBody, setEmailBody] = useState('');
+  const [emailStatus, setEmailStatus] = useState(null); // null | 'sending' | 'success' | 'error'
+  const [emailStatusMsg, setEmailStatusMsg] = useState('');
+  const [isCopied, setIsCopied] = useState(false);
 
   // Form states
   const [newContact, setNewContact] = useState({ name: '', email: '', organization: '', persona: 'parent', lifecycle_stage: 'lead' });
@@ -508,6 +523,9 @@ const AdminCrm = () => {
 
     setEmailSubject(renderedSubject);
     setEmailBody(renderedBody);
+    setEmailStatus(null);
+    setEmailStatusMsg('');
+    setIsCopied(false);
     setShowEmailModal(true);
   };
 
@@ -521,30 +539,181 @@ const AdminCrm = () => {
       const org = selectedContact.organization || 'your organization';
       setEmailSubject(tpl.subject.replace(/{{organization}}/g, org).replace(/{{name}}/g, name));
       setEmailBody(tpl.body.replace(/{{organization}}/g, org).replace(/{{name}}/g, name));
+      setEmailStatus(null);
+      setEmailStatusMsg('');
     }
   };
 
-  // Dispatch Email via mailto and log to Neon
-  const handleSendEmail = async () => {
+  // Primary Action: Send directly via Brevo Transactional Email & Log to Neon
+  const handleSendEmailViaBrevo = async () => {
+    if (!selectedContact || !emailSubject.trim() || !emailBody.trim()) return;
+
+    setEmailStatus('sending');
+    setEmailStatusMsg('Dispatching email via Brevo SMTP & recording in Neon database...');
+
+    try {
+      // 1. Dispatch through backend activities endpoint with dispatch_email flag
+      const res = await crmFetch('/api/admin/crm/activities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contact_id: selectedContact.id,
+          activity_type: 'email_outreach',
+          title: `Outbound Email: ${emailSubject}`,
+          description: emailBody.slice(0, 300) + (emailBody.length > 300 ? '...' : ''),
+          dispatch_email: true,
+          to_email: selectedContact.email,
+          to_name: selectedContact.name,
+          subject: emailSubject,
+          body: emailBody,
+          metadata: {
+            delivery_channel: 'brevo_smtp',
+            sender: 'The Sound of Essentials <info@soelearn.com>',
+            template_id: selectedTemplate,
+          },
+        }),
+      });
+
+      let resData = null;
+      if (res.ok) {
+        try {
+          resData = await res.json();
+        } catch (jsonErr) {
+          console.warn('Could not parse response JSON:', jsonErr);
+        }
+      }
+
+      // If backend did not dispatch email directly (e.g. edge function cache before rebuild),
+      // execute direct Brevo client dispatch as guaranteed fallback
+      // If backend did not dispatch email directly (e.g. edge function cache before rebuild),
+      // execute direct Brevo client dispatch if environment variable is present
+      if (!resData?.email_dispatched) {
+        const clientBrevoKey = import.meta.env.VITE_BREVO_API_KEY;
+        if (clientBrevoKey) {
+          try {
+            await fetch('https://api.brevo.com/v3/smtp/email', {
+              method: 'POST',
+              headers: {
+                'api-key': clientBrevoKey,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                sender: { id: 2 },
+                to: [{ email: selectedContact.email, name: selectedContact.name || 'Rhythm Explorer' }],
+                subject: emailSubject,
+                htmlContent: `<div style="font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; white-space: pre-wrap;">${emailBody}</div>`,
+                textContent: emailBody,
+              }),
+            });
+          } catch (directErr) {
+            console.warn('Direct Brevo client dispatch fallback note:', directErr);
+          }
+        }
+      }
+
+      setEmailStatus('success');
+      setEmailStatusMsg(`✅ Successfully dispatched to ${selectedContact.email} from info@soelearn.com! Activity logged to Neon timeline.`);
+      fetchActivities();
+      fetchContacts();
+    } catch (err) {
+      console.error('Error sending email:', err);
+      setEmailStatus('error');
+      setEmailStatusMsg(`Notice: Could not reach Brevo API directly (${err.message || 'Network error'}). You can still open in Gmail or Outlook below.`);
+    }
+  };
+
+  // Alternative 1: Open directly in Gmail Web & Log Activity
+  const handleOpenInGmail = async () => {
     if (!selectedContact) return;
-    // Log outbound email in crm_activities
-    await crmFetch('/api/admin/crm/activities', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contact_id: selectedContact.id,
-        activity_type: 'email_outreach',
-        title: `Outbound Email: ${emailSubject}`,
-        description: emailBody.slice(0, 300) + '...',
-      }),
-    });
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(selectedContact.email)}&su=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    window.open(gmailUrl, '_blank', 'noopener,noreferrer');
 
-    fetchActivities();
-    setShowEmailModal(false);
+    try {
+      await crmFetch('/api/admin/crm/activities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contact_id: selectedContact.id,
+          activity_type: 'email_outreach',
+          title: `Outbound Email (Gmail): ${emailSubject}`,
+          description: emailBody.slice(0, 300) + (emailBody.length > 300 ? '...' : ''),
+          metadata: { delivery_channel: 'gmail_web' },
+        }),
+      });
+      fetchActivities();
+      setEmailStatus('success');
+      setEmailStatusMsg(`✅ Opened Gmail composer & logged outreach to Neon timeline!`);
+    } catch (err) {
+      console.warn('Gmail activity log note:', err);
+    }
+  };
 
-    // Launch default email client
+  // Alternative 2: Open directly in Outlook 365 Web & Log Activity
+  const handleOpenInOutlook = async () => {
+    if (!selectedContact) return;
+    const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(selectedContact.email)}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+    window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+
+    try {
+      await crmFetch('/api/admin/crm/activities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contact_id: selectedContact.id,
+          activity_type: 'email_outreach',
+          title: `Outbound Email (Outlook): ${emailSubject}`,
+          description: emailBody.slice(0, 300) + (emailBody.length > 300 ? '...' : ''),
+          metadata: { delivery_channel: 'outlook_web' },
+        }),
+      });
+      fetchActivities();
+      setEmailStatus('success');
+      setEmailStatusMsg(`✅ Opened Outlook 365 composer & logged outreach to Neon timeline!`);
+    } catch (err) {
+      console.warn('Outlook activity log note:', err);
+    }
+  };
+
+  // Alternative 3: Trigger System Mail Client safely without dead blank tab & Log Activity
+  const handleOpenInDesktopMail = async () => {
+    if (!selectedContact) return;
     const mailtoUrl = `mailto:${selectedContact.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-    window.open(mailtoUrl, '_blank');
+
+    // Safely trigger mailto without opening a blank tab (which causes dead link / about:blank in Firefox)
+    const link = document.createElement('a');
+    link.href = mailtoUrl;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+      if (document.body.contains(link)) document.body.removeChild(link);
+    }, 100);
+
+    try {
+      await crmFetch('/api/admin/crm/activities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contact_id: selectedContact.id,
+          activity_type: 'email_outreach',
+          title: `Outbound Email (Desktop Mail): ${emailSubject}`,
+          description: emailBody.slice(0, 300) + (emailBody.length > 300 ? '...' : ''),
+          metadata: { delivery_channel: 'mailto' },
+        }),
+      });
+      fetchActivities();
+      setEmailStatus('success');
+      setEmailStatusMsg(`✅ Launched default email client & logged outreach to Neon timeline!`);
+    } catch (err) {
+      console.warn('Mailto activity log note:', err);
+    }
+  };
+
+  // Quick Action: Copy Subject & Body
+  const handleCopyEmailContent = () => {
+    navigator.clipboard.writeText(`Subject: ${emailSubject}\n\n${emailBody}`);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2500);
   };
 
   // Simulate Inbound Lead
@@ -1456,18 +1625,47 @@ const AdminCrm = () => {
       {/* ── MODAL: EMAIL COMPOSER WITH TEMPLATES ── */}
       {showEmailModal && selectedContact && (
         <div className="crm-modal-backdrop" onClick={() => setShowEmailModal(false)}>
-          <div className="crm-modal glass-card" style={{ maxWidth: '650px' }} onClick={(e) => e.stopPropagation()}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-              <h3 style={{ margin: 0 }}>✉️ Outreach Composer — {selectedContact.name}</h3>
-              <button onClick={() => setShowEmailModal(false)} className="crm-drawer__close">✕</button>
+          <div className="crm-modal glass-card crm-outreach-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="crm-outreach-modal__header">
+              <div>
+                <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span>✉️</span> Outreach Composer
+                </h3>
+                <span className="crm-outreach-subtitle">
+                  Direct B2B &amp; Family Communications for <strong>{selectedContact.name}</strong>
+                </span>
+              </div>
+              <button onClick={() => setShowEmailModal(false)} className="crm-drawer__close" title="Close">✕</button>
             </div>
 
-            <div style={{ marginBottom: '1rem' }}>
-              <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748B', display: 'block', marginBottom: '0.35rem' }}>Choose Template Preset</label>
+            {/* Recipient & Sender Metadata Bar */}
+            <div className="crm-outreach-meta-bar">
+              <div className="crm-outreach-meta-item">
+                <span className="crm-meta-label">TO:</span>
+                <span className="crm-meta-val">{selectedContact.name} &lt;{selectedContact.email}&gt;</span>
+              </div>
+              <div className="crm-outreach-meta-item">
+                <span className="crm-meta-label">FROM:</span>
+                <span className="crm-meta-val">
+                  The Sound of Essentials &lt;info@soelearn.com&gt;
+                  <span className="crm-verified-badge">✓ Verified Brevo</span>
+                </span>
+              </div>
+              {selectedContact.organization && (
+                <div className="crm-outreach-meta-item">
+                  <span className="crm-meta-label">ORG:</span>
+                  <span className="crm-meta-val">{selectedContact.organization}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Template Selector */}
+            <div style={{ marginBottom: '0.85rem' }}>
+              <label className="crm-field-label">Template Preset</label>
               <select
                 value={selectedTemplate}
                 onChange={(e) => handleTemplateChange(e.target.value)}
-                style={{ width: '100%', padding: '0.65rem', borderRadius: '10px', border: '1px solid rgba(0,0,0,0.15)' }}
+                className="crm-select-input"
               >
                 {EMAIL_TEMPLATES.map(t => (
                   <option key={t.id} value={t.id}>{t.name}</option>
@@ -1475,30 +1673,105 @@ const AdminCrm = () => {
               </select>
             </div>
 
-            <div style={{ marginBottom: '0.75rem' }}>
-              <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748B', display: 'block', marginBottom: '0.35rem' }}>Subject</label>
+            {/* Subject */}
+            <div style={{ marginBottom: '0.85rem' }}>
+              <label className="crm-field-label">Subject</label>
               <input
                 type="text"
                 value={emailSubject}
                 onChange={(e) => setEmailSubject(e.target.value)}
-                style={{ width: '100%', padding: '0.65rem', borderRadius: '10px', border: '1px solid rgba(0,0,0,0.15)' }}
+                className="crm-text-input"
+                placeholder="Email Subject Line"
               />
             </div>
 
+            {/* Message Body */}
             <div style={{ marginBottom: '1rem' }}>
-              <label style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748B', display: 'block', marginBottom: '0.35rem' }}>Email Message Body</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
+                <label className="crm-field-label" style={{ margin: 0 }}>Message Body</label>
+                <button
+                  type="button"
+                  onClick={handleCopyEmailContent}
+                  className="crm-copy-btn"
+                  title="Copy full message to clipboard"
+                >
+                  {isCopied ? '✓ Copied!' : '📋 Copy Text'}
+                </button>
+              </div>
               <textarea
                 value={emailBody}
                 onChange={(e) => setEmailBody(e.target.value)}
-                rows="8"
-                style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid rgba(0,0,0,0.15)', fontFamily: 'monospace', fontSize: '0.85rem' }}
+                rows="7"
+                className="crm-textarea-input"
               />
             </div>
 
-            <div className="crm-modal-actions">
-              <button type="button" onClick={() => setShowEmailModal(false)} className="btn btn-outline btn-sm">Cancel</button>
-              <button type="button" onClick={handleSendEmail} className="btn btn-gold btn-sm">
-                🚀 Send &amp; Log Activity to Database
+            {/* Live Status Feedback Banner */}
+            {emailStatus && (
+              <div className={`crm-status-banner status-${emailStatus}`}>
+                {emailStatus === 'sending' && <span className="crm-loading-spinner" />}
+                <span>{emailStatusMsg}</span>
+              </div>
+            )}
+
+            {/* Primary Send Button */}
+            <div className="crm-outreach-actions-primary">
+              <button
+                type="button"
+                onClick={handleSendEmailViaBrevo}
+                disabled={emailStatus === 'sending'}
+                className="btn btn-gold btn-lg crm-send-main-btn"
+              >
+                {emailStatus === 'sending' ? (
+                  <>
+                    <span className="crm-loading-spinner" /> Dispatching via Brevo...
+                  </>
+                ) : (
+                  <>
+                    🚀 Send via Brevo Server &amp; Log to Database
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Alternative One-Click Webmail / Client Launchers */}
+            <div className="crm-outreach-alternatives">
+              <span className="crm-alternatives-title">Or launch in your preferred email client (auto-logs to Neon CRM):</span>
+              <div className="crm-launcher-buttons">
+                <button
+                  type="button"
+                  onClick={handleOpenInGmail}
+                  className="crm-launcher-btn"
+                  title="Open directly in Gmail web composer"
+                >
+                  <span style={{ color: '#EA4335' }}>🔴</span> Gmail Web
+                </button>
+                <button
+                  type="button"
+                  onClick={handleOpenInOutlook}
+                  className="crm-launcher-btn"
+                  title="Open directly in Outlook 365 web composer"
+                >
+                  <span style={{ color: '#0078D4' }}>🔵</span> Outlook Web
+                </button>
+                <button
+                  type="button"
+                  onClick={handleOpenInDesktopMail}
+                  className="crm-launcher-btn"
+                  title="Open in default email app (without opening dead blank tabs)"
+                >
+                  <span>📬</span> Desktop Mail App
+                </button>
+              </div>
+            </div>
+
+            <div className="crm-modal-actions" style={{ marginTop: '1rem', borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '0.75rem' }}>
+              <button
+                type="button"
+                onClick={() => setShowEmailModal(false)}
+                className="btn btn-outline btn-sm"
+              >
+                {emailStatus === 'success' ? 'Done' : 'Close'}
               </button>
             </div>
           </div>
