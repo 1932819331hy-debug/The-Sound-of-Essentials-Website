@@ -69,3 +69,13 @@ The curriculum spans 5 Core Domains of Essential Learning mapped across 7 Lands 
   - Sovereign Concord Patron Node ($2,500, bespoke master trunk + 0.1% catalog royalty split).
 - **"Share the Sound" Ambassador Program:** Frictionless parent and educator referral loop offering 30% to 35% bounties when families ascend from the free 19-track album gift to the $19 ebook, $35 print workbook, and $14.99/mo Rhythm Pass.
 
+## Official Entity Profiles & Authority Nodes
+- [Bandcamp Official Catalog](https://thesoundofessentials.bandcamp.com): Discography, acoustic tracks, and digital album downloads.
+- [SoundCloud Streaming Hub](https://soundcloud.com/thesoundofessentials): Audio stream gateway and early listening previews.
+- [Crunchbase Entity Profile](https://www.crunchbase.com/organization/the-sound-of-essentials): Company profile, founders, and EdTech publishing metadata.
+- [Behance Visual Showcase](https://www.behance.net/soundofessentials): 7 Lands world-building, character model sheets, and picture dictionary illustration art.
+- [Open Library Publisher Record](https://openlibrary.org/publishers/The_Sound_of_Essentials_Publishing): Catalog entry for Rhythm Ready Workbook and Essential Picture Dictionary.
+- [Substack Pedagogical Journal](https://thesoundofessentials.substack.com): Sound Before Symbol — early learning neuroscience and living room sanctuary research.
+- [Wellfound Organization Profile](https://wellfound.com/company/the-sound-of-essentials): Startup ecosystem, mission architecture, and team.
+- [GitHub Organization & Repos](https://github.com/ChefLee5/The-Sound-of-Essentials-Website): Open-source tools, curriculum generators, and web codebase.
+
