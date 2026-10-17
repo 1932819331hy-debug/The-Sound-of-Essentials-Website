@@ -12,13 +12,13 @@
 }
 
 .mcls-container {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
 }
 
 .mcls-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .mcls-badge {
@@ -45,13 +45,91 @@
 }
 
 .mcls-subtitle {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: #6B5E51;
-  max-width: 680px;
+  max-width: 720px;
   margin: 0 auto;
 }
 
-/* Grid Layout */
+/* Connection Deck Banner */
+.mcls-connection-bar {
+  background: #FFFFFF;
+  border-radius: 18px;
+  border: 1.5px solid #EADBCC;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  box-shadow: 0 4px 16px rgba(43, 32, 22, 0.04);
+}
+
+.mcls-conn-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.mcls-conn-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 6px 14px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mcls-conn-tag.sandbox {
+  background: rgba(255, 152, 0, 0.12);
+  color: #E65100;
+  border: 1.5px solid #FFA726;
+}
+
+.mcls-conn-tag.live {
+  background: rgba(76, 175, 80, 0.12);
+  color: #2E7D32;
+  border: 1.5px solid #66BB6A;
+}
+
+.mcls-conn-details {
+  font-size: 0.88rem;
+  color: #5A4E42;
+}
+
+.mcls-btn-wire {
+  background: #FFF8F0;
+  border: 1.5px solid #DCCDBE;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 8px 18px;
+  color: #3A2E22;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mcls-btn-wire:hover {
+  background: #FF6F00;
+  color: #FFFFFF;
+  border-color: #FF6F00;
+}
+
+/* Wiring Form Drawer */
+.mcls-wiring-drawer {
+  background: #FFFDF9;
+  border-radius: 16px;
+  border: 1.5px dashed #DCCDBE;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
 .mcls-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -74,7 +152,7 @@
 
 .mcls-card-title {
   font-family: var(--font-heading, 'Fredoka', cursive);
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: #2B2016;
   margin-bottom: 1.5rem;
@@ -142,7 +220,7 @@
 
 .mcls-label {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: #3F3327;
   margin-bottom: 0.4rem;
@@ -158,6 +236,7 @@
   color: #2B2016;
   outline: none;
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
 
 .mcls-select:focus, .mcls-input:focus {
@@ -231,13 +310,44 @@
   gap: 0.6rem;
 }
 
-.mcls-btn-launch:hover {
+.mcls-btn-launch:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(255, 111, 0, 0.45);
 }
 
-.mcls-btn-launch:active {
-  transform: translateY(0);
+.mcls-btn-launch:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Result Box */
+.mcls-result-box {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 14px;
+  background: rgba(76, 175, 80, 0.08);
+  border: 1.5px solid #4CAF50;
+  color: #1B5E20;
+  font-size: 0.9rem;
+}
+
+.mcls-result-box.sandbox {
+  background: rgba(255, 152, 0, 0.08);
+  border-color: #FFA726;
+  color: #8C3D00;
+}
+
+/* JSON Payload Viewer */
+.mcls-json-pre {
+  background: #1E1E1E;
+  color: #D4D4D4;
+  padding: 1rem;
+  border-radius: 12px;
+  font-family: monospace;
+  font-size: 0.8rem;
+  max-height: 320px;
+  overflow: auto;
+  margin-top: 1rem;
 }
 
 /* Telemetry Stats */

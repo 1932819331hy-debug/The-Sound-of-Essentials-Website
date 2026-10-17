@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './CampaignLauncher.css';
+
+const API_BASE = 'http://localhost:8000';
 
 const ENGINES = [
   {
@@ -52,38 +54,123 @@ const ARCHETYPE_PREVIEWS = {
     layer_3: "Start with the music. Claim the complete 19-song Rhythm Quest album free right now.",
     headline: "Handcrafted Music for Ages 2–7 (Free Album)",
   },
+  TESTING_VS_ARTS: {
+    layer_1: "Standardized testing is draining the joy and musical wonder out of preschool classrooms.",
+    layer_2: "Restore natural acoustic rhythm: 19 tracks across 7 musical lands that wire phonics naturally.",
+    layer_3: "Experience early childhood learning as an adventure. Stream the 19-track album free.",
+    headline: "Restore Music to Early Learning (Free 19-Track Album)",
+  },
 };
 
 const CampaignLauncher = () => {
+  // Campaign Selection State
   const [selectedEngine, setSelectedEngine] = useState('ENGINE_A_VALUE_GATE');
   const [selectedDelta, setSelectedDelta] = useState('SCREEN_VS_SENSORY');
   const [selectedCampaign, setSelectedCampaign] = useState('THE_ENEMY');
   const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const [dailyBudget, setDailyBudget] = useState(50);
-  const [launchStatus, setLaunchStatus] = useState(null);
+  const [dailyBudget, setDailyBudget] = useState(20);
+
+  // Meta Wiring & Connection State
+  const [metaStatus, setMetaStatus] = useState({
+    mode: 'SANDBOX_DRY_RUN',
+    is_configured: false,
+    ad_account_id: 'Not Connected (Sandbox Default)',
+    page_id: 'Not Configured',
+    pixel_id: 'Not Configured',
+    token_preview: null,
+  });
+  const [showWiringDrawer, setShowWiringDrawer] = useState(false);
+  const [wiringForm, setWiringForm] = useState({
+    ad_account_id: '',
+    access_token: '',
+    page_id: '',
+    pixel_id: '',
+  });
+  const [verifying, setVerifying] = useState(false);
+  const [verifyFeedback, setVerifyFeedback] = useState(null);
+
+  // Execution & Live Output State
   const [isLaunching, setIsLaunching] = useState(false);
+  const [launchResponse, setLaunchResponse] = useState(null);
+  const [showPayloadInspector, setShowPayloadInspector] = useState(false);
+
+  // Fetch live Meta status on load
+  useEffect(() => {
+    fetchMetaStatus();
+  }, []);
+
+  const fetchMetaStatus = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/meta/status`);
+      if (res.ok) {
+        const data = await res.json();
+        setMetaStatus(data);
+      }
+    } catch (err) {
+      console.warn('Backend not reachable:', err);
+    }
+  };
+
+  const handleVerifyCredentials = async (e) => {
+    e.preventDefault();
+    setVerifying(true);
+    setVerifyFeedback(null);
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/meta/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(wiringForm),
+      });
+      const data = await res.json();
+      setVerifyFeedback(data);
+      await fetchMetaStatus();
+    } catch (err) {
+      setVerifyFeedback({ verified: false, error: 'Could not reach FastAPI backend on port 8000.' });
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleLaunch = async () => {
+    setIsLaunching(true);
+    setLaunchResponse(null);
+
+    const payload = {
+      campaign_key: selectedCampaign,
+      delta_key: selectedDelta,
+      daily_budget_cents: dailyBudget * 100,
+      buyer_track: 'D2C',
+      language: selectedLanguage,
+      archetype_ids: ['ARC-01', 'ARC-02', 'ARC-03'],
+      engine_type: selectedEngine,
+    };
+
+    try {
+      const res = await fetch(`${API_BASE}/api/v1/campaigns/launch`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setLaunchResponse(data);
+      } else {
+        setLaunchResponse({
+          status: 'ERROR',
+          message: `Backend returned HTTP ${res.status}`,
+        });
+      }
+    } catch (err) {
+      setLaunchResponse({
+        status: 'CONNECTION_ERROR',
+        message: 'Could not connect to FastAPI server at http://localhost:8000.',
+      });
+    } finally {
+      setIsLaunching(false);
+    }
+  };
 
   const currentPreview = ARCHETYPE_PREVIEWS[selectedDelta] || ARCHETYPE_PREVIEWS.SCREEN_VS_SENSORY;
-
-  const handleLaunch = () => {
-    setIsLaunching(true);
-    setLaunchStatus(null);
-
-    // Simulate API dispatch to Meta Marketing API v21.0
-    setTimeout(() => {
-      setIsLaunching(false);
-      setLaunchStatus({
-        status: 'SUCCESS',
-        campaignId: 'cmp_' + Math.random().toString(36).substring(2, 9),
-        adSetId: 'adset_' + Math.random().toString(36).substring(2, 9),
-        adsCreated: 3,
-        engine: selectedEngine,
-        delta: selectedDelta,
-        dailyBudgetCents: dailyBudget * 100,
-        message: 'Campaign successfully dispatched to Meta Marketing API (act_soe_meta). Live dual-horizon telemetry active.',
-      });
-    }, 1200);
-  };
 
   return (
     <div className="mcls-dashboard">
@@ -96,8 +183,117 @@ const CampaignLauncher = () => {
           </p>
         </header>
 
+        {/* --- META CONNECTION & WIRING DECK --- */}
+        <section className="mcls-connection-bar">
+          <div className="mcls-conn-info">
+            <span className={`mcls-conn-tag ${metaStatus.is_configured ? 'live' : 'sandbox'}`}>
+              {metaStatus.is_configured ? '● LIVE META API CONNECTED' : '○ SANDBOX / SIMULATION MODE'}
+            </span>
+            <div className="mcls-conn-details">
+              <strong>Ad Account:</strong> {metaStatus.ad_account_id} | <strong>Pixel:</strong> {metaStatus.pixel_id} | <strong>Graph API:</strong> v21.0
+            </div>
+          </div>
+          <button
+            type="button"
+            className="mcls-btn-wire"
+            onClick={() => setShowWiringDrawer(!showWiringDrawer)}
+          >
+            {showWiringDrawer ? '▲ Close Wiring Deck' : '⚙️ Connect Meta Account & Credentials'}
+          </button>
+
+          {/* Wiring Configuration Drawer */}
+          {showWiringDrawer && (
+            <div className="mcls-wiring-drawer">
+              <h3 style={{ margin: '0 0 0.75rem', fontFamily: 'Fredoka, cursive', fontSize: '1.15rem' }}>
+                🔗 Meta Marketing API Credentials & Handshake
+              </h3>
+              <p style={{ fontSize: '0.86rem', color: '#6B5E51', margin: '0 0 1.25rem' }}>
+                Enter your credentials below to wire this cockpit directly to your Meta Ads Manager.
+                If left empty or in mock mode, the system runs safely in <strong>Sandbox Simulation Mode</strong>, generating real Graph API payloads with $0 ad spend.
+              </p>
+
+              <form onSubmit={handleVerifyCredentials}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                  <div>
+                    <label className="mcls-label">Meta Ad Account ID</label>
+                    <input
+                      type="text"
+                      className="mcls-input"
+                      placeholder="e.g. act_123456789012345"
+                      value={wiringForm.ad_account_id}
+                      onChange={(e) => setWiringForm({ ...wiringForm, ad_account_id: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="mcls-label">Meta Pixel / Dataset ID</label>
+                    <input
+                      type="text"
+                      className="mcls-input"
+                      placeholder="e.g. 987654321098765"
+                      value={wiringForm.pixel_id}
+                      onChange={(e) => setWiringForm({ ...wiringForm, pixel_id: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                  <div>
+                    <label className="mcls-label">System User Access Token</label>
+                    <input
+                      type="password"
+                      className="mcls-input"
+                      placeholder="EAAB..."
+                      value={wiringForm.access_token}
+                      onChange={(e) => setWiringForm({ ...wiringForm, access_token: e.target.value })}
+                    />
+                  </div>
+                  <div>
+                    <label className="mcls-label">Facebook Page ID</label>
+                    <input
+                      type="text"
+                      className="mcls-input"
+                      placeholder="e.g. 1122334455"
+                      value={wiringForm.page_id}
+                      onChange={(e) => setWiringForm({ ...wiringForm, page_id: e.target.value })}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <button
+                    type="submit"
+                    className="mcls-btn-wire"
+                    style={{ background: '#FF6F00', color: '#FFF', borderColor: '#FF6F00' }}
+                    disabled={verifying}
+                  >
+                    {verifying ? 'Pinging Meta Graph API...' : '⚡ Test & Save Handshake'}
+                  </button>
+                  <span style={{ fontSize: '0.82rem', color: '#7A6D60' }}>
+                    Validates token against <code>graph.facebook.com/v21.0</code>
+                  </span>
+                </div>
+              </form>
+
+              {verifyFeedback && (
+                <div style={{
+                  marginTop: '1rem',
+                  padding: '0.85rem 1rem',
+                  borderRadius: '10px',
+                  background: verifyFeedback.verified ? 'rgba(76, 175, 80, 0.12)' : 'rgba(255, 152, 0, 0.12)',
+                  border: `1.5px solid ${verifyFeedback.verified ? '#4CAF50' : '#FFA726'}`,
+                  fontSize: '0.86rem',
+                  color: verifyFeedback.verified ? '#1B5E20' : '#8C3D00'
+                }}>
+                  <strong>{verifyFeedback.verified ? '✅ Verified Live:' : 'ℹ️ Status Notice:'}</strong> {verifyFeedback.message || verifyFeedback.error}
+                </div>
+              )}
+            </div>
+          )}
+        </section>
+
+        {/* --- MAIN DISPATCHER GRID --- */}
         <div className="mcls-grid">
-          {/* Left Column: Launcher Cockpit */}
+          {/* Left Column: Launcher Controls */}
           <div className="mcls-card">
             <h2 className="mcls-card-title">🚀 1-Click Meta Campaign Dispatcher</h2>
 
@@ -187,27 +383,53 @@ const CampaignLauncher = () => {
               onClick={handleLaunch}
               disabled={isLaunching}
             >
-              {isLaunching ? 'Dispatching to Meta API...' : '⚡ Launch 3-Ad Testing Array via Meta API'}
+              {isLaunching ? 'Communicating with FastAPI Engine...' : '⚡ Launch 3-Ad Testing Array via Meta API'}
             </button>
 
-            {launchStatus && (
-              <div style={{
-                marginTop: '1.25rem',
-                padding: '1rem',
-                borderRadius: '12px',
-                background: 'rgba(76, 175, 80, 0.1)',
-                border: '1.5px solid #4CAF50',
-                color: '#1B5E20',
-                fontSize: '0.88rem'
-              }}>
-                <strong>✅ Meta Campaign Live:</strong> {launchStatus.campaignId} ({launchStatus.engine})
-                <br />
-                {launchStatus.message}
+            {/* Response Display */}
+            {launchResponse && (
+              <div className={`mcls-result-box ${launchResponse.mode === 'LIVE_CONNECTED' ? '' : 'sandbox'}`}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                  <strong>
+                    {launchResponse.mode === 'LIVE_CONNECTED' ? '✅ Dispatched to Meta Ads Manager:' : 'ℹ️ Staged in Sandbox Simulation:'}
+                  </strong>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, padding: '2px 8px', borderRadius: '12px', background: 'rgba(0,0,0,0.06)' }}>
+                    {launchResponse.mode}
+                  </span>
+                </div>
+                <div>{launchResponse.message}</div>
+                <div style={{ marginTop: '0.5rem', fontSize: '0.82rem' }}>
+                  Target: <code>{launchResponse.ad_account_id}</code> | Ads Built: <code>3</code>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setShowPayloadInspector(!showPayloadInspector)}
+                  style={{
+                    marginTop: '0.75rem',
+                    background: 'none',
+                    border: 'none',
+                    color: '#FF6F00',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    fontSize: '0.82rem',
+                    padding: 0,
+                    textDecoration: 'underline'
+                  }}
+                >
+                  {showPayloadInspector ? 'Hide Raw Graph API Payload ▲' : '👁️ Inspect Raw Meta Graph API Payload (v21.0 JSON) ▼'}
+                </button>
+
+                {showPayloadInspector && launchResponse.bundle && (
+                  <pre className="mcls-json-pre">
+                    {JSON.stringify(launchResponse.bundle, null, 2)}
+                  </pre>
+                )}
               </div>
             )}
           </div>
 
-          {/* Right Column: Live Ad Preview & Dual-Horizon Telemetry */}
+          {/* Right Column: Creative Preview & Telemetry */}
           <div>
             <div className="mcls-card" style={{ marginBottom: '1.5rem' }}>
               <h2 className="mcls-card-title">👁️ 3-Layer Ad Creative Preview</h2>
