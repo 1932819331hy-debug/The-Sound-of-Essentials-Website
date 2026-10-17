@@ -83,30 +83,22 @@ async function testCrmPipeline() {
   }
 
   // -------------------------------------------------------------
-  // TEST 4: Stripe Webhook Ingestion (/api/webhooks/stripe)
+  // TEST 4: Public Lead Capture Ingestion (/api/submit -> Neon CRM)
   // -------------------------------------------------------------
   total++;
-  console.log('\n[TEST 4] Testing Stripe Webhook Order Sync Simulation...');
-  const webhookEmail = `test.customer.${Date.now()}@parentmail.org`;
+  console.log('\n[TEST 4] Testing Public Lead Capture Pipeline Ingestion...');
+  const testLeadEmail = `lead.verification.${Date.now()}@parentmail.org`;
   try {
     const payload = JSON.stringify({
-      id: Date.now(),
-      order_number: 9942,
-      total_price: '56.00',
-      currency: 'USD',
-      email: webhookEmail,
-      customer: {
-        first_name: 'Jessica',
-        last_name: 'Alvarez',
-        email: webhookEmail,
-      },
-      line_items: [
-        { title: 'SOE Rhythm Ready Workbook (Print + Digital)' },
-        { title: 'The Quest Starter Pack ($7)' },
-      ],
+      kind: 'interest',
+      name: 'Verification Parent',
+      email: testLeadEmail,
+      organizationName: 'Homeschool Cooperative',
+      message: 'Testing public pipeline end-to-end to Neon CRM',
+      sourcePath: '/listen',
     });
 
-    const res = await fetchUrl(`${PRODUCTION_URL}/api/webhooks/stripe`, {
+    const res = await fetchUrl(`${PRODUCTION_URL}/api/submit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -117,11 +109,11 @@ async function testCrmPipeline() {
 
     const json = JSON.parse(res.body);
     if (res.status === 200 && json.success) {
-      console.log('✅ PASS: Stripe order ingested automatically into CRM contact + activities!');
-      console.log(`   Customer ID: ${json.contactId}`);
+      console.log('✅ PASS: Lead successfully ingested into Neon CRM and Brevo queue!');
+      console.log(`   Captured Email: ${testLeadEmail} (Contact ID: ${json.contactId || 'Created'})`);
       passed++;
     } else {
-      console.log('❌ FAIL: Stripe webhook error:', res.body);
+      console.log('❌ FAIL: Lead capture error:', res.body);
     }
   } catch (err) {
     console.error('❌ FAIL:', err.message);

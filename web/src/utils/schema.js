@@ -205,3 +205,119 @@ export function productsSchema() {
     } : {}),
   }));
 }
+
+/* ─────────────────────────────────────────────
+ * FAQ Page — Structured FAQ schema for rich snippets & AI answers
+ * ───────────────────────────────────────────── */
+export function faqSchema(faqItems) {
+  if (!faqItems || faqItems.length === 0) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map(item => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  };
+}
+
+/* ─────────────────────────────────────────────
+ * Institutional FAQ — Head Start, State DOE, and Pre-K Procurement Schema
+ * ───────────────────────────────────────────── */
+export function institutionalFaqSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How does The Sound of Essentials align with Head Start ELOF and State Early Learning Standards?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The Sound of Essentials: Rhythm Quest delivers turnkey 10–15 minute screen-free classroom lesson extensions across all 5 Core Domains (Language & Literacy, Cognition & Math, Physical & Perceptual Motor, Scientific Inquiry, and Social-Emotional Development). All modules are crosswalked to Head Start ELOF, NAEYC standards, and 28 State-Approved Early Learning Guidelines.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Does the Rhythm Quest curriculum require screens, tablets, or internet access in classrooms?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. The curriculum is 100% screen-free. Instruction is delivered via acoustic high-fidelity audio tracks, physical educator lesson cards, hands-on rhythm instruments, and tactile readiness workbooks to protect young nervous systems from overstimulation.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What age groups and grade levels are supported?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The curriculum is specifically engineered for children Ages 2–7, spanning Toddler, Early Head Start, Pre-K, Kindergarten, Grade 1, and Grade 2.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What materials are included in an institutional or preschool classroom license?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Institutional Concord packages include multi-room acoustic audio site licenses, educator card sets with 10 daily structured blocks (A–J), 400 hands-on readiness activities, the 4,232-word Essential Picture Dictionary, and teacher professional development crosswalk matrices.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How does school district and institutional procurement work?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'We accept school district Purchase Orders (POs), institutional credit cards, and state early childhood grant disbursements (Title I, ESSER, and Head Start quality improvement funds). Inquiries receive custom proposal exhibits within 24 business hours.',
+        },
+      },
+    ],
+  };
+}
+
+/* ─────────────────────────────────────────────
+ * Competitor Comparison FAQ — Structured AEO Schema for Alternatives Pages
+ * ───────────────────────────────────────────── */
+export function comparisonFaqSchema(competitorName = 'ABCmouse') {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `Why are parents and educators seeking screen-free alternatives to ${competitorName}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Many families and early educators experience behavioral overstimulation, screen fatigue, and passive tap-and-guess mechanics with tablet-based apps. Screen-free alternatives like The Sound of Essentials: Rhythm Quest ground learning in acoustic musical rhythm, fine-motor pencil grip, and sensory tactile exploration for ages 2–7.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How does auditory and music-powered learning compare to visual tablet apps?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Peer-reviewed research in Nature Scientific Reports demonstrates that rhythm discrimination directly trains the temporal processing networks in the brain responsible for phonemic segmentation—the root foundation of reading proficiency—without inducing dopamine-spiking screen addiction.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How much time does each daily Sound of Essentials lesson take?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Lessons are designed as focused 10 to 15 minute screen-free daily blocks, making them sustainable for busy parents and seamless for preschool circle time.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What is the starting price to begin The Sound of Essentials?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'The full 19-track Deluxe album is gifted 100% free ($0). Families and schools can pair the music with the $19 Rhythm Quest companion book and physical print workbooks with zero recurring subscription lock-in.',
+        },
+      },
+    ],
+  };
+}
+

@@ -5,6 +5,7 @@ import { submitSoeInterest } from '../services/soeSubmissions';
 import { trackLead } from '../utils/analytics';
 import JsonLd from '../components/JsonLd';
 import KineticHeadline from '../components/KineticHeadline';
+import { institutionalFaqSchema } from '../utils/schema';
 import './InstitutionsQpc.css';
 
 export default function InstitutionsQpc() {
@@ -68,13 +69,23 @@ export default function InstitutionsQpc() {
     }
   };
 
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'EducationalOrganization',
-    name: 'The Sound of Essentials: Rhythm Quest Institutional Concord',
-    description: 'Turnkey acoustic screen-free early learning curriculum for ages 2–7.',
-    url: 'https://soelearn.com/institutions',
-  };
+  const structuredData = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'EducationalOrganization',
+      name: 'The Sound of Essentials: Rhythm Quest Institutional Concord',
+      description: 'Turnkey acoustic screen-free early learning curriculum for ages 2–7. 19 original tracks across 7 developmental lands, 400 hands-on readiness activities, and 4,232 vocabulary words crosswalked to Head Start ELOF and NAEYC standards.',
+      url: 'https://soelearn.com/institutions',
+      email: 'info@soelearn.com',
+      audience: {
+        '@type': 'EducationalAudience',
+        educationalRole: 'student',
+        suggestedMinAge: 2,
+        suggestedMaxAge: 7,
+      },
+    },
+    institutionalFaqSchema(),
+  ];
 
   return (
     <div className="qpc-page">

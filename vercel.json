@@ -3,6 +3,7 @@
   "buildCommand": "cd web && npm run build",
   "outputDirectory": "web/dist",
   "rewrites": [
+    { "source": "/api/:path*", "destination": "https://soe-website-b7j.pages.dev/api/:path*" },
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

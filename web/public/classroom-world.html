@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SOE Rhythm Sanctuary — 3D Early Childhood Classroom & Operations Hub</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Three.js + OrbitControls from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <style>
+    :root {
+      --bg-cream: #FFF8F0;
+      --accent-orange: #FF6F00;
+      --accent-orange-hover: #E66300;
+      --accent-orange-light: #FFF0E5;
+      --terrasol: #10B981;
+      --aquaria: #0284C7;
+      --celestia: #8B5CF6;
+      --chronos: #D97706;
+      --luminosity: #EAB308;
+      --sonoria: #EC4899;
+      --ventura: #EF4444;
+      --text-main: #1E293B;
+      --text-muted: #64748B;
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.65);
+      --glass-shadow: 0 12px 36px rgba(30, 41, 59, 0.12);
+      --radius-pill: 50px;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+    }
+
+    #canvas-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* Glassmorphic Panels */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--glass-shadow);
+      border-radius: var(--radius-lg);
+    }
+
+    /* UI Overlay Layer */
+    #ui-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px 20px;
+    }
+
+    #ui-overlay > * {
+      pointer-events: auto;
+    }
+
+    /* TOP BAR */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #FF6F00 0%, #FFA040 100%);
+      color: #FFFFFF;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(255, 111, 0, 0.35);
+    }
+
+    .brand-text h1 {
+      font-family: 'Fredoka', cursive;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .brand-text span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* Area Switcher Pills */
+    .zone-switcher {
+      display: flex;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.7);
+      padding: 4px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .zone-btn {
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      border: none;
+      background: transparent;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .zone-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .zone-btn.active {
+      background: var(--accent-orange);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(255, 111, 0, 0.35);
+    }
+
+    /* Top Controls (Weather, Clock, Day/Night, Sound, Prompt) */
+    .top-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--terrasol);
+      animation: pulseAnim 1s infinite alternate;
+    }
+
+    @keyframes pulseAnim {
+      0% { transform: scale(0.9); opacity: 0.6; }
+      100% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 8px var(--terrasol); }
+    }
+
+    .btn-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-icon:hover {
+      background: var(--accent-orange-light);
+      border-color: var(--accent-orange);
+      transform: translateY(-1px);
+    }
+
+    .btn-icon.active {
+      background: var(--accent-orange);
+      color: #FFFFFF;
+      border-color: var(--accent-orange);
+    }
+
+    /* MAIN CONTENT ROW (LEFT KPIS + RIGHT DETAIL PANEL) */
+    .main-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 12px;
+      flex: 1;
+      pointer-events: none;
+    }
+
+    /* LEFT KPI STACK */
+    .kpi-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: auto;
+      max-width: 250px;
+    }
+
+    .kpi-card {
+      padding: 12px 16px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: transform 0.2s;
+    }
+
+    .kpi-card:hover {
+      transform: translateX(4px);
+    }
+
+    .kpi-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .kpi-val {
+      font-family: 'Fredoka', cursive;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--text-main);
+    }
+
+    .kpi-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* RIGHT DETAIL PANEL (COLLAPSIBLE / DYNAMIC) */
+    .detail-panel {
+      width: 350px;
+      padding: 20px;
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-height: calc(100vh - 200px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .detail-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.5px;
+    }
+
+    .detail-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .detail-hero {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .script-quote-box {
+      background: var(--bg-cream);
+      border-left: 4px solid var(--accent-orange);
+      padding: 12px 14px;
+      border-radius: 4px 10px 10px 4px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      font-style: italic;
+      color: #334155;
+    }
+
+    .action-badge-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .action-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: #F1F5F9;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .panel-metronome-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+    }
+
+    .audio-pulse-btn {
+      background: var(--text-main);
+      color: #FFFFFF;
+      border: none;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .audio-pulse-btn:hover {
+      background: var(--accent-orange);
+    }
+
+    .audio-pulse-btn.playing {
+      background: #EF4444;
+      animation: pulseAnim 0.8s infinite alternate;
+    }
+
+    /* BOTTOM BAR: 6-STEP PROCESS TRACKER & BUTTONS */
+    .bottom-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    /* 6-Step Process Tracker */
+    .routine-tracker {
+      pointer-events: auto;
+      padding: 12px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 720px;
+      flex: 1;
+    }
+
+    .tracker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tracker-title {
+      font-family: 'Fredoka', cursive;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tracker-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .tracker-steps {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+    }
+
+    .step-item {
+      flex: 1;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 95px;
+    }
+
+    .step-item:hover {
+      background: #FFFFFF;
+      transform: translateY(-2px);
+    }
+
+    .step-item.active {
+      background: var(--accent-orange-light);
+      border-color: var(--accent-orange);
+      box-shadow: 0 4px 10px rgba(255, 111, 0, 0.2);
+    }
+
+    .step-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent-orange);
+      text-transform: uppercase;
+    }
+
+    .step-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .step-dur {
+      font-size: 9.5px;
+      color: var(--text-muted);
+    }
+
+    /* Buttons Group */
+    .bottom-buttons {
+      display: flex;
+      gap: 10px;
+      pointer-events: auto;
+    }
+
+    .curriculum-trigger-btn {
+      padding: 13px 20px;
+      border-radius: var(--radius-pill);
+      background: var(--text-main);
+      color: #FFFFFF;
+      border: none;
+      font-family: 'Fredoka', cursive;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 16px rgba(30, 41, 59, 0.25);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .curriculum-trigger-btn:hover {
+      background: var(--accent-orange);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 111, 0, 0.4);
+    }
+
+    .prompt-spec-btn {
+      padding: 13px 18px;
+      border-radius: var(--radius-pill);
+      background: #FFFFFF;
+      color: var(--text-main);
+      border: 1px solid #CBD5E1;
+      font-family: 'Fredoka', cursive;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .prompt-spec-btn:hover {
+      border-color: var(--accent-orange);
+      color: var(--accent-orange);
+      transform: translateY(-2px);
+    }
+
+    /* 3D FLOATING BILLBOARDS (PROJECTED IN 2D) */
+    .billboard-tag {
+      position: absolute;
+      transform: translate(-50%, -100%);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 111, 0, 0.4);
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-main);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+      pointer-events: none;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+
+    .billboard-tag::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 4px 4px 0;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.94) transparent;
+      display: block;
+      width: 0;
+    }
+
+    /* MODAL DRAWERS */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 1050px;
+      max-height: 88vh;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalPop {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      color: #FFFFFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title h2 {
+      font-family: 'Fredoka', cursive;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .modal-title p {
+      font-size: 12.5px;
+      color: #CBD5E1;
+      margin-top: 2px;
+    }
+
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #FFFFFF;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .modal-tabs {
+      display: flex;
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
+      padding: 0 20px;
+      overflow-x: auto;
+    }
+
+    .modal-tab-btn {
+      padding: 14px 18px;
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .modal-tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .modal-tab-btn.active {
+      color: var(--accent-orange);
+      border-bottom-color: var(--accent-orange);
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .drawer-tab-content {
+      display: none;
+    }
+
+    .drawer-tab-content.active {
+      display: block;
+    }
+
+    /* Modal Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th {
+      background: #F8FAFC;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 700;
+      color: #334155;
+      border-bottom: 1px solid #E2E8F0;
+    }
+
+    .data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #E2E8F0;
+      vertical-align: top;
+    }
+
+    .data-table tr:hover td {
+      background: #F8FAFC;
+    }
+
+    /* Code Prompt Box */
+    .prompt-code-container {
+      background: #0F172A;
+      color: #E2E8F0;
+      border-radius: 12px;
+      padding: 18px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      max-height: 480px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .copy-prompt-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: var(--accent-orange);
+      color: #FFFFFF;
+      border: none;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .copy-prompt-btn:hover {
+      background: #E66300;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .detail-panel {
+        display: none;
+      }
+      .zone-switcher {
+        overflow-x: auto;
+        max-width: 100%;
+      }
+      .routine-tracker {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 3D WebGL Canvas Container -->
+  <div id="canvas-container"></div>
+
+  <!-- 3D Floating Labels Container -->
+  <div id="billboard-layer" style="position: absolute; top:0; left:0; width:100%; height:100%; pointer-events: none; z-index: 5;"></div>
+
+  <!-- HUD Interface Layer -->
+  <div id="ui-overlay">
+    
+    <!-- TOP BAR -->
+    <header class="top-bar glass-panel">
+      
+      <!-- Brand Logo -->
+      <div class="brand-group">
+        <div class="brand-icon">👑</div>
+        <div class="brand-text">
+          <h1>SOE Rhythm Sanctuary</h1>
+          <span>Classroom 3D Strategy Ops · Ages 2–7</span>
+        </div>
+      </div>
+
+      <!-- Area Switcher (Flies Camera to 5 Zones) -->
+      <nav class="zone-switcher">
+        <button class="zone-btn active" onclick="switchZone('overview')">🏛 Overview</button>
+        <button class="zone-btn" onclick="switchZone('rug')">🌱 Circle Rug</button>
+        <button class="zone-btn" onclick="switchZone('phonics')">📖 Phonics Nook</button>
+        <button class="zone-btn" onclick="switchZone('math')">📐 Math Courtyard</button>
+        <button class="zone-btn" onclick="switchZone('movement')">🏃 Movement Mat</button>
+        <button class="zone-btn" onclick="switchZone('sensory')">🌊 Sensory Pond</button>
+      </nav>
+
+      <!-- Top Utility Controls -->
+      <div class="top-controls">
+        <button class="btn-icon" style="width: auto; padding: 0 12px; border-radius: 50px; font-size: 12px; font-weight: 700; gap: 6px; background: #FFF0E5; color: #FF6F00; border-color: #FF6F00;" onclick="openPromptModal()">📋 Prompt Spec</button>
+        <div class="pill-badge" id="live-sol-clock">
+          <div class="pulse-dot"></div>
+          <span id="clock-text">08:15 AM · Morning Ritual</span>
+        </div>
+
+        <button class="btn-icon" id="weather-btn" title="Cycle Atmosphere Mode" onclick="cycleAtmosphere()">☀️</button>
+        <button class="btn-icon" id="daynight-btn" title="Toggle Day/Night Sanctuary" onclick="toggleDayNight()">🌙</button>
+        <button class="btn-icon" id="metronome-quick-btn" title="Master Metronome Pulse" onclick="toggleMasterMetronome()">🥁</button>
+      </div>
+
+    </header>
+
+    <!-- MAIN HUD ROW -->
+    <div class="main-hud">
+      
+      <!-- LEFT KPI CARDS -->
+      <div class="kpi-stack">
+        <div class="kpi-card glass-panel">
+          <div class="kpi-icon" style="background: rgba(16, 185, 129, 0.15); color: #047857;">👥</div>
+          <div>
+            <div class="kpi-val" id="kpi-explorers">15 / 15</div>
+            <div class="kpi-lbl">Active Explorers</div>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-panel">
+          <div class="kpi-icon" style="background: rgba(255, 111, 0, 0.15); color: #FF6F00;">🥁</div>
+          <div>
+            <div class="kpi-val" id="kpi-bpm">90 BPM</div>
+            <div class="kpi-lbl">Terrasol Pulse</div>
+          </div>
+        </div>
+
+        <div class="kpi-card glass-panel">
+          <div class="kpi-icon" style="background: rgba(139, 92, 246, 0.15); color: #6D28D9;">📜</div>
+          <div>
+            <div class="kpi-val">100%</div>
+            <div class="kpi-lbl">Screen-Free & ELOF</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT INTERACTIVE DETAIL PANEL -->
+      <aside class="detail-panel glass-panel" id="detail-panel">
+        <div class="detail-header">
+          <div>
+            <span class="detail-tag" id="panel-tag" style="background: rgba(16, 185, 129, 0.12); color: #047857;">🌱 Terrasol · Land of Grounding</span>
+            <h3 class="detail-title" id="panel-title">Acoustic Circle Rug</h3>
+            <span class="detail-hero" id="panel-heroes">Seriphia (Lead Guardian) & All Explorers</span>
+          </div>
+          <button class="btn-icon" style="width:28px; height:28px; font-size:12px;" onclick="closeDetailPanel()">✕</button>
+        </div>
+
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Seriphia's "Talk FROM" Script</div>
+          <div class="script-quote-box" id="panel-script">
+            "Explorers, curl down small onto the floor. Right now, we are tiny seeds tucked inside the cool soil of Terrasol. Tap the rain: tap-tap-tap. On every beat, push your roots down and uncurl: /s/ - /s/ - Sprout!"
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px;">Tactile Workbook Encoding</div>
+          <p style="font-size: 12.5px; color: #334155;" id="panel-task">
+            Finger-trace the bumpy seed line at 90 BPM. Subitize dot clusters (1, 2, 3) in the soil pots without counting. Press firmly with crayons for strong tactile feedback.
+          </p>
+        </div>
+
+        <div class="action-badge-row" id="panel-badges">
+          <span class="action-badge">Stop Consonants (/b/, /p/)</span>
+          <span class="action-badge">Subitizing 1–5</span>
+          <span class="action-badge">Isometric Earthing</span>
+        </div>
+
+        <div class="panel-metronome-row">
+          <div>
+            <div style="font-size: 12px; font-weight: 700;" id="panel-pulse-label">Terrasol Pulse: 90 BPM</div>
+            <div style="font-size: 10px; color: var(--text-muted);">Root-Walk Macro-Beat</div>
+          </div>
+          <button class="audio-pulse-btn" id="panel-audio-btn" onclick="toggleCurrentPanelAudio()">▶ Play Pulse</button>
+        </div>
+
+        <div style="background: #F1F5F9; border-radius: 8px; padding: 10px; font-size: 11.5px; color: #475569;">
+          <strong>Trilingual Scaffold:</strong> <span id="panel-scaffold">Spanish: *Sol, Sal, Sube* (identical early lip stops). French: *B-b-bouge la graine !*</span>
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- BOTTOM HUD ROW -->
+    <footer class="bottom-hud">
+      
+      <!-- 6-STEP MORNING RITUAL TRACKER -->
+      <div class="routine-tracker glass-panel">
+        <div class="tracker-header">
+          <span class="tracker-title">
+            <span style="color: var(--accent-orange);">⏳</span> 15-Minute Screen-Free Daily Routine (Invariant Flow)
+          </span>
+          <span class="tracker-time" id="routine-timer">Step 1 of 6 · Elapsed: 00:24 / 15:00</span>
+        </div>
+
+        <div class="tracker-steps">
+          <div class="step-item active" onclick="setRoutineStep(0)">
+            <span class="step-num">Step 1</span>
+            <span class="step-name">Acoustic Ignition</span>
+            <span class="step-dur">0:30 · 90 BPM</span>
+          </div>
+          <div class="step-item" onclick="setRoutineStep(1)">
+            <span class="step-num">Step 2</span>
+            <span class="step-name">"Talk FROM" Story</span>
+            <span class="step-dur">4:00 · Seriphia</span>
+          </div>
+          <div class="step-item" onclick="setRoutineStep(2)">
+            <span class="step-num">Step 3</span>
+            <span class="step-name">Block A: Phonics</span>
+            <span class="step-dur">3:00 · Tracing</span>
+          </div>
+          <div class="step-item" onclick="setRoutineStep(3)">
+            <span class="step-num">Step 4</span>
+            <span class="step-name">Block B: Math Logic</span>
+            <span class="step-dur">3:00 · Tactile</span>
+          </div>
+          <div class="step-item" onclick="setRoutineStep(4)">
+            <span class="step-num">Step 5</span>
+            <span class="step-name">Block D: Somatics</span>
+            <span class="step-dur">3:00 · Movement</span>
+          </div>
+          <div class="step-item" onclick="setRoutineStep(5)">
+            <span class="step-num">Step 6</span>
+            <span class="step-name">Polyvagal Closure</span>
+            <span class="step-dur">1:30 · Exhale</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons (Curriculum Modal + Prompt Pack) -->
+      <div class="bottom-buttons">
+        <button class="prompt-spec-btn" onclick="openPromptModal()">
+          <span>📋 World Prompt Pack Spec</span>
+        </button>
+
+        <button class="curriculum-trigger-btn" onclick="openCurriculumModal()">
+          <span>📑 Curriculum & Standards Matrix</span>
+          <span style="font-size: 11px; background: rgba(255,255,255,0.25); padding: 2px 8px; border-radius: 20px;">50-State RFP</span>
+        </button>
+      </div>
+
+    </footer>
+
+  </div>
+
+  <!-- CURRICULUM & STANDARDS MODAL DRAWER -->
+  <div class="modal-overlay" id="curriculum-modal" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-card">
+      
+      <div class="modal-header">
+        <div class="modal-title">
+          <h2>SOE Rhythm Ready Curriculum Engine & Standards Crosswalk</h2>
+          <p>40-Day Tactile Morning Ritual · Head Start ELOF · NAEYC · Common Core K · Texas Pre-K · California TK</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeCurriculumModal()">✕</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="modal-tab-btn active" onclick="switchModalTab('scope')">📅 8-Week Scope & Sequence</button>
+        <button class="modal-tab-btn" onclick="switchModalTab('cards')">🃏 Daily Teacher Tarot Cards</button>
+        <button class="modal-tab-btn" onclick="switchModalTab('crosswalk')">🏛 50-State Standards Crosswalk</button>
+        <button class="modal-tab-btn" onclick="switchModalTab('transitions')">🥁 Acoustic Circle Transitions</button>
+        <button class="modal-tab-btn" onclick="switchModalTab('passport')">⭐ Star Map & Passports</button>
+      </div>
+
+      <div class="modal-body">
+        
+        <!-- TAB 1: SCOPE & SEQUENCE -->
+        <div class="drawer-tab-content active" id="modal-tab-scope">
+          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px;">
+            Every single day follows an invariant 6-block, screen-free tactile sequence totaling 15 minutes of immersive early childhood learning.
+          </p>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Week & Days</th>
+                <th>Land of Rhythm Quest</th>
+                <th>Target BPM</th>
+                <th>Block A: Language & Phonics</th>
+                <th>Block B: Math & Logic</th>
+                <th>Block D: Motor Mechanism</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Week 1</strong> (Days 1–5)</td>
+                <td><span style="color: #047857; font-weight:700;">🌱 Terrasol</span></td>
+                <td><strong>90 BPM</strong></td>
+                <td>Stop Consonants (/b/, /m/, /p/) + /ă/</td>
+                <td>Subitizing 1–5 & 1-to-1 Correspondence</td>
+                <td>Isometric Root Squats & Bilateral Earthing</td>
+              </tr>
+              <tr>
+                <td><strong>Week 2</strong> (Days 6–10)</td>
+                <td><span style="color: #0369A1; font-weight:700;">🌊 Aquaria</span></td>
+                <td><strong>96 BPM</strong></td>
+                <td>Continuous Consonants (/s/, /f/, /l/, /sh/)</td>
+                <td>Comparing Sets (6–10) & Volume Capacity</td>
+                <td>Horizontal Figure-8 Midline Sweeps</td>
+              </tr>
+              <tr>
+                <td><strong>Week 3</strong> (Days 11–15)</td>
+                <td><span style="color: #6D28D9; font-weight:700;">✨ Celestia</span></td>
+                <td><strong>100 BPM</strong></td>
+                <td>Short vs. Long Vowel Pitch Mapping</td>
+                <td>2D Geometry & Constellation Vertices</td>
+                <td>Vertical Coronal Midline & Plantar Balance</td>
+              </tr>
+              <tr>
+                <td><strong>Week 4</strong> (Days 16–20)</td>
+                <td><span style="color: #B45309; font-weight:700;">⚙️ Chronos</span></td>
+                <td><strong>104 BPM</strong></td>
+                <td>Narrative Sequencing (First, Next, Last)</td>
+                <td>AB/ABC Algebraic Pacing & Ordinals (1–10)</td>
+                <td>Contralateral Cross-Crawl Elbow-to-Knee</td>
+              </tr>
+              <tr>
+                <td><strong>Week 5</strong> (Days 21–25)</td>
+                <td><span style="color: #A16207; font-weight:700;">☀️ Luminosity</span></td>
+                <td><strong>108 BPM</strong></td>
+                <td>Digraphs (/sh/, /ch/, /th/) & CVC Blending</td>
+                <td>Addition & Number Bonds within 10</td>
+                <td>Partner Mirroring & Pressure Calibration</td>
+              </tr>
+              <tr>
+                <td><strong>Week 6</strong> (Days 26–30)</td>
+                <td><span style="color: #BE185D; font-weight:700;">🔔 Sonoria</span></td>
+                <td><strong>112 BPM</strong></td>
+                <td>Phoneme Deletion & Call-and-Response</td>
+                <td>Subtraction as "Echo Take-Away" within 10</td>
+                <td>Polyrhythmic Body Percussion & Voice Check</td>
+              </tr>
+              <tr>
+                <td><strong>Week 7</strong> (Days 31–35)</td>
+                <td><span style="color: #B91C1C; font-weight:700;">🪁 Ventura</span></td>
+                <td><strong>116 BPM</strong></td>
+                <td>Decodable Phrasing & Sight Words</td>
+                <td>3D Solids (Sphere, Cube, Cone, Cylinder)</td>
+                <td>Oral-Motor Breath Pacing & Dynamic Agility</td>
+              </tr>
+              <tr>
+                <td><strong>Week 8</strong> (Days 36–40)</td>
+                <td><span style="color: #4F46E5; font-weight:700;">👑 Convergence</span></td>
+                <td><strong>120 BPM</strong></td>
+                <td>Mini-Booklet Authorship & Synthesis</td>
+                <td>Counting to 100 by 1s and 10s</td>
+                <td>Full 7-Land Continuous Choreography</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TAB 2: DAILY TEACHER CARDS -->
+        <div class="drawer-tab-content" id="modal-tab-cards">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+            
+            <div style="border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px; background: #F8FAFC;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <strong style="font-family: 'Fredoka', cursive; font-size: 16px;">Day 1: Awakening Soil</strong>
+                <span style="font-size: 11px; background: #1E293B; color: #FFF; padding: 2px 8px; border-radius: 20px;">90 BPM</span>
+              </div>
+              <span style="font-size: 11px; color: #047857; font-weight: 700;">🌱 Terrasol · Stop Consonants</span>
+              <p style="font-size: 12px; font-style: italic; margin: 10px 0; color: #334155;">
+                "Explorers, curl down small... On every beat, push your roots down and uncurl: /s/ - /s/ - Sprout!"
+              </p>
+              <button class="audio-pulse-btn" onclick="playModalBPM(90, this)">▶ Play 90 BPM Pulse</button>
+            </div>
+
+            <div style="border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px; background: #F8FAFC;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <strong style="font-family: 'Fredoka', cursive; font-size: 16px;">Day 7: Flowing Currents</strong>
+                <span style="font-size: 11px; background: #1E293B; color: #FFF; padding: 2px 8px; border-radius: 20px;">96 BPM</span>
+              </div>
+              <span style="font-size: 11px; color: #0369A1; font-weight: 700;">🌊 Aquaria · Continuous Midline</span>
+              <p style="font-size: 12px; font-style: italic; margin: 10px 0; color: #334155;">
+                "Blow a long silver stream: /ssssssss/. Sweep your arms in giant Figure-8 loops across your chest at 96 BPM!"
+              </p>
+              <button class="audio-pulse-btn" onclick="playModalBPM(96, this)">▶ Play 96 BPM Pulse</button>
+            </div>
+
+            <div style="border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px; background: #F8FAFC;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <strong style="font-family: 'Fredoka', cursive; font-size: 16px;">Day 18: Clockwork Canyon</strong>
+                <span style="font-size: 11px; background: #1E293B; color: #FFF; padding: 2px 8px; border-radius: 20px;">104 BPM</span>
+              </div>
+              <span style="font-size: 11px; color: #B45309; font-weight: 700;">⚙️ Chronos · Cross-Lateral March</span>
+              <p style="font-size: 12px; font-style: italic; margin: 10px 0; color: #334155;">
+                "Right hand cross-taps Left knee on Beat 1 (Tick!). Left hand cross-taps Right knee on Beat 2 (Tock!)."
+              </p>
+              <button class="audio-pulse-btn" onclick="playModalBPM(104, this)">▶ Play 104 BPM Pulse</button>
+            </div>
+
+            <div style="border: 1px solid #E2E8F0; border-radius: 14px; padding: 18px; background: #F8FAFC;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <strong style="font-family: 'Fredoka', cursive; font-size: 16px;">Day 28: Echo Amphitheater</strong>
+                <span style="font-size: 11px; background: #1E293B; color: #FFF; padding: 2px 8px; border-radius: 20px;">112 BPM</span>
+              </div>
+              <span style="font-size: 11px; color: #BE185D; font-weight: 700;">🔔 Sonoria · Phoneme Deletion</span>
+              <p style="font-size: 12px; font-style: italic; margin: 10px 0; color: #334155;">
+                "Groove with me: Stomp-Pat-Clap-Snap. Say CAT without the /k/! (Students: /at/ - /at/!)"
+              </p>
+              <button class="audio-pulse-btn" onclick="playModalBPM(112, this)">▶ Play 112 BPM Pulse</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 3: STANDARDS CROSSWALK -->
+        <div class="drawer-tab-content" id="modal-tab-crosswalk">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Institutional Framework</th>
+                <th>Governing Taxonomy</th>
+                <th>Aligned Standard Indicators</th>
+                <th>Tactile Hands-On Evidence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Head Start ELOF</strong></td>
+                <td>Birth to 5 (Preschool)</td>
+                <td>P-LC 1–7, P-LIT 1–6, P-MATH 1–10, P-PMP 1–3, P-SE 1–11</td>
+                <td>100% activation of 5 Core Domains. Phonics segmentation via foot-stomps and pincer-grip workbook tracks.</td>
+              </tr>
+              <tr>
+                <td><strong>NAEYC Standards</strong></td>
+                <td>Accredited Early Childhood</td>
+                <td>2.B (Self-Reg), 2.C & 2.E (Literacy), 2.F (Math), 2.G (Nature), 2.J (Arts)</td>
+                <td>Developmentally appropriate practice (DAP). Acoustic rhythm and natural manipulatives (seeds, wood, water).</td>
+              </tr>
+              <tr>
+                <td><strong>Common Core (CCSS-K)</strong></td>
+                <td>Kindergarten Readiness</td>
+                <td>CCSS.ELA.RF.K.1–4, CCSS.MATH.K.CC.A-C, CCSS.MATH.K.OA.A.1–5</td>
+                <td>Bridges acoustic phonemes to graphemes, and addition/subtraction via physical body percussion.</td>
+              </tr>
+              <tr>
+                <td><strong>Texas Pre-K (TX-TPG)</strong></td>
+                <td>State Board of Education</td>
+                <td>III.B.4–9 (Phonological), V.A–V.E (Math), VI.A–C (Science), IX.A–B (Motor)</td>
+                <td>Zero computer time required. Natural sensory exploration and rhythmic syllable clapping.</td>
+              </tr>
+              <tr>
+                <td><strong>California (CA-PTKLF)</strong></td>
+                <td>California DOE Pre-K/TK</td>
+                <td>LLD 1–4, MATH 1–5, PD-HLTH 1.1–1.3, HSS 1–3</td>
+                <td>Transitional Kindergarten alignment. Bilateral motor midline crossing and steady breath control.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- TAB 4: TRANSITION PROTOCOLS -->
+        <div class="drawer-tab-content" id="modal-tab-transitions">
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="padding: 16px; border-radius: 12px; background: #F8FAFC; border: 1px solid #E2E8F0;">
+              <strong style="color: #047857;">Protocol A: Rug-to-Desk (The Terrasol Root-Walk · 90 BPM)</strong>
+              <p style="font-size: 13px; margin-top: 6px;">
+                <em>"Roots come up from the quiet floor, walk in rhythm to your desk-top door!"</em><br>
+                Seconds 0–15: Chanted seated thigh-pat • Seconds 15–45: Slow-motion heavy boots to desk • Seconds 45–60: Palms flat on cool desk; seated silence.
+              </p>
+            </div>
+            <div style="padding: 16px; border-radius: 12px; background: #F8FAFC; border: 1px solid #E2E8F0;">
+              <strong style="color: #0369A1;">Protocol B: Centers to Rug (The Aquaria Tide-Sweep · 100 BPM)</strong>
+              <p style="font-size: 13px; margin-top: 6px;">
+                <em>"The tide is rolling back to the sea, pack up the treasures—one, two, three!"</em><br>
+                Seconds 0–30: All toys into bins • Seconds 30–50: Hands pressed together as "swimming fins" • Seconds 50–60: Clamshell Sit & synchronized ocean breath.
+              </p>
+            </div>
+            <div style="padding: 16px; border-radius: 12px; background: #F8FAFC; border: 1px solid #E2E8F0;">
+              <strong style="color: #B45309;">Protocol C: Energy Downshift (The Chronos Pendulum Lock · 110 → 80 BPM)</strong>
+              <p style="font-size: 13px; margin-top: 6px;">
+                <em>110 BPM: "Gears are spinning fast!" → 95 BPM: "Now the clock begins to slow..." → 80 BPM (Whisper): "Click... lock... ready to tap."</em><br>
+                Rhythmic *Ritardando* meeting high physical arousal and mechanically settling it down.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: PASSPORT & STAR MAP -->
+        <div class="drawer-tab-content" id="modal-tab-passport">
+          <div style="text-align: center; margin-bottom: 16px;">
+            <h3 style="font-family: 'Fredoka', cursive; font-size: 20px;">The Official Explorer Star Passport</h3>
+            <p style="font-size: 12px; color: var(--text-muted);">100% Observational & Celebration-Driven Formative Portfolio</p>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+            <div style="padding: 12px; border: 1px solid #E2E8F0; border-radius: 10px; text-align: center;">
+              <strong>Terrasol</strong><br><span style="color:#EAB308;">★★★★★</span><br><small style="color:#047857;">🌱 Root-Walker Seal</small>
+            </div>
+            <div style="padding: 12px; border: 1px solid #E2E8F0; border-radius: 10px; text-align: center;">
+              <strong>Aquaria</strong><br><span style="color:#EAB308;">★★★★★</span><br><small style="color:#0369A1;">🌊 Tide-Master Seal</small>
+            </div>
+            <div style="padding: 12px; border: 1px solid #E2E8F0; border-radius: 10px; text-align: center;">
+              <strong>Celestia</strong><br><span style="color:#EAB308;">★★★★★</span><br><small style="color:#6D28D9;">✨ Sky-Glider Seal</small>
+            </div>
+            <div style="padding: 12px; border: 1px solid #E2E8F0; border-radius: 10px; text-align: center;">
+              <strong>Chronos</strong><br><span style="color:#EAB308;">★★★★★</span><br><small style="color:#B45309;">⚙️ Time-Keeper Seal</small>
+            </div>
+            <div style="padding: 12px; border: 1px solid #E2E8F0; border-radius: 10px; text-align: center;">
+              <strong>Luminosity</strong><br><span style="color:#EAB308;">★★★★★</span><br><small style="color:#A16207;">☀️ Spark-Forger Seal</small>
+            </div>
+            <div style="padding: 12px; border: 1px solid #E2E8F0; border-radius: 10px; text-align: center;">
+              <strong>Sonoria</strong><br><span style="color:#EAB308;">★★★★★</span><br><small style="color:#BE185D;">🔔 Echo-Catcher Seal</small>
+            </div>
+            <div style="padding: 12px; border: 1px solid #E2E8F0; border-radius: 10px; text-align: center;">
+              <strong>Ventura</strong><br><span style="color:#EAB308;">★★★★★</span><br><small style="color:#B91C1C;">🪁 Light-Weaver Seal</small>
+            </div>
+            <div style="padding: 12px; border: 1px solid #E2E8F0; border-radius: 10px; text-align: center; background: #FFF0E5; border-color: #FF6F00;">
+              <strong>Convergence</strong><br><span style="color:#FF6F00;">👑 ★★★★★ 👑</span><br><small style="color:#FF6F00; font-weight:700;">Rhythm Sovereign Crown</small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PROMPT SPEC MODAL -->
+  <div class="modal-overlay" id="prompt-modal" onclick="closePromptModalOnBackdrop(event)">
+    <div class="modal-card" style="max-width: 850px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <h2>World Prompt Pack Specification (SOE Edition)</h2>
+          <p>Formatted strictly to the @sanjai.builds 5-Block Standard from World_Prompt_Pack.pdf</p>
+        </div>
+        <button class="modal-close-btn" onclick="closePromptModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 12px; font-size: 13px; color: var(--text-muted);">
+          Use this prompt in Claude Opus 5.5, ChatGPT, or any LLM to generate or remix new SOE 3D strategy-game dashboards:
+        </div>
+        <div class="prompt-code-container" id="prompt-code-box">
+<button class="copy-prompt-btn" onclick="copyPromptText()">📋 Copy Prompt</button>
+Build a single-file interactive web app (HTML, CSS and JS) using Three.js from a CDN: a live 3D early childhood classroom operations dashboard called "Rhythm Sanctuary" for "The Sound of Essentials: Rhythm Quest" (Ages 2–7) that feels like a strategy game.
+
+WORLD: a low-poly isometric early childhood sanctuary classroom built entirely in code, no external models, with an open cutaway roof. Acoustic circle rug with 7 pastel cushions and a center wooden drum, Seriphia's storytelling nook with a golden hardcover book and plush armchair, a phonics sanctuary with oak bookshelves and tactile letter blocks, a hexagonal math courtyard with an abacus and geometric wooden solids, a somatic movement meadow with balance stones and hopscotch mat, a calm coral water sensory basin with a spinning waterwheel, low student cubbies with backpacks and rhythm percussion instruments, potted monstera plants, and three sunlit arched bay windows overlooking rolling green hills. Clean toy-like clay look, soft shadows, one sunset orange accent (#FF6F00) on warm cream (#FFF8F0).
+
+LIFE: Seriphia breathes gently in place, her golden halo bobbing and radiating floating musical notes from her open book. Children (Kenji, Aiko, Kwame, Amara, Nerissa) gently sway and bounce in sync with the live metronome tempo (90 to 120 BPM). An autonomous student helper carrying rhythm sticks walks a continuous curved loop between learning stations, pausing to deliver sticks, turning naturally, and giving way so nothing ever overlaps. The waterwheel slowly turns in the sensory basin. Abacus beads shift periodically. Everything loops forever.
+
+INTERACTION: drag to pan, right-drag to rotate, scroll or pinch to zoom. Click any station, child hero, or Seriphia: the camera glides to it with ease-in-out interpolation and follows, a pulsing gold ring marks it, and a frosted glass detail panel displays live stats, developmental domain, Seriphia's "Talk FROM" script, and tactile workbook tasks. An area switcher flies between Overview, Circle Rug, Phonics Nook, Math Courtyard, Movement Meadow, and Sensory Basin.
+
+DASHBOARD: frosted glass panels over the 3D view: top bar (SOE logo, live Sol-Time clock, area switcher pills, atmosphere menu, day/night toggle, master metronome trigger), 3 KPI cards (Active Explorers 15/15, Live BPM Pulse, 100% Screen-Free & ELOF aligned), right detail panel with scripted pedagogical prompts and one-click audio pulse, bottom-left 6-step morning routine tracker (Ignition, Story, Phonics, Math, Somatics, Closure with live timer), and a slide-up curriculum modal drawer with tabbed tables (8-Week Scope & Sequence, 40-Day Daily Teacher Cards, 50-State Standards Crosswalk, and Acoustic Circle Transitions). Realistic early childhood data from the official SOE Readiness Quest. No lorem ipsum.
+
+EXTRAS: atmosphere menu (Golden Morning, Aquaria Rain Mist, Celestia Starlight, Ventura Breeze); animated day/night mode with glowing lanterns, window light, and twinkling night sky; real Web Audio API acoustic metronome generating organic woodblock clicks across 90–120 BPM; mobile responsive with collapsible HUD panels.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three.js 3D Engine & Application Script -->
+  <script>
+    /* ==========================================================================
+       ZONE & CURRICULUM DATA ARCHITECTURE
+       ========================================================================== */
+    const ZONE_DATA = {
+      overview: {
+        name: "Sanctuary Classroom Overview",
+        tag: "🏛 All 7 Lands Unified",
+        hero: "Seriphia (Guardian) & 14 Canonical Explorers",
+        script: "Welcome to The Sound of Essentials: Rhythm Quest early learning sanctuary! Notice the warm, screen-free tactile environment where music, phonics, mathematics, and somatic movement merge into daily 15-minute morning rituals.",
+        task: "Rotate, pan, and zoom around the low-poly isometric room. Click any station or hero figure to fly directly into that developmental domain.",
+        badges: ["Screen-Free", "Ages 2–7", "7 Lands", "5 Core Domains"],
+        pulseLabel: "Unified Tempo: 90–120 BPM",
+        bpm: 90,
+        scaffold: "Full trilingual immersion (EN / ES / FR) and Universal Design for Learning (UDL) built directly into every station.",
+        camPos: { x: 20, y: 18, z: 22 },
+        target: { x: 0, y: 1.2, z: 0 }
+      },
+      rug: {
+        name: "Acoustic Circle Rug",
+        tag: "🌱 Terrasol · The Heart",
+        hero: "Seriphia (Regal Mother) · Silas & Vesta",
+        script: "Explorers, curl down small onto the floor. Right now, we are tiny seeds tucked inside the cool soil of Terrasol. Tap the rain: tap-tap-tap. On every beat, push your roots down and uncurl: /s/ - /s/ - Sprout!",
+        task: "Finger-trace the bumpy seed line at 90 BPM. Subitize dot clusters (1, 2, 3) in the soil pots without counting. Press firmly with crayons for strong tactile feedback.",
+        badges: ["Stop Consonants (/b/, /p/)", "Subitizing 1–5", "Isometric Earthing"],
+        pulseLabel: "Terrasol Pulse: 90 BPM",
+        bpm: 90,
+        scaffold: "Spanish: *Sol, Sal, Sube* (identical early lip stops). French: *B-b-bouge la graine !*",
+        camPos: { x: 6, y: 8, z: 8 },
+        target: { x: 0, y: 1, z: 0 }
+      },
+      phonics: {
+        name: "Phonics & Story Sanctuary",
+        tag: "📖 Harmonia · Language & Melodic Phonics",
+        hero: "Kenji (Orange Hoodie) & Aiko (Green Dress)",
+        script: "Listen to the melody in the breeze! When we speak with rhythm, every sound rings crystal clear. Tap your wooden rhythm sticks twice on /d/ and once on /o/: /d/ - /d/ - /do/!",
+        task: "Sound out CVC wooden blocks. Trace letter curves with fingertip before pencil. Whisper each phoneme into your cupped hand to feel the warm air burst.",
+        badges: ["CVC Blending", "Rhythm Sticks", "Phonemic Segmentation"],
+        pulseLabel: "Harmonia Pulse: 96 BPM",
+        bpm: 96,
+        scaffold: "Dual-language audio cues; visual letter-sound tiles; high-contrast sensory print.",
+        camPos: { x: -4, y: 6, z: 9 },
+        target: { x: -7, y: 2, z: 3 }
+      },
+      math: {
+        name: "Math & Logic Courtyard",
+        tag: "📐 Numeria · Geometry & Computing",
+        hero: "Kwame (Charcoal Tech Hoodie) & Octavia (Ballet Pink)",
+        script: "Gears and hexagons assemble! Look at how six triangles lock together to form a honey-comb shield. Slide 3 wooden beads left: One! Two! Three! Now clap the balance!",
+        task: "Slide wooden abacus beads to match rhythmic counts. Assemble tactile wooden 3D prisms and cylinders. Complete the AB/ABC color bead pattern.",
+        badges: ["Subitizing 6–10", "Hexagonal Symmetry", "Abacus Logic"],
+        pulseLabel: "Numeria Pulse: 104 BPM",
+        bpm: 104,
+        scaffold: "Cognate labeling: *Vértices/Vertices*, *Hexágono/Hexagon*. Tactile wooden shapes.",
+        camPos: { x: -8, y: 6, z: -3 },
+        target: { x: -8, y: 1.8, z: -6 }
+      },
+      movement: {
+        name: "Somatic Movement Meadow",
+        tag: "🏃 Vitalis · Somatics & Motor Control",
+        hero: "Amara (Yellow Runner) & Felix (Red Athletic Jersey)",
+        script: "Stand tall like mighty trees! On Beat 1, right elbow touches left knee: Cross! On Beat 2, left elbow touches right knee: Crawl! Feel the energy cross the centerline of your body!",
+        task: "Step across the balance stones. Complete 10 contralateral cross-crawls in sync with the 108 BPM tempo. Deep calming exhale through nose.",
+        badges: ["Contralateral Midline", "Plantar Balance", "Gross Motor Agility"],
+        pulseLabel: "Vitalis Pulse: 108 BPM",
+        bpm: 108,
+        scaffold: "ADHD heavy work upgrade: stomping on textured rubber floor dots. Mirroring partner posture.",
+        camPos: { x: 5, y: 6, z: -8 },
+        target: { x: 5, y: 1.4, z: -6 }
+      },
+      sensory: {
+        name: "Calm Coral Sensory Pond",
+        tag: "🌊 Aquaria · Emotional Literacy & Water Flow",
+        hero: "Nerissa (Island Seafoam) & Ronan (Teal Wave)",
+        script: "In Aquaria, sounds do not stop abruptly—they flow smoothly like rolling waves. Blow a long silver stream: /ssssssss/. Sweep your hands through the cool water beads!",
+        task: "Trace continuous wave patterns without lifting finger. Discriminate empty vs. full coral vessels. Rhythmic sensory calm breath.",
+        badges: ["Continuous Liquids (/s/, /l/)", "Volume Capacity", "Sensory Co-Regulation"],
+        pulseLabel: "Aquaria Pulse: 96 BPM",
+        bpm: 96,
+        scaffold: "ASD Sensory-avoidant: silent butterfly chest taps and cardstock focus windows.",
+        camPos: { x: 9, y: 6, z: 2 },
+        target: { x: 8, y: 1.8, z: 1 }
+      }
+    };
+
+    /* ==========================================================================
+       THREE.JS INITIALIZATION & SCENE SETUP
+       ========================================================================== */
+    const container = document.getElementById('canvas-container');
+    const billboardLayer = document.getElementById('billboard-layer');
+    
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#FFF8F0');
+    scene.fog = new THREE.FogExp2('#FFF8F0', 0.012);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(ZONE_DATA.overview.camPos.x, ZONE_DATA.overview.camPos.y, ZONE_DATA.overview.camPos.z);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
+    container.appendChild(renderer.domElement);
+
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.maxPolarAngle = Math.PI / 2.15;
+    controls.minDistance = 7;
+    controls.maxDistance = 55;
+    controls.target.set(0, 1.2, 0);
+
+    /* Camera Transition Lerp State */
+    let camTargetPos = new THREE.Vector3().copy(camera.position);
+    let lookTargetPos = new THREE.Vector3().copy(controls.target);
+    let isTransitioningCam = false;
+
+    /* Interactive Click Objects */
+    const clickables = [];
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    /* ==========================================================================
+       LIGHTING SYSTEM (DAY / NIGHT & ATMOSPHERE)
+       ========================================================================== */
+    const ambientLight = new THREE.AmbientLight(0xFFF3E8, 0.9);
+    scene.add(ambientLight);
+
+    const hemiLight = new THREE.HemisphereLight(0xFFF8F0, 0x94A3B8, 0.5);
+    scene.add(hemiLight);
+
+    const sunLight = new THREE.DirectionalLight(0xFFEDD5, 1.35);
+    sunLight.position.set(22, 32, 18);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.camera.near = 0.5;
+    sunLight.shadow.camera.far = 100;
+    const shadowD = 22;
+    sunLight.shadow.camera.left = -shadowD;
+    sunLight.shadow.camera.right = shadowD;
+    sunLight.shadow.camera.top = shadowD;
+    sunLight.shadow.camera.bottom = -shadowD;
+    sunLight.shadow.bias = -0.0005;
+    scene.add(sunLight);
+
+    // Warm classroom pendant lights
+    const roomLamp = new THREE.PointLight(0xFFB066, 0.8, 25);
+    roomLamp.position.set(0, 8, 0);
+    scene.add(roomLamp);
+
+    /* ==========================================================================
+       PROCEDURAL 3D LOW-POLY CLAY CLASSROOM BUILDER
+       ========================================================================== */
+    // Materials Palette (Warm Claymorphism)
+    const M_CREAM_WALL = new THREE.MeshStandardMaterial({ color: 0xFDFBF7, roughness: 0.75 });
+    const M_WOOD_FLOOR = new THREE.MeshStandardMaterial({ color: 0xE8D5BE, roughness: 0.65 });
+    const M_OAK_FURNITURE = new THREE.MeshStandardMaterial({ color: 0xD8B48F, roughness: 0.55 });
+    const M_DARK_OAK = new THREE.MeshStandardMaterial({ color: 0x8C6239, roughness: 0.55 });
+    const M_TERRASOL_GREEN = new THREE.MeshStandardMaterial({ color: 0x10B981, roughness: 0.6 });
+    const M_AQUARIA_BLUE = new THREE.MeshStandardMaterial({ color: 0x0284C7, roughness: 0.5 });
+    const M_CELESTIA_PURPLE = new THREE.MeshStandardMaterial({ color: 0x8B5CF6, roughness: 0.5 });
+    const M_CHRONOS_AMBER = new THREE.MeshStandardMaterial({ color: 0xD97706, roughness: 0.5 });
+    const M_GOLD_HALO = new THREE.MeshStandardMaterial({ color: 0xFFD700, roughness: 0.2, metalness: 0.6, emissive: 0xFFAA00, emissiveIntensity: 0.4 });
+    const M_ORANGE_ACCENT = new THREE.MeshStandardMaterial({ color: 0xFF6F00, roughness: 0.5 });
+    const M_WATER = new THREE.MeshStandardMaterial({ color: 0x38BDF8, roughness: 0.1, transparent: true, opacity: 0.75 });
+    const M_SKIN_SERIPHIA = new THREE.MeshStandardMaterial({ color: 0x784A28, roughness: 0.8 });
+    const M_HAIR_SERIPHIA = new THREE.MeshStandardMaterial({ color: 0x2A180E, roughness: 0.9 });
+    const M_GOWN_SERIPHIA = new THREE.MeshStandardMaterial({ color: 0xFFFFF2, roughness: 0.6 });
+    const M_SELECTION_RING = new THREE.MeshBasicMaterial({ color: 0xFF6F00, wireframe: true });
+
+    // 1. Room Shell (Cutaway Floor and Two Back Walls)
+    const floorGeo = new THREE.BoxGeometry(26, 0.6, 24);
+    const floorMesh = new THREE.Mesh(floorGeo, M_WOOD_FLOOR);
+    floorMesh.position.set(0, -0.3, 0);
+    floorMesh.receiveShadow = true;
+    scene.add(floorMesh);
+
+    // Parquet Floor Inset Lines
+    const gridHelper = new THREE.GridHelper(25, 25, 0xD4BEA6, 0xD4BEA6);
+    gridHelper.position.set(0, 0.01, 0);
+    scene.add(gridHelper);
+
+    // Back-Left Wall
+    const wallLeftGeo = new THREE.BoxGeometry(0.8, 10, 24);
+    const wallLeft = new THREE.Mesh(wallLeftGeo, M_CREAM_WALL);
+    wallLeft.position.set(-13, 4.8, 0);
+    wallLeft.receiveShadow = true;
+    scene.add(wallLeft);
+
+    // Back-Right Wall
+    const wallBackGeo = new THREE.BoxGeometry(26, 10, 0.8);
+    const wallBack = new THREE.Mesh(wallBackGeo, M_CREAM_WALL);
+    wallBack.position.set(0, 4.8, -12);
+    wallBack.receiveShadow = true;
+    scene.add(wallBack);
+
+    // Arched Bay Window Cutouts with Sky / Landscape glow
+    for (let i = -1; i <= 1; i++) {
+      const windowFrame = new THREE.Mesh(new THREE.BoxGeometry(4.5, 5.5, 0.3), M_OAK_FURNITURE);
+      windowFrame.position.set(i * 6.5, 5.5, -11.5);
+      scene.add(windowFrame);
+
+      const glassPane = new THREE.Mesh(new THREE.PlaneGeometry(4, 5.0), new THREE.MeshBasicMaterial({ color: 0xE0F2FE }));
+      glassPane.position.set(i * 6.5, 5.5, -11.3);
+      scene.add(glassPane);
+    }
+
+    // Classroom Wall Bunting & Posters along Back Wall
+    const buntingColors = [0xFF6F00, 0x10B981, 0x0284C7, 0x8B5CF6, 0xD97706, 0xEC4899];
+    for (let f = -10; f <= 10; f += 1.5) {
+      const flag = new THREE.Mesh(new THREE.ConeGeometry(0.25, 0.5, 3), new THREE.MeshStandardMaterial({ color: buntingColors[Math.abs(Math.floor(f)) % buntingColors.length] }));
+      flag.rotation.x = Math.PI;
+      flag.position.set(f, 8.2, -11.4);
+      scene.add(flag);
+    }
+
+    // 2. CENTRAL ACOUSTIC CIRCLE RUG (Terrasol)
+    const rugGroup = new THREE.Group();
+    rugGroup.position.set(0, 0.02, 0);
+
+    const rugRing1 = new THREE.Mesh(new THREE.CylinderGeometry(5.2, 5.2, 0.04, 32), new THREE.MeshStandardMaterial({ color: 0xF5EBE0, roughness: 0.9 }));
+    rugRing1.receiveShadow = true;
+    rugGroup.add(rugRing1);
+
+    const rugRing2 = new THREE.Mesh(new THREE.CylinderGeometry(4.2, 4.2, 0.05, 32), new THREE.MeshStandardMaterial({ color: 0xD8F3DC, roughness: 0.9 }));
+    rugRing2.receiveShadow = true;
+    rugGroup.add(rugRing2);
+
+    const rugCenter = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 0.06, 32), new THREE.MeshStandardMaterial({ color: 0x95D5B2, roughness: 0.9 }));
+    rugCenter.receiveShadow = true;
+    rugGroup.add(rugCenter);
+
+    // 7 Pastel Floor Cushions for the 7 Lands
+    const cushionColors = [0x10B981, 0x0284C7, 0x8B5CF6, 0xD97706, 0xEAB308, 0xEC4899, 0xEF4444];
+    for (let c = 0; c < 7; c++) {
+      const angle = (c / 7) * Math.PI * 2;
+      const cushion = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.6, 0.2, 16), new THREE.MeshStandardMaterial({ color: cushionColors[c], roughness: 0.7 }));
+      cushion.position.set(Math.cos(angle) * 3.4, 0.12, Math.sin(angle) * 3.4);
+      cushion.castShadow = true;
+      cushion.receiveShadow = true;
+      rugGroup.add(cushion);
+    }
+
+    // Center Low Djembe Drum & Wood Chime
+    const drum = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.25, 0.5, 16), M_DARK_OAK);
+    drum.position.set(0, 0.3, 0);
+    drum.castShadow = true;
+    rugGroup.add(drum);
+    rugGroup.userData = { zoneKey: 'rug', label: 'Circle Rug (90 BPM)' };
+    scene.add(rugGroup);
+    clickables.push(rugGroup);
+
+    // 3. SERIPHIA 3D MODEL (Regal Learning Mother)
+    const seriphiaGroup = new THREE.Group();
+    seriphiaGroup.position.set(0, 0, -1.2);
+
+    // Flowing Ivory Bell Gown
+    const gown = new THREE.Mesh(new THREE.ConeGeometry(0.9, 2.0, 16), M_GOWN_SERIPHIA);
+    gown.position.set(0, 1.0, 0);
+    gown.castShadow = true;
+    seriphiaGroup.add(gown);
+
+    // Gold embroidered waist sash
+    const sash = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 0.15, 16), M_GOLD_HALO);
+    sash.position.set(0, 1.4, 0);
+    seriphiaGroup.add(sash);
+
+    // Head
+    const seriphiaHead = new THREE.Mesh(new THREE.SphereGeometry(0.35, 16, 16), M_SKIN_SERIPHIA);
+    seriphiaHead.position.set(0, 2.2, 0);
+    seriphiaHead.castShadow = true;
+    seriphiaGroup.add(seriphiaHead);
+
+    // Curly Hair Puff
+    const hair = new THREE.Mesh(new THREE.SphereGeometry(0.48, 14, 14), M_HAIR_SERIPHIA);
+    hair.position.set(0, 2.32, -0.05);
+    hair.castShadow = true;
+    seriphiaGroup.add(hair);
+
+    // Gold-rimmed glasses
+    const glasses = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.02, 8, 16), M_GOLD_HALO);
+    glasses.position.set(0, 2.22, 0.33);
+    seriphiaGroup.add(glasses);
+
+    // Hovering Glowing Thin Gold Halo Ring
+    const halo = new THREE.Mesh(new THREE.TorusGeometry(0.36, 0.03, 12, 32), M_GOLD_HALO);
+    halo.position.set(0, 2.82, 0);
+    halo.rotation.x = Math.PI / 2;
+    seriphiaGroup.add(halo);
+
+    // Open Hardcover Golden Storybook
+    const bookCover = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.05, 0.5), M_ORANGE_ACCENT);
+    bookCover.position.set(0, 1.5, 0.5);
+    bookCover.rotation.x = 0.3;
+    seriphiaGroup.add(bookCover);
+
+    const bookPages = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.04, 0.46), M_GOWN_SERIPHIA);
+    bookPages.position.set(0, 1.53, 0.5);
+    bookPages.rotation.x = 0.3;
+    seriphiaGroup.add(bookPages);
+
+    seriphiaGroup.userData = { zoneKey: 'rug', label: 'Seriphia (Lead Guardian)' };
+    scene.add(seriphiaGroup);
+    clickables.push(seriphiaGroup);
+
+    // Floating Golden Musical Notes from Seriphia's Book
+    const notesGroup = new THREE.Group();
+    const noteGeo = new THREE.SphereGeometry(0.06, 8, 8);
+    const notesList = [];
+    for (let n = 0; n < 8; n++) {
+      const note = new THREE.Mesh(noteGeo, M_GOLD_HALO);
+      note.position.set((Math.random() - 0.5) * 1.5, 1.8 + Math.random() * 1.5, (Math.random() - 0.5) * 1.5);
+      notesGroup.add(note);
+      notesList.push({ mesh: note, speed: 0.01 + Math.random() * 0.015, origY: note.position.y });
+    }
+    seriphiaGroup.add(notesGroup);
+
+    // 4. PHONICS & STORY SANCTUARY (Harmonia Zone: X=-8, Z=4)
+    const phonicsGroup = new THREE.Group();
+    phonicsGroup.position.set(-8, 0, 4);
+
+    const shelf = new THREE.Mesh(new THREE.BoxGeometry(4.0, 3.8, 1.0), M_OAK_FURNITURE);
+    shelf.position.set(0, 1.9, -1.5);
+    shelf.castShadow = true;
+    phonicsGroup.add(shelf);
+
+    const bookColors = [0xEF4444, 0x3B82F6, 0x10B981, 0xF59E0B, 0x8B5CF6];
+    for (let b = -4; b <= 4; b++) {
+      const bookItem = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.9, 0.6), new THREE.MeshStandardMaterial({ color: bookColors[(b + 5) % 5] }));
+      bookItem.position.set(b * 0.35, 2.4, -1.4);
+      phonicsGroup.add(bookItem);
+    }
+
+    const chairBase = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 0.5, 16), new THREE.MeshStandardMaterial({ color: 0xFDE68A, roughness: 0.8 }));
+    chairBase.position.set(0, 0.35, 0.5);
+    chairBase.castShadow = true;
+    phonicsGroup.add(chairBase);
+
+    // Wooden Phonics Blocks ('A', 'B', 'C')
+    const blockA = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.MeshStandardMaterial({ color: 0xEF4444 }));
+    blockA.position.set(-0.8, 0.2, 1.5);
+    blockA.castShadow = true;
+    phonicsGroup.add(blockA);
+
+    const blockB = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.MeshStandardMaterial({ color: 0x3B82F6 }));
+    blockB.position.set(-0.3, 0.2, 1.6);
+    blockB.castShadow = true;
+    phonicsGroup.add(blockB);
+
+    const blockC = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.4), new THREE.MeshStandardMaterial({ color: 0x10B981 }));
+    blockC.position.set(-0.55, 0.6, 1.55);
+    blockC.castShadow = true;
+    phonicsGroup.add(blockC);
+
+    const kenji = createChildFigure(0xFF6F00, 0x2563EB, 0xE0A97E, "Kenji");
+    kenji.position.set(1.2, 0, 0.6);
+    phonicsGroup.add(kenji);
+
+    phonicsGroup.userData = { zoneKey: 'phonics', label: 'Phonics Nook (Harmonia)' };
+    scene.add(phonicsGroup);
+    clickables.push(phonicsGroup);
+
+    // 5. MATH & GEOMETRY COURTYARD (Numeria Zone: X=-8, Z=-6)
+    const mathGroup = new THREE.Group();
+    mathGroup.position.set(-8, 0, -6);
+
+    const tableTop = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 0.2, 6), M_OAK_FURNITURE);
+    tableTop.position.set(0, 1.2, 0);
+    tableTop.castShadow = true;
+    mathGroup.add(tableTop);
+
+    const tableLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 1.2, 8), M_DARK_OAK);
+    tableLeg.position.set(0, 0.6, 0);
+    mathGroup.add(tableLeg);
+
+    const abacusFrame = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.8, 0.1), M_DARK_OAK);
+    abacusFrame.position.set(-0.4, 1.7, 0.2);
+    mathGroup.add(abacusFrame);
+
+    for (let row = 0; row < 3; row++) {
+      for (let bead = 0; bead < 4; bead++) {
+        const beadMesh = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), new THREE.MeshStandardMaterial({ color: bead % 2 === 0 ? 0x22D3EE : 0xF59E0B }));
+        beadMesh.position.set(-0.8 + bead * 0.16 + (row === 1 ? 0.3 : 0), 1.45 + row * 0.22, 0.2);
+        mathGroup.add(beadMesh);
+      }
+    }
+
+    const geom1 = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.4, 8), M_CELESTIA_PURPLE);
+    geom1.position.set(0.6, 1.5, -0.4);
+    mathGroup.add(geom1);
+
+    const geom2 = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.3, 0.3), M_CHRONOS_AMBER);
+    geom2.position.set(0.7, 1.45, 0.2);
+    mathGroup.add(geom2);
+
+    const kwame = createChildFigure(0x334155, 0x06B6D4, 0x5C381E, "Kwame");
+    kwame.position.set(0, 0, 2.0);
+    mathGroup.add(kwame);
+
+    mathGroup.userData = { zoneKey: 'math', label: 'Math Courtyard (Numeria)' };
+    scene.add(mathGroup);
+    clickables.push(mathGroup);
+
+    // 6. SOMATIC MOVEMENT MEADOW (Vitalis Zone: X=6, Z=-6)
+    const movementGroup = new THREE.Group();
+    movementGroup.position.set(6, 0, -6);
+
+    const matMesh = new THREE.Mesh(new THREE.BoxGeometry(4.5, 0.08, 6.0), new THREE.MeshStandardMaterial({ color: 0xFDE047, roughness: 0.9 }));
+    matMesh.position.set(0, 0.04, 0);
+    matMesh.receiveShadow = true;
+    movementGroup.add(matMesh);
+
+    const beamMesh = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.25, 4.0), M_OAK_FURNITURE);
+    beamMesh.position.set(-1.4, 0.18, 0);
+    beamMesh.castShadow = true;
+    movementGroup.add(beamMesh);
+
+    const stoneColors = [0xEF4444, 0x10B981, 0x3B82F6, 0x8B5CF6];
+    for (let s = 0; s < 4; s++) {
+      const stone = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.4, 0.1, 16), new THREE.MeshStandardMaterial({ color: stoneColors[s], roughness: 0.8 }));
+      stone.position.set(1.1, 0.09, -1.8 + s * 1.2);
+      stone.castShadow = true;
+      movementGroup.add(stone);
+    }
+
+    const amara = createChildFigure(0xFACC15, 0xCA8A04, 0x8D5B3A, "Amara");
+    amara.position.set(0, 0, -1.0);
+    movementGroup.add(amara);
+
+    movementGroup.userData = { zoneKey: 'movement', label: 'Movement Mat (Vitalis)' };
+    scene.add(movementGroup);
+    clickables.push(movementGroup);
+
+    // 7. CALM CORAL SENSORY POND (Aquaria Zone: X=8, Z=2)
+    const sensoryGroup = new THREE.Group();
+    sensoryGroup.position.set(8, 0, 2);
+
+    const basinOuter = new THREE.Mesh(new THREE.CylinderGeometry(2.0, 1.8, 1.0, 24), M_OAK_FURNITURE);
+    basinOuter.position.set(0, 0.5, 0);
+    basinOuter.castShadow = true;
+    sensoryGroup.add(basinOuter);
+
+    const waterSurface = new THREE.Mesh(new THREE.CylinderGeometry(1.85, 1.85, 0.1, 24), M_WATER);
+    waterSurface.position.set(0, 0.95, 0);
+    sensoryGroup.add(waterSurface);
+
+    const wheelGroup = new THREE.Group();
+    wheelGroup.position.set(0, 1.1, 0);
+    const wheelHub = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.5, 12), M_DARK_OAK);
+    wheelHub.rotation.z = Math.PI / 2;
+    wheelGroup.add(wheelHub);
+    for (let p = 0; p < 6; p++) {
+      const paddle = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.45, 0.05), M_DARK_OAK);
+      paddle.rotation.x = (p / 6) * Math.PI * 2;
+      paddle.position.set(0, Math.sin(paddle.rotation.x) * 0.35, Math.cos(paddle.rotation.x) * 0.35);
+      wheelGroup.add(paddle);
+    }
+    sensoryGroup.add(wheelGroup);
+
+    const nerissa = createChildFigure(0x5EEAD4, 0x0D9488, 0xA26F47, "Nerissa");
+    nerissa.position.set(-1.8, 0, 0);
+    nerissa.rotation.y = Math.PI / 2;
+    sensoryGroup.add(nerissa);
+
+    sensoryGroup.userData = { zoneKey: 'sensory', label: 'Sensory Pond (Aquaria)' };
+    scene.add(sensoryGroup);
+    clickables.push(sensoryGroup);
+
+    // 8. CUBBIES & PERCUSSION WALL (Back Wall: Z=-11)
+    const cubbyGroup = new THREE.Group();
+    cubbyGroup.position.set(0, 0, -11.2);
+    const cubbyMesh = new THREE.Mesh(new THREE.BoxGeometry(16, 2.2, 0.8), M_OAK_FURNITURE);
+    cubbyMesh.position.set(0, 1.1, 0);
+    cubbyMesh.castShadow = true;
+    cubbyGroup.add(cubbyMesh);
+
+    const xylophone = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.15, 0.5), new THREE.MeshStandardMaterial({ color: 0xE11D48 }));
+    xylophone.position.set(-4, 2.28, 0);
+    cubbyGroup.add(xylophone);
+
+    const tambourine = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 0.12, 16), new THREE.MeshStandardMaterial({ color: 0xF59E0B }));
+    tambourine.position.set(4, 2.26, 0);
+    cubbyGroup.add(tambourine);
+    scene.add(cubbyGroup);
+
+    // 9. POTTED PLANTS
+    function createPlant(x, z, scale = 1.0) {
+      const pGroup = new THREE.Group();
+      pGroup.position.set(x, 0, z);
+      const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.45 * scale, 0.35 * scale, 0.8 * scale, 16), new THREE.MeshStandardMaterial({ color: 0xC2410C, roughness: 0.7 }));
+      pot.position.set(0, 0.4 * scale, 0);
+      pot.castShadow = true;
+      pGroup.add(pot);
+
+      for (let l = 0; l < 5; l++) {
+        const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.4 * scale, 8, 8), M_TERRASOL_GREEN);
+        leaf.scale.set(1, 0.2, 1.4);
+        leaf.position.set((Math.random() - 0.5) * 0.4 * scale, (0.8 + l * 0.25) * scale, (Math.random() - 0.5) * 0.4 * scale);
+        leaf.rotation.set(0.4, (l / 5) * Math.PI * 2, 0.3);
+        pGroup.add(leaf);
+      }
+      scene.add(pGroup);
+    }
+
+    createPlant(-11.5, 9.5, 1.2);
+    createPlant(-11.5, -9.5, 1.1);
+    createPlant(11.5, -10.5, 1.2);
+    createPlant(11.5, 8.5, 1.0);
+
+    // Child Figure Builder
+    function createChildFigure(shirtColor, pantsColor, skinColor, name) {
+      const g = new THREE.Group();
+      const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.35, 0.7, 12), new THREE.MeshStandardMaterial({ color: shirtColor, roughness: 0.7 }));
+      torso.position.set(0, 0.85, 0);
+      torso.castShadow = true;
+      g.add(torso);
+
+      const legs = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.6, 0.3), new THREE.MeshStandardMaterial({ color: pantsColor, roughness: 0.7 }));
+      legs.position.set(0, 0.3, 0);
+      legs.castShadow = true;
+      g.add(legs);
+
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.24, 12, 12), new THREE.MeshStandardMaterial({ color: skinColor, roughness: 0.8 }));
+      head.position.set(0, 1.35, 0);
+      head.castShadow = true;
+      g.add(head);
+
+      g.userData = { isChild: true, name: name, origY: g.position.y };
+      return g;
+    }
+
+    // 10. SIMULATED HELPER WALKER (Silas)
+    const walkerGroup = createChildFigure(0x16A34A, 0x78350F, 0xE0A97E, "Silas (Helper)");
+    scene.add(walkerGroup);
+    let walkT = 0;
+    const walkWaypoints = [
+      new THREE.Vector3(0, 0, -2.5),
+      new THREE.Vector3(-4, 0, 1),
+      new THREE.Vector3(-6, 0, 4),
+      new THREE.Vector3(-4, 0, -2),
+      new THREE.Vector3(3, 0, -3),
+      new THREE.Vector3(5, 0, 0),
+      new THREE.Vector3(2, 0, 1)
+    ];
+
+    // Pulsing Selection Ring
+    const selectionRing = new THREE.Mesh(new THREE.RingGeometry(1.2, 1.4, 32), M_SELECTION_RING);
+    selectionRing.rotation.x = -Math.PI / 2;
+    selectionRing.position.set(0, 0.05, 0);
+    selectionRing.visible = false;
+    scene.add(selectionRing);
+
+    /* ==========================================================================
+       2D PROJECTED 3D BILLBOARDS & LABELS
+       ========================================================================== */
+    const billboardPoints = [
+      { pos: new THREE.Vector3(0, 3.2, -1.2), label: "👑 Seriphia (Guardian)", key: "rug" },
+      { pos: new THREE.Vector3(-8, 3.8, 4), label: "📖 Phonics Sanctuary", key: "phonics" },
+      { pos: new THREE.Vector3(-8, 3.2, -6), label: "📐 Math Courtyard", key: "math" },
+      { pos: new THREE.Vector3(6, 2.8, -6), label: "🏃 Somatic Meadow", key: "movement" },
+      { pos: new THREE.Vector3(8, 2.8, 2), label: "🌊 Sensory Basin", key: "sensory" }
+    ];
+
+    const billboardDoms = [];
+    billboardPoints.forEach(pt => {
+      const el = document.createElement('div');
+      el.className = 'billboard-tag';
+      el.textContent = pt.label;
+      billboardLayer.appendChild(el);
+      billboardDoms.push({ el: el, pos: pt.pos });
+    });
+
+    function updateBillboards() {
+      const tempV = new THREE.Vector3();
+      billboardDoms.forEach(item => {
+        tempV.copy(item.pos);
+        tempV.project(camera);
+
+        if (tempV.z > 1) {
+          item.el.style.display = 'none';
+          return;
+        }
+
+        item.el.style.display = 'flex';
+        const x = (tempV.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (-(tempV.y * 0.5) + 0.5) * window.innerHeight;
+        item.el.style.left = `${x}px`;
+        item.el.style.top = `${y}px`;
+      });
+    }
+
+    /* ==========================================================================
+       WEB AUDIO API METRONOME & ACOUSTIC CLICK GENERATOR
+       ========================================================================== */
+    let audioCtx = null;
+    let metronomeTimer = null;
+    let isMetronomeActive = false;
+    let currentBPM = 90;
+    let beatCount = 0;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playAcousticTick(isAccent = false) {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (isAccent) {
+        osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.07);
+      } else {
+        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      }
+
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.08);
+
+      const pulseDot = document.querySelector('.pulse-dot');
+      if (pulseDot) {
+        pulseDot.style.transform = 'scale(1.8)';
+        setTimeout(() => pulseDot.style.transform = 'scale(1)', 100);
+      }
+    }
+
+    function startMetronome(bpm) {
+      initAudio();
+      stopMetronome();
+      currentBPM = bpm;
+      const interval = (60 / bpm) * 1000;
+      beatCount = 0;
+
+      metronomeTimer = setInterval(() => {
+        const isAccent = (beatCount % 4 === 0);
+        playAcousticTick(isAccent);
+        beatCount++;
+      }, interval);
+
+      isMetronomeActive = true;
+      document.getElementById('metronome-quick-btn').classList.add('active');
+      const panelBtn = document.getElementById('panel-audio-btn');
+      if (panelBtn) {
+        panelBtn.textContent = '⏹ Stop Pulse';
+        panelBtn.classList.add('playing');
+      }
+    }
+
+    function stopMetronome() {
+      if (metronomeTimer) {
+        clearInterval(metronomeTimer);
+        metronomeTimer = null;
+      }
+      isMetronomeActive = false;
+      document.getElementById('metronome-quick-btn').classList.remove('active');
+      const panelBtn = document.getElementById('panel-audio-btn');
+      if (panelBtn) {
+        panelBtn.textContent = '▶ Play Pulse';
+        panelBtn.classList.remove('playing');
+      }
+    }
+
+    function toggleMasterMetronome() {
+      if (isMetronomeActive) {
+        stopMetronome();
+      } else {
+        startMetronome(currentBPM);
+      }
+    }
+
+    function toggleCurrentPanelAudio() {
+      if (isMetronomeActive) {
+        stopMetronome();
+      } else {
+        startMetronome(currentBPM);
+      }
+    }
+
+    function playModalBPM(bpm, btn) {
+      initAudio();
+      if (btn.classList.contains('playing')) {
+        stopMetronome();
+        btn.textContent = `▶ Play ${bpm} BPM Pulse`;
+        btn.classList.remove('playing');
+      } else {
+        document.querySelectorAll('.modal-card .audio-pulse-btn').forEach(b => {
+          b.classList.remove('playing');
+          b.textContent = b.textContent.replace('⏹ Stop', '▶ Play');
+        });
+        startMetronome(bpm);
+        btn.textContent = `⏹ Stop Pulse`;
+        btn.classList.add('playing');
+      }
+    }
+
+    /* ==========================================================================
+       ZONE SWITCHING & CAMERA FLIGHT CONTROLLER
+       ========================================================================== */
+    function switchZone(zoneKey) {
+      const data = ZONE_DATA[zoneKey];
+      if (!data) return;
+
+      document.querySelectorAll('.zone-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('onclick').includes(zoneKey));
+      });
+
+      camTargetPos.set(data.camPos.x, data.camPos.y, data.camPos.z);
+      lookTargetPos.set(data.target.x, data.target.y, data.target.z);
+      isTransitioningCam = true;
+
+      const panel = document.getElementById('detail-panel');
+      panel.style.display = 'flex';
+      document.getElementById('panel-tag').textContent = data.tag;
+      document.getElementById('panel-title').textContent = data.name;
+      document.getElementById('panel-heroes').textContent = data.hero;
+      document.getElementById('panel-script').textContent = `"${data.script}"`;
+      document.getElementById('panel-task').textContent = data.task;
+      document.getElementById('panel-pulse-label').textContent = data.pulseLabel;
+      document.getElementById('panel-scaffold').textContent = data.scaffold;
+
+      const badgesContainer = document.getElementById('panel-badges');
+      badgesContainer.innerHTML = '';
+      data.badges.forEach(b => {
+        const badgeSpan = document.createElement('span');
+        badgeSpan.className = 'action-badge';
+        badgeSpan.textContent = b;
+        badgesContainer.appendChild(badgeSpan);
+      });
+
+      currentBPM = data.bpm;
+      document.getElementById('kpi-bpm').textContent = `${data.bpm} BPM`;
+
+      if (zoneKey !== 'overview') {
+        selectionRing.position.set(data.target.x, 0.06, data.target.z);
+        selectionRing.visible = true;
+      } else {
+        selectionRing.visible = false;
+      }
+    }
+
+    function closeDetailPanel() {
+      document.getElementById('detail-panel').style.display = 'none';
+      selectionRing.visible = false;
+    }
+
+    /* Raycasting Click on 3D Objects */
+    window.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('#ui-overlay') || e.target.closest('.modal-overlay')) return;
+
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(clickables, true);
+      if (intersects.length > 0) {
+        let root = intersects[0].object;
+        while (root.parent && !root.userData.zoneKey && root !== scene) {
+          root = root.parent;
+        }
+        if (root.userData.zoneKey) {
+          switchZone(root.userData.zoneKey);
+        }
+      }
+    });
+
+    /* ==========================================================================
+       6-STEP DAILY MORNING RITUAL FLOW CONTROLLER
+       ========================================================================== */
+    const ROUTINE_STEPS = [
+      { name: "Acoustic Ignition", dur: 30, zone: "rug" },
+      { name: "'Talk FROM' Story", dur: 240, zone: "rug" },
+      { name: "Block A: Phonics", dur: 180, zone: "phonics" },
+      { name: "Block B: Math Logic", dur: 180, zone: "math" },
+      { name: "Block D: Somatics", dur: 180, zone: "movement" },
+      { name: "Polyvagal Closure", dur: 90, zone: "rug" }
+    ];
+    let currentStepIdx = 0;
+    let stepTimerSec = 24;
+
+    function setRoutineStep(idx) {
+      currentStepIdx = idx;
+      document.querySelectorAll('.step-item').forEach((item, i) => {
+        item.classList.toggle('active', i === idx);
+      });
+      const st = ROUTINE_STEPS[idx];
+      document.getElementById('routine-timer').textContent = `Step ${idx + 1} of 6 · ${st.name} (${Math.floor(st.dur / 60)}m)`;
+      switchZone(st.zone);
+    }
+
+    setInterval(() => {
+      stepTimerSec++;
+      const mins = Math.floor(stepTimerSec / 60);
+      const secs = stepTimerSec % 60;
+      const pad = (n) => (n < 10 ? '0' + n : n);
+      document.getElementById('routine-timer').textContent = `Step ${currentStepIdx + 1} of 6 · ${ROUTINE_STEPS[currentStepIdx].name} (${pad(mins)}:${pad(secs)})`;
+    }, 1000);
+
+    /* ==========================================================================
+       EXTRAS: ATMOSPHERE & DAY / NIGHT MODES
+       ========================================================================== */
+    const ATMOSPHERES = [
+      { name: "Golden Morning", icon: "☀️", bg: 0xFFF8F0, fog: 0xFFF8F0, sun: 0xFFEDD5, sunI: 1.35 },
+      { name: "Aquaria Mist", icon: "🌧️", bg: 0xE0F2FE, fog: 0xE0F2FE, sun: 0xBAE6FD, sunI: 1.0 },
+      { name: "Celestia Twilight", icon: "✨", bg: 0xEDE9FE, fog: 0xEDE9FE, sun: 0xDDD6FE, sunI: 1.1 },
+      { name: "Ventura Breeze", icon: "🍃", bg: 0xFEF3C7, fog: 0xFEF3C7, sun: 0xFDE68A, sunI: 1.25 }
+    ];
+    let atmoIdx = 0;
+
+    function cycleAtmosphere() {
+      atmoIdx = (atmoIdx + 1) % ATMOSPHERES.length;
+      const at = ATMOSPHERES[atmoIdx];
+      document.getElementById('weather-btn').textContent = at.icon;
+      scene.background.set(at.bg);
+      scene.fog.color.set(at.fog);
+      sunLight.color.set(at.sun);
+      sunLight.intensity = at.sunI;
+    }
+
+    let isNight = false;
+    function toggleDayNight() {
+      isNight = !isNight;
+      const btn = document.getElementById('daynight-btn');
+      if (isNight) {
+        btn.textContent = '☀️';
+        scene.background.set(0x0F172A);
+        scene.fog.color.set(0x0F172A);
+        sunLight.intensity = 0.2;
+        ambientLight.intensity = 0.4;
+        ambientLight.color.set(0x38BDF8);
+        roomLamp.intensity = 1.8;
+        roomLamp.color.set(0xFFB066);
+      } else {
+        btn.textContent = '🌙';
+        cycleAtmosphere();
+        ambientLight.intensity = 0.9;
+        ambientLight.color.set(0xFFF3E8);
+        roomLamp.intensity = 0.8;
+      }
+    }
+
+    /* ==========================================================================
+       CURRICULUM & PROMPT MODAL CONTROLLERS
+       ========================================================================== */
+    function openCurriculumModal() {
+      document.getElementById('curriculum-modal').classList.add('open');
+    }
+
+    function closeCurriculumModal() {
+      document.getElementById('curriculum-modal').classList.remove('open');
+    }
+
+    function closeModalOnBackdrop(e) {
+      if (e.target.id === 'curriculum-modal') {
+        closeCurriculumModal();
+      }
+    }
+
+    function openPromptModal() {
+      document.getElementById('prompt-modal').classList.add('open');
+    }
+
+    function closePromptModal() {
+      document.getElementById('prompt-modal').classList.remove('open');
+    }
+
+    function closePromptModalOnBackdrop(e) {
+      if (e.target.id === 'prompt-modal') {
+        closePromptModal();
+      }
+    }
+
+    function copyPromptText() {
+      const codeText = document.getElementById('prompt-code-box').innerText.replace('📋 Copy Prompt', '').trim();
+      navigator.clipboard.writeText(codeText).then(() => {
+        const btn = document.querySelector('.copy-prompt-btn');
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = '📋 Copy Prompt', 2000);
+      });
+    }
+
+    function switchModalTab(tabId) {
+      document.querySelectorAll('.modal-tab-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('onclick').includes(tabId));
+      });
+      document.querySelectorAll('.drawer-tab-content').forEach(c => {
+        c.classList.remove('active');
+      });
+      const activeContent = document.getElementById('modal-tab-' + tabId);
+      if (activeContent) activeContent.classList.add('active');
+    }
+
+    /* Window Resize Handler */
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    /* ==========================================================================
+       ANIMATION & SIMULATION LOOP
+       ========================================================================== */
+    let clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      const time = clock.getElapsedTime();
+
+      // Smooth Camera Transitions
+      if (isTransitioningCam) {
+        camera.position.lerp(camTargetPos, 0.05);
+        controls.target.lerp(lookTargetPos, 0.05);
+        if (camera.position.distanceTo(camTargetPos) < 0.1) {
+          isTransitioningCam = false;
+        }
+      }
+      controls.update();
+
+      // Seriphia Gentle Breathing & Halo Bob
+      halo.position.y = 2.82 + Math.sin(time * 2.0) * 0.05;
+      halo.rotation.z = time * 0.5;
+
+      // Floating Musical Notes
+      notesList.forEach(n => {
+        n.mesh.position.y += n.speed;
+        n.mesh.position.x += Math.sin(time + n.origY) * 0.005;
+        if (n.mesh.position.y > 3.6) {
+          n.mesh.position.y = 1.8;
+        }
+      });
+
+      // Sensory Basin Waterwheel Spinning
+      wheelGroup.rotation.x = time * 1.2;
+
+      // Children gentle rhythmic breathing bob matching current BPM tempo
+      const bpmFreq = (currentBPM / 60) * Math.PI * 2;
+      const childBob = Math.sin(time * bpmFreq) * 0.03;
+      kenji.position.y = childBob;
+      kwame.position.y = childBob;
+      amara.position.y = childBob;
+      nerissa.position.y = childBob;
+
+      // Helper Silas Walker Simulation along curved path
+      walkT += delta * 0.2;
+      const seg = Math.floor(walkT) % walkWaypoints.length;
+      const nextSeg = (seg + 1) % walkWaypoints.length;
+      const tSub = walkT - Math.floor(walkT);
+      walkerGroup.position.lerpVectors(walkWaypoints[seg], walkWaypoints[nextSeg], tSub);
+      walkerGroup.position.y = Math.abs(Math.sin(time * 6)) * 0.08;
+      const lookDir = new THREE.Vector3().subVectors(walkWaypoints[nextSeg], walkWaypoints[seg]);
+      walkerGroup.rotation.y = Math.atan2(lookDir.x, lookDir.z);
+
+      // Pulsing Selection Ring
+      if (selectionRing.visible) {
+        selectionRing.scale.setScalar(1 + Math.sin(time * 4) * 0.05);
+      }
+
+      // Update Projected 2D Billboards
+      updateBillboards();
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

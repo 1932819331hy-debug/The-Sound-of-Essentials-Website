@@ -65,8 +65,9 @@ export async function submitSoeInterest({
   const normalizedName = name?.trim() || 'Rhythm Explorer';
   const normalizedEmail = email?.trim().toLowerCase();
 
-  if (!['interest', 'partnership', 'newsletter'].includes(kind)) {
-    throw new Error('Unsupported submission kind.');
+  const ALLOWED_KINDS = ['interest', 'partnership', 'newsletter', 'institutional_qpc', 'qpc', 'contact', 'album_unlock', 'lead'];
+  if (!ALLOWED_KINDS.includes(kind)) {
+    throw new Error(`Unsupported submission kind: ${kind}`);
   }
   if (!normalizedEmail || !EMAIL_PATTERN.test(normalizedEmail)) {
     throw new Error('Please enter a valid email address.');

@@ -34,8 +34,9 @@ export async function onRequestPost(context) {
     const normalizedName = name?.trim();
     const normalizedEmail = email?.trim().toLowerCase();
 
-    if (!['interest', 'partnership', 'newsletter'].includes(kind)) {
-      return new Response(JSON.stringify({ error: 'Unsupported submission kind.' }), {
+    const ALLOWED_KINDS = ['interest', 'partnership', 'newsletter', 'institutional_qpc', 'qpc', 'contact', 'album_unlock', 'lead'];
+    if (!ALLOWED_KINDS.includes(kind)) {
+      return new Response(JSON.stringify({ error: `Unsupported submission kind: ${kind}` }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -100,7 +101,8 @@ export async function onRequestPost(context) {
     const submissionId = neonData?.rows?.[0]?.id;
 
     // 2. Background CRM Contact & Activity Upsert (Resilient & Non-Blocking)
-    const persona = kind === 'partnership' ? (organizationName ? 'institution' : 'educator') : 'parent';
+    const isInstitutional = kind === 'partnership' || kind === 'institutional_qpc' || kind === 'qpc' || Boolean(organizationName);
+    const persona = isInstitutional ? (organizationName ? 'institution' : 'educator') : 'parent';
     try {
       const crmUpsertSql = `
         INSERT INTO crm_contacts (email, name, organization, persona, lifecycle_stage, source_path, lead_score, updated_at)
@@ -138,8 +140,8 @@ export async function onRequestPost(context) {
         const contactId = crmContact?.rows?.[0]?.id;
 
         if (contactId) {
-          const activityTitle = kind === 'partnership' 
-            ? `Partnership Inquiry: ${organizationName || normalizedName}`
+          const activityTitle = isInstitutional 
+            ? `Institutional / Partnership Inquiry: ${organizationName || normalizedName}`
             : `Album Unlocked & Lead Captured`;
 
           await fetch(neonHttpEndpoint, {
@@ -160,10 +162,10 @@ export async function onRequestPost(context) {
           });
 
           // 3. Automated Pipeline Deal Flow: School pilots and institutional inquiries auto-create deals
-          if (kind === 'partnership' || organizationName) {
+          if (isInstitutional) {
             const dealTitle = organizationName 
               ? `School / Institutional Pilot: ${organizationName}`
-              : `Partnership Opportunity: ${normalizedName}`;
+              : `Institutional Opportunity: ${normalizedName}`;
             const dealValue = organizationName ? 1500.00 : 500.00;
             const dealStage = 'school_pilot';
 

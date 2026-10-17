@@ -6,7 +6,7 @@ import { RevealSection } from '../hooks/useReveal';
 
 import heroesData from '../data/heroes.json';
 import JsonLd from '../components/JsonLd';
-import { homeSchema } from '../utils/schema';
+import { homeSchema, faqSchema } from '../utils/schema';
 import ExpandableGallery from '../components/ExpandableGallery';
 import { assetCssUrl, assetPath } from '../utils/assetPath';
 import Floating3DBook from '../components/ui/Floating3DBook';
@@ -108,9 +108,14 @@ const Home = () => {
     }
   ];
 
+  const structuredSchemas = [
+    ...homeSchema(),
+    faqSchema(faqItems),
+  ].filter(Boolean);
+
   return (
     <div className="home-page">
-      <JsonLd data={homeSchema()} />
+      <JsonLd data={structuredSchemas} />
 
 
       {/* ═══════════════════════════════════════════════════════

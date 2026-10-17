@@ -125,6 +125,7 @@ const CampaignLauncher = () => {
       setVerifyFeedback(data);
       await fetchMetaStatus();
     } catch (err) {
+      console.warn('Verify credentials error:', err);
       setVerifyFeedback({ verified: false, error: 'Could not reach FastAPI backend on port 8000.' });
     } finally {
       setVerifying(false);
@@ -161,6 +162,7 @@ const CampaignLauncher = () => {
         });
       }
     } catch (err) {
+      console.warn('Launch campaign error:', err);
       setLaunchResponse({
         status: 'CONNECTION_ERROR',
         message: 'Could not connect to FastAPI server at http://localhost:8000.',
@@ -179,7 +181,7 @@ const CampaignLauncher = () => {
           <span className="mcls-badge">Proprietary Growth Engine</span>
           <h1 className="mcls-title">Market Campaign Launch System</h1>
           <p className="mcls-subtitle">
-            Zeely-inspired automated Meta ad deployment, dual-engine tandem funnels, and 90-day cohort attribution for <em>The Sound of Essentials</em>.
+            Autonomous Meta ad deployment, dual-engine tandem funnels, and 90-day cohort attribution for <em>The Sound of Essentials</em>.
           </p>
         </header>
 

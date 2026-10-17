@@ -42,7 +42,7 @@
     "legal": {
         "parental_affirmation": "I confirm I am a parent or educator (18 years or older) consenting on behalf of my family or classroom.",
         "parental_gate_error": "Please confirm you are 18 years or older to proceed.",
-        "cookie_banner_text": "We respect your family's privacy. We do not sell personal data or track children. We use essential storage and privacy-masked analytics to improve early learning.",
+        "cookie_banner_text": "We respect your family's privacy. We do not sell personal data. We use essential storage and privacy-masked analytics to improve early learning.",
         "cookie_accept": "Accept Essential & Analytics",
         "cookie_decline": "Decline Non-Essential",
         "cookie_learn_more": "Learn more in our Privacy Policy",

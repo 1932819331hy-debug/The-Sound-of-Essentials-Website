@@ -42,7 +42,7 @@
     "legal": {
         "parental_affirmation": "Confirmo que soy padre o educador (mayor de 18 años) que consiente en nombre de mi familia o aula.",
         "parental_gate_error": "Por favor confirme que es mayor de 18 años para continuar.",
-        "cookie_banner_text": "Respetamos la privacidad de su familia. No vendemos datos personales ni rastreamos a menores. Usamos almacenamiento esencial y análisis con privacidad enmascarada.",
+        "cookie_banner_text": "Respetamos la privacidad de su familia. No vendemos datos personales. Usamos almacenamiento esencial y análisis con privacidad enmascarada.",
         "cookie_accept": "Aceptar Esenciales y Análisis",
         "cookie_decline": "Rechazar No Esenciales",
         "cookie_learn_more": "Más información en nuestra Política de Privacidad",

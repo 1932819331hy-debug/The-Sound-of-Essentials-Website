@@ -42,7 +42,7 @@
     "legal": {
         "parental_affirmation": "Je confirme être un parent ou un éducateur (âgé de 18 ans ou plus) consentant au nom de ma famille ou de ma classe.",
         "parental_gate_error": "Veuillez confirmer que vous avez 18 ans ou plus pour continuer.",
-        "cookie_banner_text": "Nous respectons la vie privée de votre famille. Nous ne vendons pas de données personnelles et ne suivons pas les enfants. Nous utilisons un stockage essentiel et des analyses masquées pour améliorer l'apprentissage précoce.",
+        "cookie_banner_text": "Nous respectons la vie privée de votre famille. Nous ne vendons pas de données personnelles. Nous utilisons un stockage essentiel et des analyses masquées pour améliorer l'apprentissage précoce.",
         "cookie_accept": "Accepter les essentiels et analyses",
         "cookie_decline": "Refuser les non-essentiels",
         "cookie_learn_more": "En savoir plus dans notre Politique de Confidentialité",

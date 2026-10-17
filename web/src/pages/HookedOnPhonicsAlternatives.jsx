@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import JsonLd from '../components/JsonLd';
+import { comparisonFaqSchema } from '../utils/schema';
 
 const HookedOnPhonicsAlternatives = () => {
   const iframeRef = useRef(null);
@@ -93,7 +94,8 @@ const HookedOnPhonicsAlternatives = () => {
           'description': 'Turnkey 10-15 minute screen-free classroom lesson extensions aligned with Head Start ELOF and NAEYC early childhood standards.'
         }
       ]
-    }
+    },
+    comparisonFaqSchema('Hooked on Phonics')
   ];
 
   return (

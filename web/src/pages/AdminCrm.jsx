@@ -4,6 +4,27 @@ import './AdminCrm.css';
 
 const DEFAULT_PASSKEY = 'soe-admin-2026';
 const PASSKEY_STORAGE_KEY = 'soe_crm_auth_token';
+const EDGE_BACKEND_URL = 'https://soe-website-b7j.pages.dev';
+
+async function crmFetch(path, options = {}) {
+  const isPagesDev = typeof window !== 'undefined' && window.location.hostname.includes('pages.dev');
+
+  if (isPagesDev) {
+    return fetch(path, options);
+  }
+
+  try {
+    const res = await fetch(path, options);
+    const contentType = res.headers.get('content-type') || '';
+    if (res.ok && contentType.includes('application/json')) {
+      return res;
+    }
+  } catch (err) {
+    console.warn(`Relative fetch to ${path} failed, failing over to edge backend...`, err);
+  }
+
+  return fetch(`${EDGE_BACKEND_URL}${path}`, options);
+}
 
 const STAGE_CONFIG = {
   new_lead: { label: 'New Inquiries', color: '#64748B', bg: 'rgba(100, 116, 139, 0.1)' },
@@ -128,7 +149,7 @@ const AdminCrm = () => {
   const fetchStats = useCallback(async () => {
     const t0 = performance.now();
     try {
-      const res = await fetch('/api/admin/crm/stats');
+      const res = await crmFetch('/api/admin/crm/stats');
       if (res.ok) {
         setStats(await res.json());
         setDbLatency(Math.round(performance.now() - t0));
@@ -144,7 +165,7 @@ const AdminCrm = () => {
         stage: stageFilter,
         limit: '100',
       });
-      const res = await fetch(`/api/admin/crm/contacts?${params}`);
+      const res = await crmFetch(`/api/admin/crm/contacts?${params}`);
       if (res.ok) {
         const data = await res.json();
         setContacts(data.contacts || []);
@@ -155,7 +176,7 @@ const AdminCrm = () => {
 
   const fetchDeals = useCallback(async () => {
     try {
-      const res = await fetch('/api/admin/crm/deals');
+      const res = await crmFetch('/api/admin/crm/deals');
       if (res.ok) {
         const data = await res.json();
         setDeals(data.deals || []);
@@ -165,7 +186,7 @@ const AdminCrm = () => {
 
   const fetchActivities = useCallback(async () => {
     try {
-      const res = await fetch('/api/admin/crm/activities?limit=50');
+      const res = await crmFetch('/api/admin/crm/activities?limit=50');
       if (res.ok) {
         const data = await res.json();
         setActivities(data.activities || []);
@@ -175,7 +196,7 @@ const AdminCrm = () => {
 
   const fetchTasks = useCallback(async () => {
     try {
-      const res = await fetch('/api/admin/crm/tasks');
+      const res = await crmFetch('/api/admin/crm/tasks');
       if (res.ok) {
         const data = await res.json();
         setTasks(data.tasks || []);
@@ -185,7 +206,7 @@ const AdminCrm = () => {
 
   const fetchContactNotes = async (contactId) => {
     try {
-      const res = await fetch(`/api/admin/crm/notes?contact_id=${contactId}`);
+      const res = await crmFetch(`/api/admin/crm/notes?contact_id=${contactId}`);
       if (res.ok) {
         const data = await res.json();
         setContactNotes(data.notes || []);
@@ -195,7 +216,7 @@ const AdminCrm = () => {
 
   const fetchDropshipData = useCallback(async () => {
     try {
-      const res = await fetch('/api/admin/crm/dropship?action=all');
+      const res = await crmFetch('/api/admin/crm/dropship?action=all');
       if (res.ok) {
         const data = await res.json();
         setDropshipOrders(data.orders || []);
@@ -262,7 +283,7 @@ const AdminCrm = () => {
     if (!dispatchModalOrder || !dispatchTrackingNumber) return;
     setIsSyncingTracking(true);
     try {
-      const res = await fetch('/api/admin/crm/dropship', {
+      const res = await crmFetch('/api/admin/crm/dropship', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -285,7 +306,7 @@ const AdminCrm = () => {
 
   const handleSimulateTikTokOrder = async () => {
     try {
-      const res = await fetch('/api/admin/crm/dropship', {
+      const res = await crmFetch('/api/admin/crm/dropship', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'create_test_order' }),
@@ -304,7 +325,7 @@ const AdminCrm = () => {
     if (!selectedContact || !drawerEditForm) return;
     setContactSaving(true);
     try {
-      const res = await fetch('/api/admin/crm/contacts', {
+      const res = await crmFetch('/api/admin/crm/contacts', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: selectedContact.id, ...drawerEditForm }),
@@ -328,7 +349,7 @@ const AdminCrm = () => {
   const handleDeleteContact = async (contactId) => {
     if (!window.confirm('Are you sure you want to permanently delete this contact and all associated records from Neon?')) return;
     try {
-      const res = await fetch(`/api/admin/crm/contacts?id=${contactId}`, { method: 'DELETE' });
+      const res = await crmFetch(`/api/admin/crm/contacts?id=${contactId}`, { method: 'DELETE' });
       if (res.ok) {
         setSelectedContact(null);
         fetchContacts();
@@ -346,7 +367,7 @@ const AdminCrm = () => {
     if (!newNoteContent.trim() || !selectedContact) return;
     setNoteSaving(true);
     try {
-      const res = await fetch('/api/admin/crm/notes', {
+      const res = await crmFetch('/api/admin/crm/notes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ contact_id: selectedContact.id, content: newNoteContent, author: 'Founder' }),
@@ -365,7 +386,7 @@ const AdminCrm = () => {
     // Optimistically update local UI state immediately
     setDeals((prev) => prev.map((d) => (d.id === dealId ? { ...d, stage: newStage } : d)));
     try {
-      const res = await fetch('/api/admin/crm/deals', {
+      const res = await crmFetch('/api/admin/crm/deals', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: dealId, stage: newStage }),
@@ -391,7 +412,7 @@ const AdminCrm = () => {
     // Optimistically toggle task status immediately
     setTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, status: nextStatus } : t)));
     try {
-      const res = await fetch('/api/admin/crm/tasks', {
+      const res = await crmFetch('/api/admin/crm/tasks', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: taskId, status: nextStatus }),
@@ -411,7 +432,7 @@ const AdminCrm = () => {
   const handleCreateContact = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/admin/crm/contacts', {
+      const res = await crmFetch('/api/admin/crm/contacts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newContact),
@@ -429,7 +450,7 @@ const AdminCrm = () => {
   const handleCreateDeal = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/admin/crm/deals', {
+      const res = await crmFetch('/api/admin/crm/deals', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newDeal),
@@ -447,7 +468,7 @@ const AdminCrm = () => {
   const handleCreateTask = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/admin/crm/tasks', {
+      const res = await crmFetch('/api/admin/crm/tasks', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask),
@@ -464,7 +485,7 @@ const AdminCrm = () => {
   const handleLogActivity = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/admin/crm/activities', {
+      const res = await crmFetch('/api/admin/crm/activities', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newActivity),
@@ -507,7 +528,7 @@ const AdminCrm = () => {
   const handleSendEmail = async () => {
     if (!selectedContact) return;
     // Log outbound email in crm_activities
-    await fetch('/api/admin/crm/activities', {
+    await crmFetch('/api/admin/crm/activities', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
