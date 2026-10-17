@@ -2,7 +2,7 @@ from typing import List, Dict, Any
 
 class RhythmGuardianOptimizer:
     """
-    Zeely Pillar 5 Equivalent with 2026 Battle-Tested Dual-Horizon Guardrails:
+    MCLS Pillar 5: 2026 Battle-Tested Dual-Horizon Guardrails:
     - Protects Top-of-Funnel Value Gate (Engine A) from premature kills due to Meta 7-day attribution blindness.
     - Demands strict short-term ROAS for Direct-to-Print Showcase (Engine B).
     """

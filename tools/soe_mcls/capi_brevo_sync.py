@@ -7,7 +7,7 @@ from soe_mcls.config import settings
 from soe_mcls.canon import BREVO_CAMPAIGN_MAP
 
 class TelemetrySyncEngine:
-    """Zeely Pillar 4 Equivalent: Server-Side Meta CAPI + Brevo 18-Campaign Router + First-Touch Ledger."""
+    """MCLS Pillar 4: Server-Side Meta CAPI + Brevo 18-Campaign Router + First-Touch Ledger."""
 
     @staticmethod
     def _sha256_norm(value: str) -> str:

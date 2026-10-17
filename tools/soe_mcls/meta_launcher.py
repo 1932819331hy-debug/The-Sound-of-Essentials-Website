@@ -3,7 +3,7 @@ from soe_mcls.config import settings
 from soe_mcls.creative_forge import CreativeForge
 
 class MetaCampaignLauncher:
-    """Zeely Pillar 3 Equivalent: One-Click Meta Marketing API v21.0 Tandem Campaign Dispatcher."""
+    """MCLS Pillar 3: One-Click Meta Marketing API v21.0 Tandem Campaign Dispatcher."""
 
     def __init__(self, dry_run: bool = True):
         self.dry_run = dry_run

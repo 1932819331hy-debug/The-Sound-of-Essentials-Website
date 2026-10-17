@@ -36,7 +36,7 @@ MULTILINGUAL_TEMPLATES = {
 }
 
 class CreativeForge:
-    """Zeely Pillar 1 Equivalent: Generates 3-Layer Canonical Copy + Visual/Video Specs."""
+    """MCLS Pillar 1: Archetype & Asset Forge (3-Layer Copy + Visual/Video Specs)."""
 
     def build_ad_variant(
         self,

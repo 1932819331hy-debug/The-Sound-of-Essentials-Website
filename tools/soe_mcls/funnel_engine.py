@@ -7,7 +7,7 @@ from soe_mcls.canon import PRODUCT_LADDER
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class FunnelCheckoutService:
-    """Zeely Pillar 2 Equivalent: Direct Web Micro-Funnel & Stripe Card Vaulting."""
+    """MCLS Pillar 2: Direct Web Micro-Funnel & Stripe Card Vaulting."""
 
     def __init__(self, mock_mode: bool = False):
         self.mock_mode = mock_mode

@@ -2,7 +2,7 @@
 
 > **For Claude:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Deploy an automated, full-spectrum Meta marketing campaign launcher and growth engine for *The Sound of Essentials: Rhythm Quest* (`soelearn.com`), reverse-engineered and parroted from Zeely.ai's 5 core operational pillars.
+**Goal:** Deploy an automated, full-spectrum Meta marketing campaign launcher and growth engine for *The Sound of Essentials: Rhythm Quest* (`soelearn.com`), structured across 5 core operational pillars.
 
 **Architecture:** A modular Python FastAPI backend (`tools/soe-mcls/`) orchestrating 5 core engines—Archetype Creative Forge, Direct Web Micro-Funnel with Stripe card vaulting, Meta Marketing API v21.0 Dispatcher, Dual CAPI + Brevo 18-Campaign Sync, and the Rhythm Guardian Auto-Scale/Kill Optimizer—interfacing with the React 19 / Vite web platform on `soelearn.com`.
 
@@ -10,11 +10,11 @@
 
 ---
 
-## 1. Full-Spectrum Deconstruction of Zeely.ai
+## 1. Full-Spectrum Deconstruction of the Autonomous Growth Engine Architecture
 
-Zeely.ai operates as an AI-driven, mobile-first growth engine designed to abstract away the technical friction of Meta Ads Manager, landing page design, and creative production. Instead of exposing hundreds of manual toggles, Zeely utilizes a deterministic pipeline that takes an offering or product asset seed and automatically outputs high-converting creatives, deploys lightning-fast micro-funnels, dispatches multi-variant Meta campaigns via API, tracks conversions server-side, and dynamically reallocates ad spend toward winning creatives.
+The Autonomous Meta Growth Engine operates as an AI-driven, mobile-first system designed to abstract away the technical friction of Meta Ads Manager, landing page design, and creative production. Instead of exposing hundreds of manual toggles, the engine utilizes a deterministic pipeline that takes an offering or product asset seed and automatically outputs high-converting creatives, deploys lightning-fast micro-funnels, dispatches multi-variant Meta campaigns via API, tracks conversions server-side, and dynamically reallocates ad spend toward winning creatives.
 
-Here is the mechanical breakdown of Zeely’s 5 Core Pillars:
+Here is the mechanical breakdown of the 5 Core Pillars:
 
 ### Pillar 1: AI Creative Studio (Static & Video Ad Generator)
 * **Input Ingestion:** Ingests product metadata, core hooks, target customer profiles, and visual brand assets.
@@ -48,11 +48,11 @@ Here is the mechanical breakdown of Zeely’s 5 Core Pillars:
 
 ---
 
-## 2. Complete Parroted Translation for SOE (SOE-MCLS)
+## 2. Complete Translation for SOE (SOE-MCLS)
 
-We are not building a generic SaaS for random businesses; we are building a dedicated, proprietary weapon for **The Sound of Essentials: Rhythm Quest**. Every generic Zeely mechanism is hard-coded to SOE’s canon, product ladder, and direct web stack (`soelearn.com`).
+We are not building a generic SaaS for random businesses; we are building a dedicated, proprietary weapon for **The Sound of Essentials: Rhythm Quest**. Every growth mechanism is hard-coded to SOE’s canon, product ladder, and direct web stack (`soelearn.com`).
 
-| Zeely Pillar | SOE-MCLS Equivalent | SOE Specific Implementation & Canon Alignment |
+| Growth Pillar | SOE-MCLS Equivalent | SOE Specific Implementation & Canon Alignment |
 | :--- | :--- | :--- |
 | **1. AI Creative Studio** | **SOE Archetype & Asset Forge** | Hard-coded to the **5 Cultural Deltas** (*Screen vs. Sensory, Testing vs. Arts, Algorithm vs. Handcrafted, Institution vs. Sanctuary, Consumption vs. Quest*), the **6 Production Campaigns**, and the **30 Meta Ad Archetypes**. Enforces the **3-Layer Rule**:<br>1. *Emotional Identity / Parent Ache*<br>2. *Tangible Musical/Tactile Solution* (4,232 words, 400 activities, 19 songs)<br>3. *Frictionless Zero-Risk Invitation*.<br>Integrates **Gemini/Fal.ai** for warm, tactile visual generation + **Remotion/FFmpeg** to bind the actual 19-track album stems with kinetic typography in English, Spanish, and French. |
 | **2. Micro-Funnel Engine** | **Direct Web Funnel Router (`soelearn.com`)** | Replaces generic templates with high-speed micro-routes on `soelearn.com` mapped to the originating Cultural Delta:<br>• **Step 1 (Front End):** `/listen` gate ($0 Free 19-Track Album capture).<br>• **Step 2 (In-Cart Bump):** $7 *Quest Starter Pack* (triggers Stripe `setup_future_usage: 'off_session'` to vault the card).<br>• **Step 3 (One-Click Upsells):** $19 *Interactive Ebook* $\rightarrow$ $21/$35 *Rhythm Ready Workbook* $\rightarrow$ $55/$79 *Essential Picture Dictionary* (or $89 *Full Quest Bundle*) + $14.99/mo *Rhythm Pass* continuity. |
@@ -430,7 +430,7 @@ MULTILINGUAL_TEMPLATES = {
 }
 
 class CreativeForge:
-    """Zeely Pillar 1 Equivalent: Generates 3-Layer Canonical Copy + Visual/Video Specs."""
+    """MCLS Pillar 1: Archetype & Asset Forge (3-Layer Copy + Visual/Video Specs)."""
 
     def build_ad_variant(
         self,
@@ -579,7 +579,7 @@ from soe_mcls.config import settings
 from soe_mcls.canon import BREVO_CAMPAIGN_MAP
 
 class TelemetrySyncEngine:
-    """Zeely Pillar 4 Equivalent: Server-Side Meta CAPI + Brevo 18-Campaign Router."""
+    """MCLS Pillar 4: Server-Side Meta CAPI + Brevo 18-Campaign Router + First-Touch Ledger."""
 
     @staticmethod
     def _sha256_norm(value: str) -> str:
@@ -675,7 +675,7 @@ from soe_mcls.canon import PRODUCT_LADDER
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class FunnelCheckoutService:
-    """Zeely Pillar 2 Equivalent: Direct Web Micro-Funnel & Stripe Card Vaulting."""
+    """MCLS Pillar 2: Direct Web Micro-Funnel & Stripe Card Vaulting."""
 
     def __init__(self, mock_mode: bool = False):
         self.mock_mode = mock_mode
@@ -827,7 +827,7 @@ from soe_mcls.config import settings
 from soe_mcls.creative_forge import CreativeForge
 
 class MetaCampaignLauncher:
-    """Zeely Pillar 3 Equivalent: One-Click Meta Marketing API v21.0 Campaign Dispatcher."""
+    """MCLS Pillar 3: One-Click Meta Marketing API v21.0 Tandem Campaign Dispatcher."""
 
     def __init__(self, dry_run: bool = True):
         self.dry_run = dry_run
@@ -926,7 +926,7 @@ Create `tools/soe-mcls/rhythm_guardian.py`:
 from typing import List, Dict, Any
 
 class RhythmGuardianOptimizer:
-    """Zeely Pillar 5 Equivalent: Automated Stop-Loss & Winner Scaling Engine."""
+    """MCLS Pillar 5: Automated Stop-Loss & Winner Scaling Engine."""
 
     def __init__(
         self,

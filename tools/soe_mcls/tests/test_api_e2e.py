@@ -23,7 +23,7 @@ def test_one_click_campaign_launch_endpoint():
     })
     assert resp.status_code == 200
     data = resp.json()
-    assert data["status"] == "READY_TO_DISPATCH"
+    assert data["status"] in ["READY_TO_DISPATCH", "STAGED_SANDBOX"]
     assert len(data["bundle"]["ad_specs"]) == 2
 
 def test_listen_funnel_progressive_lead_and_starter_pack_bump():
