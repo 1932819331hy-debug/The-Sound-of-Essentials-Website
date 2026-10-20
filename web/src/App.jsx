@@ -126,6 +126,7 @@ const App = () => {
                 <Route path="/rhythm-ready" element={<AnimatedPage><RhythmQuestSale /></AnimatedPage>} />
                 <Route path="/rhythm-quest" element={<AnimatedPage><RhythmQuestSale /></AnimatedPage>} />
                 <Route path="/rhythmquest" element={<AnimatedPage><RhythmQuestSale /></AnimatedPage>} />
+                <Route path="/starter-pack" element={<Navigate to="/listen" replace />} />
                 <Route path="/headphones" element={<AnimatedPage><HeadphonesSale /></AnimatedPage>} />
                 <Route path="/shop"       element={<AnimatedPage><HeadphonesSale /></AnimatedPage>} />
                 <Route path="/sensory-headphones" element={<AnimatedPage><HeadphonesSale /></AnimatedPage>} />

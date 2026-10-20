@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "build:hosted-assets": "vite build && node scripts/prune-hosted-assets.mjs",
+    "catalog:pinterest": "node scripts/generate-pinterest-catalog.mjs",
+    "build": "node scripts/generate-pinterest-catalog.mjs && vite build",
+    "build:hosted-assets": "node scripts/generate-pinterest-catalog.mjs && vite build && node scripts/prune-hosted-assets.mjs",
     "sync:r2": "node scripts/sync-to-r2.mjs",
     "deploy:cf": "npm run build && npx wrangler pages deploy dist",
     "lint": "eslint .",

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>The Sound of Essentials: Rhythm Quest Product Catalog</title>
+    <link>https://thesoundofessentials.com</link>
+    <description>A scientifically grounded, music-driven screen-free learning ecosystem for early childhood development (Ages 2–7).</description>
+    <lastBuildDate>Tue, 20 Oct 2026 04:24:22 GMT</lastBuildDate>
+    <item>
+      <g:id>SOE-ALB-001</g:id>
+      <g:title>The Sound of Essentials Deluxe: A Musical Learning Experience (Ages 2–7)</g:title>
+      <g:description>The Sound of Essentials Deluxe: A Musical Learning Experience. Primary front-end free gateway and lead hook on /listen. Music is the standalone entry point to vault card via $7 Quest Starter &amp; Coloring Pack in-cart add-on. Target audience: Ages 2 to 7. Scientifically grounded, screen-free early learning.</g:description>
+      <g:link>https://thesoundofessentials.com/listen</g:link>
+      <g:image_link>https://thesoundofessentials.com/soe_deluxe_album_storybook_materials.jpg</g:image_link>
+      <g:brand>The Sound of Essentials</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>0.00 USD</g:price>
+      <g:google_product_category>Media &gt; Music</g:google_product_category>
+      <g:product_type>Early Learning &gt; Screen-Free Music &gt; 19 Studio Acoustic Tracks</g:product_type>
+      <g:age_group>toddler</g:age_group>
+      <g:gender>unisex</g:gender>
+      <g:gtin>885000556098</g:gtin>
+    </item>
+    <item>
+      <g:id>SOE-BUMP-001</g:id>
+      <g:title>The Quest Starter &amp; Coloring Pack: 40-Page Coloring Book, 432Hz Reset Track &amp; Transition Kit (Ages 2–7)</g:title>
+      <g:description>The Quest Starter &amp; Coloring Pack: 40-Page Coloring Book, 432Hz Reset Track &amp; Transition Kit. Primary $7 card-vaulting offer on website: packages the complete 40-page tactile storybook coloring book, Seriphia&apos;s 432Hz calming track, 7-Land cue cards, and refrigerator daily rhythm dial; vaults card at Gate 1 via Direct Stripe API. Target audience: Ages 2 to 7. Scientifically grounded, screen-free early learning.</g:description>
+      <g:link>https://thesoundofessentials.com/starter-pack</g:link>
+      <g:image_link>https://thesoundofessentials.com/soe_box_learning_experience.png</g:image_link>
+      <g:brand>The Sound of Essentials</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>7.00 USD</g:price>
+      <g:google_product_category>Media &gt; Books &gt; Print Books</g:google_product_category>
+      <g:product_type>Early Learning &gt; Tactile Activities &gt; 40-Page Coloring Book &amp; Bedtime Reset</g:product_type>
+      <g:age_group>toddler</g:age_group>
+      <g:gender>unisex</g:gender>
+      <g:identifier_exists>false</g:identifier_exists>
+    </item>
+    <item>
+      <g:id>SOE-EBK-001</g:id>
+      <g:title>The Sound of Essentials: Rhythm Quest Storybook (Ages 2–7)</g:title>
+      <g:description>The Sound of Essentials: Rhythm Quest Storybook. Core storybook companion introducing all 7 Lands and 15 Heroes Target audience: Ages 2 to 7. Scientifically grounded, screen-free early learning.</g:description>
+      <g:link>https://thesoundofessentials.com/rhythm-quest</g:link>
+      <g:image_link>https://thesoundofessentials.com/child_reading_rhythm_quest_official_cover.webp</g:image_link>
+      <g:brand>The Sound of Essentials</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>19.00 USD</g:price>
+      <g:google_product_category>Media &gt; Books &gt; E-Books</g:google_product_category>
+      <g:product_type>Early Learning &gt; Storybooks &gt; 66-Page Illustrated Journey Through 7 Lands</g:product_type>
+      <g:age_group>toddler</g:age_group>
+      <g:gender>unisex</g:gender>
+      <g:identifier_exists>false</g:identifier_exists>
+    </item>
+    <item>
+      <g:id>SOE-WB-DIG</g:id>
+      <g:title>SOE Rhythm Ready / Summer Stretch Workbook (Digital) (Ages 2–7)</g:title>
+      <g:description>SOE Rhythm Ready / Summer Stretch Workbook (Digital). Scientifically grounded, screen-free early childhood development for ages 2 to 7 across the 7 Lands of Sound.</g:description>
+      <g:link>https://thesoundofessentials.com/rhythm-ready</g:link>
+      <g:image_link>https://thesoundofessentials.com/child_reading_rhythm_quest_official_cover.webp</g:image_link>
+      <g:brand>The Sound of Essentials</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>21.00 USD</g:price>
+      <g:google_product_category>Media &gt; Books &gt; Workbooks</g:google_product_category>
+      <g:product_type>Early Learning &gt; Curriculum &gt; 8-Week Screen-Free Readiness Quest (Digital PDF)</g:product_type>
+      <g:age_group>toddler</g:age_group>
+      <g:gender>unisex</g:gender>
+      <g:identifier_exists>false</g:identifier_exists>
+    </item>
+    <item>
+      <g:id>SOE-WB-PRT</g:id>
+      <g:title>SOE Rhythm Ready / Summer Stretch Workbook (Print) (Ages 2–7)</g:title>
+      <g:description>SOE Rhythm Ready / Summer Stretch Workbook (Print). Captures physical shipping address for recurring continuity. Shipped on-demand via Lulu Print API with Free Standard Shipping included. Target audience: Ages 2 to 7. Scientifically grounded, screen-free early learning.</g:description>
+      <g:link>https://thesoundofessentials.com/rhythm-ready</g:link>
+      <g:image_link>https://thesoundofessentials.com/child_reading_rhythm_quest_official_cover.webp</g:image_link>
+      <g:brand>The Sound of Essentials</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>45.00 USD</g:price>
+      <g:google_product_category>Media &gt; Books &gt; Workbooks</g:google_product_category>
+      <g:product_type>Early Learning &gt; Curriculum &gt; 8-Week Screen-Free Readiness Quest (454-Page Print)</g:product_type>
+      <g:age_group>toddler</g:age_group>
+      <g:gender>unisex</g:gender>
+      <g:identifier_exists>false</g:identifier_exists>
+    </item>
+    <item>
+      <g:id>SOE-DIC-001</g:id>
+      <g:title>The Sound of Essentials: Essential Picture Dictionary (Ages 2–7)</g:title>
+      <g:description>The Sound of Essentials: Essential Picture Dictionary. High-value foundational literacy pillar Target audience: Ages 2 to 7. Scientifically grounded, screen-free early learning.</g:description>
+      <g:link>https://thesoundofessentials.com/dictionary</g:link>
+      <g:image_link>https://thesoundofessentials.com/soe_album_showcase_canon.jpg</g:image_link>
+      <g:brand>The Sound of Essentials</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>55.00 USD</g:price>
+      <g:google_product_category>Media &gt; Books &gt; Dictionaries &amp; Thesauruses</g:google_product_category>
+      <g:product_type>Early Learning &gt; Vocabulary &gt; 4,232 Words Across 125 Full-Color Scenes</g:product_type>
+      <g:age_group>toddler</g:age_group>
+      <g:gender>unisex</g:gender>
+      <g:identifier_exists>false</g:identifier_exists>
+    </item>
+    <item>
+      <g:id>SOE-BND-001</g:id>
+      <g:title>The Full Quest Digital Bundle (Ages 2–7)</g:title>
+      <g:description>The Full Quest Digital Bundle. Scientifically grounded, screen-free early childhood development for ages 2 to 7 across the 7 Lands of Sound.</g:description>
+      <g:link>https://thesoundofessentials.com/rhythm-quest</g:link>
+      <g:image_link>https://thesoundofessentials.com/soe_deluxe_album_storybook_materials.jpg</g:image_link>
+      <g:brand>The Sound of Essentials</g:brand>
+      <g:condition>new</g:condition>
+      <g:availability>in stock</g:availability>
+      <g:price>89.00 USD</g:price>
+      <g:google_product_category>Media &gt; Books</g:google_product_category>
+      <g:product_type>Early Learning &gt; Complete Curriculum &gt; 19-Track Album + Dictionary + Workbook + Ebook</g:product_type>
+      <g:age_group>toddler</g:age_group>
+      <g:gender>unisex</g:gender>
+      <g:identifier_exists>false</g:identifier_exists>
+    </item>
+  </channel>
+</rss>
