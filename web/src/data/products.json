@@ -102,6 +102,39 @@
     "storeUrl": "https://buy.stripe.com/test_7sYcN5cO04S168uc706Vq00"
   },
   {
+    "id": "rhythm-quest-storybook-print",
+    "name": "The Sound of Essentials: Rhythm Quest (Physical Print Storybook)",
+    "shortName": "Rhythm Quest Physical Storybook",
+    "type": "physical-book",
+    "format": "66-Page Full-Color Print",
+    "price": 35.0,
+    "currency": "USD",
+    "description": "The official 66-page full-color physical illustrated companion storybook that brings the 19-track album to life. Introduces all 15 heroes across 7 Lands, modeling phonemic awareness, kindness, and self-regulation. Printed on demand via Lulu Press with Free US Standard Shipping included.",
+    "features": [
+      "66 full-color physical storybook pages (8.5\" x 8.5\" or standard trim)",
+      "Introduces Seriphia and all 15 heroes across the 7 Lands",
+      "My Word Quest Glossary backmatter & phonetic guides",
+      "Printed on demand via Lulu Press with Free US Standard Shipping",
+      "Pairs with the 19-track album for bedtime read-alongs"
+    ],
+    "ageRange": "Ages 2–7",
+    "gradeRange": "Pre-K to Grade 2",
+    "isbn": null,
+    "cover": "/assets/book/soe-rhythm-quest-cover.webp",
+    "category": "education",
+    "tags": [
+      "print",
+      "storybook",
+      "companion",
+      "seven-lands",
+      "literacy",
+      "lulu-pod"
+    ],
+    "funnelStage": "lead-offer",
+    "status": "available",
+    "storeUrl": "/rhythm-quest"
+  },
+  {
     "id": "rhythmready-workbook",
     "name": "SOE Rhythm Quest: Rhythm Ready Workbook",
     "shortName": "Rhythm Ready Workbook",

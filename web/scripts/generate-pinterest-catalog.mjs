@@ -44,6 +44,14 @@ const PRODUCT_METADATA = {
     productType: 'Early Learning > Storybooks > 66-Page Illustrated Journey Through 7 Lands',
     customDescription: 'The Sound of Essentials: Rhythm Quest Storybook. 66-page full-color illustrated companion storybook introducing Seriphia and the 14 rhythm heroes across all 7 Lands for children ages 2 to 7.',
   },
+  'rhythm-quest-storybook-print': {
+    title: 'The Sound of Essentials: Rhythm Quest Storybook (Physical Print Edition - Lulu POD)',
+    link: `${DOMAIN}/rhythm-quest`,
+    image: `${DOMAIN}/child_reading_rhythm_quest_official_cover.webp`,
+    category: 'Media > Books > Print Books',
+    productType: 'Early Learning > Storybooks > 66-Page Illustrated Physical Print Storybook',
+    customDescription: 'The Sound of Essentials: Rhythm Quest Storybook (Physical Print Edition). 66-page full-color physical illustrated storybook for children ages 2 to 7. Introduces Seriphia and the 14 rhythm heroes across all 7 Lands of Sound. Printed on-demand via Lulu Press with Free US Standard Shipping included.',
+  },
   'summer-stretch-workbook-digital': {
     title: 'The Sound of Essentials: Rhythm Ready Workbook (8-Week Digital PDF Quest)',
     link: `${DOMAIN}/rhythm-ready`,

@@ -49,6 +49,16 @@
       "purpose": "Core storybook companion introducing all 7 Lands and 15 Heroes"
     },
     {
+      "id": "rhythm-quest-storybook-print",
+      "sku": "SOE-STORY-PRT",
+      "name": "The Sound of Essentials: Rhythm Quest Storybook (Physical Print)",
+      "type": "physical_storybook",
+      "format": "66-Page Full-Color Illustrated Storybook (Free US Shipping via Lulu POD)",
+      "price": 35.00,
+      "page_count": 66,
+      "purpose": "Main physical lead companion introducing all 7 Lands and 15 Heroes; printed on demand via Lulu Press with Free US Standard Shipping included."
+    },
+    {
       "id": "summer-stretch-workbook-digital",
       "sku": "SOE-WB-DIG",
       "name": "SOE Rhythm Ready / Summer Stretch Workbook (Digital)",
