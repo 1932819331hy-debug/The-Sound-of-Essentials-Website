@@ -5,6 +5,7 @@ import { assetPath } from '../utils/assetPath';
 import { triggerQuestCelebration, TiltCard, MagneticPill } from '../components/ui/DesignSpells';
 import { FULFILLMENT_FILES, getDeliveryUrl, triggerBrowserDownload } from '../utils/deliveryUrl';
 import { setGateUnlocked, isValidEmail } from '../utils/gateAuth';
+import { trackPurchase } from '../utils/analytics';
 import KineticHeadline from '../components/KineticHeadline';
 import './OrderSuccess.css';
 
@@ -31,7 +32,32 @@ const OrderSuccess = () => {
     if (customerEmail && isValidEmail(customerEmail)) {
       setGateUnlocked(customerEmail);
     }
-  }, [customerEmail]);
+
+    // Dispatch Purchase tracking (Pinterest Tag, Meta Pixel, GTM dataLayer)
+    const priceMap = {
+      'rhythm-quest-storybook': 19.00,
+      'rhythm-quest-storybook-print': 35.00,
+      'coloring-book': 7.00,
+      'rhythm-ready-workbook': 45.00,
+      'rhythmready-workbook': 45.00,
+      'summer-stretch-workbook': 45.00,
+      'picture-dictionary': 55.00,
+      'full-quest-bundle': 89.00,
+    };
+    const orderValue = priceMap[productKey] || 19.00;
+
+    trackPurchase({
+      orderId,
+      value: orderValue,
+      currency: 'USD',
+      items: [{
+        item_id: productKey,
+        item_name: product?.title || 'The Sound of Essentials',
+        price: orderValue,
+        quantity: 1,
+      }],
+    });
+  }, [customerEmail, orderId, productKey, product?.title]);
 
   const handleDownload = () => {
     setDownloading(true);

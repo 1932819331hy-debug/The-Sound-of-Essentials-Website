@@ -133,6 +133,11 @@ export const trackPageView = (path, title = '') => {
     window.fbq('track', 'PageView');
   }
 
+  // Pinterest Tag
+  if (typeof window !== 'undefined' && window.pintrk) {
+    window.pintrk('track', 'pagevisit');
+  }
+
   // Microsoft Clarity Tagging
   if (window.clarity && pagePath) {
     window.clarity('set', 'page_path', pagePath);
@@ -165,6 +170,14 @@ export const trackLead = ({ email: _email = '', formName = 'gate1_listen', sourc
       value: 0.00,
       currency: 'USD',
       ...utms,
+    });
+  }
+
+  // Pinterest Tag
+  if (typeof window !== 'undefined' && window.pintrk) {
+    window.pintrk('track', 'lead', {
+      lead_type: 'email_optin',
+      content_name: formName,
     });
   }
 
@@ -203,6 +216,17 @@ export const trackViewContent = ({ contentName, category = 'curriculum', id = ''
       content_name: contentName,
       content_category: category,
       content_ids: id ? [id] : [],
+      value,
+      currency: 'USD',
+    });
+  }
+
+  // Pinterest Tag
+  if (typeof window !== 'undefined' && window.pintrk) {
+    window.pintrk('track', 'viewcategory', {
+      category,
+      product_name: contentName,
+      product_id: id,
       value,
       currency: 'USD',
     });
@@ -247,8 +271,65 @@ export const trackInitiateCheckout = ({ sku = 'SOE-RQ-WORKBOOK', name = 'Rhythm 
     });
   }
 
+  // Pinterest Tag
+  if (typeof window !== 'undefined' && window.pintrk) {
+    window.pintrk('track', 'addtocart', {
+      value: price,
+      order_quantity: 1,
+      currency,
+      product_name: name,
+      product_id: sku,
+    });
+  }
+
   if (window.clarity) {
     window.clarity('event', 'checkout_initiated');
+  }
+};
+
+/**
+ * Dispatches Purchase event (e.g. Stripe checkout completion on /order-success).
+ */
+export const trackPurchase = ({ orderId = '', value = 0, currency = 'USD', items = [] } = {}) => {
+  if (typeof window === 'undefined') return;
+  const utms = getStoredUtms();
+
+  pushDataLayer('purchase', {
+    transaction_id: orderId,
+    value,
+    currency,
+    items,
+    ecommerce: {
+      transaction_id: orderId,
+      value,
+      currency,
+      items,
+    },
+    ...utms,
+  });
+
+  if (window.fbq) {
+    window.fbq('track', 'Purchase', {
+      value,
+      currency,
+      content_type: 'product',
+      contents: items.map(i => ({ id: i.item_id || i.sku, quantity: i.quantity || 1 })),
+      ...utms,
+    });
+  }
+
+  // Pinterest Tag Checkout Tracking
+  if (typeof window !== 'undefined' && window.pintrk) {
+    window.pintrk('track', 'checkout', {
+      value,
+      order_quantity: items.length || 1,
+      currency,
+      order_id: orderId,
+    });
+  }
+
+  if (window.clarity) {
+    window.clarity('event', 'purchase_completed');
   }
 };
 
@@ -364,6 +445,7 @@ export default {
   trackLead,
   trackViewContent,
   trackInitiateCheckout,
+  trackPurchase,
   trackAudioPlay,
   trackReferralShare,
   trackCtaClick,
