@@ -6,6 +6,8 @@ import StoryScroll, { FlowSection } from '../components/StoryScroll';
 import { assetCssUrl, assetPath } from '../utils/assetPath';
 import PhilanthropicDonationSection from '../components/PhilanthropicDonationSection';
 import KineticHeadline from '../components/KineticHeadline';
+import JsonLd from '../components/JsonLd';
+import { missionSchema } from '../utils/schema';
 
 /* ── Reveal Hook ── */
 const useReveal = () => {
@@ -150,6 +152,7 @@ const Mission = () => {
     React.useEffect(() => { document.title = 'Our Mission — SOE Rhythm Quest'; }, []);
     return (
         <div className="mission-page">
+            <JsonLd data={missionSchema()} />
             {/* ── Fixed Cosmic 7 Lands Background Layer ── */}
             <div className="mission-bg-layer" aria-hidden="true">
                 <div className="mission-bg-img" />

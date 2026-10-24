@@ -5,12 +5,15 @@ import ResearchAssistant from '../components/ResearchAssistant';
 import { assetPath } from '../utils/assetPath';
 import { RevealSection } from '../hooks/useReveal';
 import KineticHeadline from '../components/KineticHeadline';
+import JsonLd from '../components/JsonLd';
+import { scienceSchema } from '../utils/schema';
 
 const Science = () => {
     const { t } = useTranslation();
     useEffect(() => { document.title = 'Science of the Sound — SOE Rhythm Quest'; }, []);
     return (
         <div className="science-page">
+            <JsonLd data={scienceSchema()} />
             {/* ── Hero ── */}
             <header className="science-hero">
                 <div className="container text-center">

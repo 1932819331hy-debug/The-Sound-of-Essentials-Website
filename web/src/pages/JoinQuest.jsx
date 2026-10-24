@@ -6,6 +6,8 @@ import { assetPath } from '../utils/assetPath';
 import BrevoSubscribeForm from '../components/BrevoSubscribeForm';
 import { submitSoeInterest } from '../services/soeSubmissions';
 import KineticHeadline from '../components/KineticHeadline';
+import JsonLd from '../components/JsonLd';
+import { universeSchema } from '../utils/schema';
 
 const JoinQuest = () => {
     const { t } = useTranslation();
@@ -46,6 +48,7 @@ const JoinQuest = () => {
 
     return (
         <div className="join-page">
+            <JsonLd data={universeSchema()} />
             {/* ── Hero ── */}
             <header className="join-hero" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div className="scene-backdrop" aria-hidden="true">

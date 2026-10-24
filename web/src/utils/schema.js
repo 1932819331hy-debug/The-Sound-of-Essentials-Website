@@ -246,7 +246,7 @@ export function institutionalFaqSchema() {
         name: 'Does the Rhythm Quest curriculum require screens, tablets, or internet access in classrooms?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'No. The curriculum is 100% screen-free. Instruction is delivered via acoustic high-fidelity audio tracks, physical educator lesson cards, hands-on rhythm instruments, and tactile readiness workbooks to protect young nervous systems from overstimulation.',
+          text: 'No. The curriculum is 100% screen-free. Instruction is delivered via acoustic high-fidelity audio tracks, physical educator lesson cards, and tactile readiness workbooks to protect young nervous systems from overstimulation.',
         },
       },
       {
@@ -320,4 +320,67 @@ export function comparisonFaqSchema(competitorName = 'ABCmouse') {
     ],
   };
 }
+
+/* ─────────────────────────────────────────────
+ * Science & Research — ScholarlyArticle + LearningResource Schema
+ * ───────────────────────────────────────────── */
+export function scienceSchema() {
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ScholarlyArticle',
+      headline: 'Science of the Sound: Neurological Architecture of Early Childhood Rhythm & Phonics',
+      description: 'How Dalcroze Eurhythmics, Orff Schulwerk, the Kodály Method, and auditory neuroscience accelerate early childhood phonological awareness, speech development, and motor skills for ages 2–7.',
+      author: {
+        '@type': 'EducationalOrganization',
+        name: 'The Sound of Essentials',
+        url: 'https://thesoundofessentials.com',
+      },
+      publisher: {
+        '@type': 'EducationalOrganization',
+        name: 'The Sound of Essentials',
+        url: 'https://thesoundofessentials.com',
+      },
+      about: [
+        { '@type': 'Thing', name: 'Dalcroze Eurhythmics' },
+        { '@type': 'Thing', name: 'Orff Schulwerk' },
+        { '@type': 'Thing', name: 'Kodály Method' },
+        { '@type': 'Thing', name: 'Phonological Awareness' },
+        { '@type': 'Thing', name: 'Auditory Temporal Processing' },
+      ],
+      educationalLevel: 'Pre-K through Grade 2 (Ages 2–7)',
+      inLanguage: 'en-US',
+      url: 'https://thesoundofessentials.com/science',
+    },
+  ];
+}
+
+/* ─────────────────────────────────────────────
+ * Mission & Founder — AboutPage + EducationalOrganization Schema
+ * ───────────────────────────────────────────── */
+export function missionSchema() {
+  return [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'AboutPage',
+      name: 'The Mission of The Sound of Essentials: Rhythm Quest',
+      description: 'The educational mission, origin story, and neuro-affirming pedagogy of The Sound of Essentials early learning sanctuary.',
+      mainEntity: {
+        '@type': 'EducationalOrganization',
+        name: 'The Sound of Essentials',
+        url: 'https://thesoundofessentials.com',
+        founder: {
+          '@type': 'Person',
+          name: 'L.D. Murray',
+          jobTitle: 'Founder',
+        },
+        slogan: 'Staying on the path, always learning',
+        description: 'Screen-free acoustic early childhood learning ecosystem designed for ages 2 to 7 (Pre-K through Grade 2).',
+      },
+      url: 'https://thesoundofessentials.com/mission',
+    },
+  ];
+}
+
+
 

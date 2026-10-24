@@ -9,6 +9,8 @@ import { trackInitiateCheckout, appendUtmsToUrl } from '../utils/analytics';
 import ConciergeBadge from '../components/ConciergeBadge';
 import KineticHeadline from '../components/KineticHeadline';
 import PDPQuestionChips from '../components/PDPQuestionChips';
+import JsonLd from '../components/JsonLd';
+import { productsSchema, faqSchema } from '../utils/schema';
 import './RhythmQuestSale.css';
 
 /**
@@ -1290,8 +1292,14 @@ const RhythmQuestSale = () => {
   });
   const paradeChars = [...allChars, ...allChars];
 
+  const structuredSchemas = [
+    ...productsSchema(),
+    faqSchema(faqs.map(f => ({ q: f.q, a: Array.isArray(f.a) ? f.a.join(' ') : f.a }))),
+  ].filter(Boolean);
+
   return (
     <div className="rq-sale" style={{ '--rq-hero-bg': `url('${assetPath('/assets/backgrounds/rhythm-ready-meadow-bg.webp')}')` }}>
+      <JsonLd data={structuredSchemas} />
       {/* ═══ HERO ═══ */}
       <RhythmReadyHero />
 

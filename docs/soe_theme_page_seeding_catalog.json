@@ -1,0 +1,202 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-10-21",
+  "canon_target_age": "Ages 2–7 (Toddler, Pre-K to Grade 2)",
+  "canonical_url_base": "https://soelearn.com/listen",
+  "seeding_kits": [
+    {
+      "kit_id": "seed_kit_01_bedtime_sensory",
+      "target_niche": "Gentle Parenting & Sensory Co-Regulation",
+      "ideal_accounts": ["@gentleparentinghub", "@calmtoddlerlife", "@bedtimemagic_kids", "@sensoryplaymom"],
+      "posting_window": "Sunday 7:30 PM - 8:30 PM EST",
+      "pricing_target": "$30 - $60 single / $150 3-post House Party pack",
+      "cultural_delta": "Screen vs. Sensory",
+      "headline": "The 3-minute bedtime sensory reset that stopped our 4-year-old's nightly cortisol spike.",
+      "slides": [
+        {
+          "slide_number": 1,
+          "layout": "text_overlay_on_warm_imagery",
+          "title": "Why Bedtime Meltdowns Aren't Bad Behavior",
+          "body": "It's not defiance. It's sensory overload from high-tempo cartoon screens."
+        },
+        {
+          "slide_number": 2,
+          "layout": "split_comparison",
+          "title": "The Neurological Difference",
+          "left": "Neon Screens: 3-second rapid cuts trigger fight-or-flight cortisol.",
+          "right": "Acoustic Tempo: 72 bpm studio session tracks down-regulate the nervous system."
+        },
+        {
+          "slide_number": 3,
+          "layout": "hero_storybook_art",
+          "title": "Meet Celestia: The Land of Rest",
+          "body": "Our 4-year-old listens to the soothing rhythm of Celestia while doing gentle deep-breath stretching. Within 3 minutes, eyelids get heavy."
+        },
+        {
+          "slide_number": 4,
+          "layout": "clean_cta",
+          "title": "Acoustic Bedtime Sanctuary",
+          "body": "Get the entire 19-track acoustic album free for your family's bedtime routine.",
+          "cta_text": "Stream & download free via link in bio 👉 soelearn.com/listen"
+        }
+      ],
+      "caption": "If bedtime at your house feels like a battleground, here’s what changed everything for us. 🌙✨\n\nWhen children watch high-tempo cartoons before bed, their visual cortex stays in rapid-fire overdrive. Even after the tablet is powered down, their nervous system is buzzing with adrenaline.\n\nWe replaced frantic screens with an intentional acoustic bedtime routine from The Sound of Essentials: Rhythm Quest. Recorded live in studio sessions, these master tracks are mathematically paced at 72 bpm to trigger natural parasympathetic relaxation.\n\nNo flashcards. No guilt. Just a father's heart and a mother's love wrapped in melody.\n\nGrab the entire 19-track album completely free for your little ones: link in bio or visit soelearn.com/listen 💛\n\n#gentleparenting #bedtimeroutine #toddlersleep #sensoryregulation #screenfreekids",
+      "tracking_url": "https://soelearn.com/listen?utm_source=seeding&utm_medium=curator&utm_campaign=bedtime_sensory_kit01"
+    },
+    {
+      "kit_id": "seed_kit_02_sound_before_symbol",
+      "target_niche": "Screen-Free Montessori & Phonics Learning",
+      "ideal_accounts": ["@montessoritoddler", "@screenfreehomeschool", "@earlyliteracytips", "@playbasedlearning"],
+      "posting_window": "Tuesday 8:00 AM - 9:30 AM EST",
+      "pricing_target": "$30 - $60 single / $150 3-post House Party pack",
+      "cultural_delta": "Testing vs. Arts",
+      "headline": "Stop forcing your 4-year-old to trace letters. Reading starts in the ear, not the hand.",
+      "slides": [
+        {
+          "slide_number": 1,
+          "layout": "high_contrast_hook",
+          "title": "The Phonics Mistake 90% of Parents Make",
+          "body": "Starting with abstract visual symbols before the ear has decoded rhythm."
+        },
+        {
+          "slide_number": 2,
+          "layout": "pedagogical_diagram",
+          "title": "The Neurological Pathway",
+          "step_1": "1. Auditory Rhythm (Ear detects syllable pulses)",
+          "step_2": "2. Rhythmic Echo (Vocal imitation wires phonemic awareness)",
+          "step_3": "3. Tactile Tracing (Hand connects sound to letter symbol)"
+        },
+        {
+          "slide_number": 3,
+          "layout": "hero_storybook_art",
+          "title": "Welcome to Sonoria",
+          "body": "In Sonoria, children learn letter sounds through call-and-response acoustic songs with Kenji & Aiko. Zero flashcards. 100% joyful retention."
+        },
+        {
+          "slide_number": 4,
+          "layout": "clean_cta",
+          "title": "Give Your Child the Sound-First Advantage",
+          "body": "Download all 19 tracks + free printable phonics coloring sheets.",
+          "cta_text": "Free access via link in bio 👉 soelearn.com/listen"
+        }
+      ],
+      "caption": "Why do so many 3 to 6-year-olds cry over letter tracing worksheets? 💡\n\nBecause in the developing brain, auditory phonemic awareness develops months before fine motor pencil precision. When you force abstract 2D letters on an ear that hasn’t internalized rhythmic syllables, reading feels like a chore.\n\nIn Sonoria (the land of language in The Sound of Essentials: Rhythm Quest), children master letter sounds through acoustic echo songs and clapping games.\n\nSound before symbol. Joy before drills.\n\nStream all 19 curriculum tracks free right now: link in bio or go to soelearn.com/listen 🎵\n\n#montessoriathome #earlyphonics #screenfreelearning #kindergartenreadiness #soundbeforesymbol",
+      "tracking_url": "https://soelearn.com/listen?utm_source=seeding&utm_medium=curator&utm_campaign=sound_before_symbol_kit02"
+    },
+    {
+      "kit_id": "seed_kit_03_classroom_transition",
+      "target_niche": "ECE Professionals & Kindergarten Educators",
+      "ideal_accounts": ["@prekcircle", "@ece_educators", "@kindergartentribe", "@teachertransitionhacks"],
+      "posting_window": "Wednesday 6:30 AM - 7:30 AM EST",
+      "pricing_target": "$30 - $60 single / $150 3-post House Party pack",
+      "cultural_delta": "Institution vs. Sanctuary",
+      "headline": "The 90-second acoustic transition routine that calms circle-time chaos without shouting.",
+      "slides": [
+        {
+          "slide_number": 1,
+          "layout": "relatable_teacher_hook",
+          "title": "Teacher Burnout Starts in the Transitions",
+          "body": "Moving 16 toddlers from free play to circle time without chaos."
+        },
+        {
+          "slide_number": 2,
+          "layout": "tactile_proof",
+          "title": "The 90-Second Auditory Cue",
+          "body": "Instead of flicking lights or repeating yourself, play a specific acoustic rhythm cue. Children synchronize gross motor movement automatically."
+        },
+        {
+          "slide_number": 3,
+          "layout": "hero_storybook_art",
+          "title": "Kinesthetica: Bilateral Movement",
+          "body": "Using cross-body stretches and rhythmic claps from Kinesthetica (*Let's Stretch*), children transition smoothly into grounded focus."
+        },
+        {
+          "slide_number": 4,
+          "layout": "clean_cta",
+          "title": "Free for All Classrooms & Teachers",
+          "body": "Stream the complete 19-track album for your morning circle time.",
+          "cta_text": "Instant free educator access 👉 soelearn.com/listen"
+        }
+      ],
+      "caption": "To every early childhood educator who is exhausted by transition chaos: 🍎💛\n\nFlicking lights and raising your voice only raises room cortisol. But when children hear a predictable, acoustic musical phrase, their motor cortex synchronizes in seconds.\n\nWe created The Sound of Essentials: Rhythm Quest to provide teachers with screen-free, acoustic classroom soundscapes recorded live in studio sessions. Tracks like *Let's Stretch* and *Drill Time* turn chaotic transitions into joyful movement rituals.\n\n100% free for teachers and classrooms. Zero ads, zero paywalls.\n\nStream all 19 master tracks: link in bio or soelearn.com/listen 🏫✨\n\n#eceteachers #preschoolactivities #circletime #kindergartenclassroom #teacherhacks",
+      "tracking_url": "https://soelearn.com/listen?utm_source=seeding&utm_medium=curator&utm_campaign=classroom_transition_kit03"
+    },
+    {
+      "kit_id": "seed_kit_04_intentional_dad",
+      "target_niche": "Conscious Fatherhood & Intentional Parenting",
+      "ideal_accounts": ["@dadguild", "@intentionalfather", "@modernfatherhood", "@raisinggentlemen"],
+      "posting_window": "Saturday 9:00 AM - 10:30 AM EST",
+      "pricing_target": "$30 - $60 single / $150 3-post House Party pack",
+      "cultural_delta": "Algorithm vs. Handcrafted",
+      "headline": "The 10-minute breakfast ritual that got our kids off the tablet and singing together.",
+      "slides": [
+        {
+          "slide_number": 1,
+          "layout": "father_emotional_anchor",
+          "title": "I Got Tired of Seeing My Kids' Faces Buried in Glass",
+          "body": "Saturday mornings used to be silent zombies glued to iPad autoplay."
+        },
+        {
+          "slide_number": 2,
+          "layout": "tactile_proof",
+          "title": "We Swapped the Glass for Rhythm",
+          "body": "We put on Track 2 (*Rhythm Walk*) and pulled out paper coloring sheets. Within 5 minutes, we were laughing, clapping, and singing together."
+        },
+        {
+          "slide_number": 3,
+          "layout": "hero_storybook_art",
+          "title": "Created with a Father's Heart",
+          "body": "Original acoustic learning songs and storybook adventures across 7 lands designed for the developing brain—not the algorithm."
+        },
+        {
+          "slide_number": 4,
+          "layout": "clean_cta",
+          "title": "Build Your Family Sanctuary",
+          "body": "Download all 19 tracks free and start your Saturday morning rhythm.",
+          "cta_text": "Free download at link in bio 👉 soelearn.com/listen"
+        }
+      ],
+      "caption": "A few months ago, I looked at our breakfast table and realized everyone was staring at a screen. 💔\n\nNo conversation. Just algorithms feeding fast-paced dopamine loops to 3 and 5-year-olds.\n\nI decided to build what was missing: an acoustic, screen-free world called The Sound of Essentials: Rhythm Quest. 19 studio-recorded master tracks covering counting, phonics, movement, and emotional calm.\n\nNow, Saturday mornings are about rhythm, paper coloring, and real laughter.\n\nEvery family deserves this sanctuary. The entire 19-track album is completely free to stream and download.\n\nLink in bio or visit soelearn.com/listen 🎸🥞\n\n#intentionaldad #dadlife #screentimelimits #familyrituals #fatherhoodjourney",
+      "tracking_url": "https://soelearn.com/listen?utm_source=seeding&utm_medium=curator&utm_campaign=intentional_dad_kit04"
+    },
+    {
+      "kit_id": "seed_kit_05_screen_vs_sensory_contrast",
+      "target_niche": "Montessori Lifestyle & Holistic Childhood",
+      "ideal_accounts": ["@holistickidlife", "@waldorfhome", "@simplechildhood", "@naturekids_community"],
+      "posting_window": "Thursday 12:00 PM - 1:00 PM EST",
+      "pricing_target": "$30 - $60 single / $150 3-post House Party pack",
+      "cultural_delta": "Screen vs. Sensory",
+      "headline": "Why fast-cut cartoon pacing alters your toddler's dopamine baseline (And what to do instead).",
+      "slides": [
+        {
+          "slide_number": 1,
+          "layout": "scientific_friction_hook",
+          "title": "The Dopamine Baseline Shift",
+          "body": "Children's media with scene changes every 2.4 seconds causes sensory saturation."
+        },
+        {
+          "slide_number": 2,
+          "layout": "split_comparison",
+          "title": "The Antidote: Acoustic Auditory Scaffolding",
+          "left": "Autoplay Screens: Passive visual hypnosis with zero fine-motor engagement.",
+          "right": "Acoustic Melody: Active listening that triggers bilateral motor rhythm and calm focus."
+        },
+        {
+          "slide_number": 3,
+          "layout": "hero_storybook_art",
+          "title": "Seriphia: The Guardian of Melody",
+          "body": "Guided by Seriphia, children explore the 7 Lands through tactile quests, hand clapping, and storybooks—100% screen-free."
+        },
+        {
+          "slide_number": 4,
+          "layout": "clean_cta",
+          "title": "Reclaim Your Home's Peace",
+          "body": "Download the complete 19-track acoustic album free today.",
+          "cta_text": "Free access via link in bio 👉 soelearn.com/listen"
+        }
+      ],
+      "caption": "Have you noticed how toddlers act after 30 minutes of high-stimulation cartoons? Glazed eyes, short tempers, and immediate tantrums the second the screen is turned off. 🌿\n\nIt’s not bad behavior—their dopamine receptors are depleted from overstimulating animations.\n\nIn The Sound of Essentials: Rhythm Quest, we chose a different path: live acoustic studio recordings paired with hand-illustrated storybooks across 7 Lands.\n\nDesigned for the developing brain—not the algorithm.\n\nStream all 19 tracks free at soelearn.com/listen (link in bio) 💛\n\n#holisticparenting #screenfreechildhood #montessoriathome #toddlerbrain #sensoryhealth",
+      "tracking_url": "https://soelearn.com/listen?utm_source=seeding&utm_medium=curator&utm_campaign=screen_vs_sensory_kit05"
+    }
+  ]
+}
