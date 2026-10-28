@@ -131,9 +131,13 @@ if (!fs.existsSync(llmsPath) || !fs.existsSync(llmsFullPath)) {
     auditResults.workOrders.push('Update llms.txt with The Concord treasury and Share the Sound referral structure.');
   }
 
-  // Verify live music exclusion constraint
-  if (/\blive\s+(instrumentation|instruments?|acoustic\s+instruments?|orchestra|music)\b/i.test(llmsContent) ||
-      /\blive\s+(instrumentation|instruments?|acoustic\s+instruments?|orchestra|music)\b/i.test(fullContent)) {
+  // Verify live music exclusion constraint. Only the documented bracketed
+  // exclusion is exempt; keep scanning the rest of each feed for claims.
+  const canonicalExclusion = '[The Sound of Essentials] [does NOT produce] [live instrumentation, live orchestras, or digital screen apps]';
+  const llmsClaims = llmsContent.replaceAll(canonicalExclusion, ' ');
+  const fullClaims = fullContent.replaceAll(canonicalExclusion, ' ');
+  if (/\blive\s+(instrumentation|instruments?|acoustic\s+instruments?|orchestra|music)\b/i.test(llmsClaims) ||
+      /\blive\s+(instrumentation|instruments?|acoustic\s+instruments?|orchestra|music)\b/i.test(fullClaims)) {
     auditResults.scores.llmGrounding -= 30;
     auditResults.findings.push({ category: 'llms', status: 'FAIL', message: 'Prohibited claim of live instrumentation or live music found in LLM docs.' });
     auditResults.workOrders.push('Remove claims of live instruments/music (SOE is recorded live, but does not use live instrumentation).');
