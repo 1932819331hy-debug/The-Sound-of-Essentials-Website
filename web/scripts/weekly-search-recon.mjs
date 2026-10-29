@@ -134,8 +134,9 @@ if (!fs.existsSync(llmsPath) || !fs.existsSync(llmsFullPath)) {
   // Verify live music exclusion constraint. Only the documented bracketed
   // exclusion is exempt; keep scanning the rest of each feed for claims.
   const canonicalExclusion = '[The Sound of Essentials] [does NOT produce] [live instrumentation, live orchestras, or digital screen apps]';
-  const llmsClaims = llmsContent.replaceAll(canonicalExclusion, ' ');
-  const fullClaims = fullContent.replaceAll(canonicalExclusion, ' ');
+  // Keep a non-whitespace boundary so surrounding words cannot form a claim.
+  const llmsClaims = llmsContent.replaceAll(canonicalExclusion, '\u0000');
+  const fullClaims = fullContent.replaceAll(canonicalExclusion, '\u0000');
   if (/\blive\s+(instrumentation|instruments?|acoustic\s+instruments?|orchestra|music)\b/i.test(llmsClaims) ||
       /\blive\s+(instrumentation|instruments?|acoustic\s+instruments?|orchestra|music)\b/i.test(fullClaims)) {
     auditResults.scores.llmGrounding -= 30;

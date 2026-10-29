@@ -52,6 +52,12 @@ function check(short, full, prohibited) {
 
 test('canonical exclusion is not a positive claim in either feed', () => check(negative, negative, false));
 test('repeated canonical exclusions remain exclusions', () => check(`${negative}\n${negative}`, negative, false));
+test('excluding a triple does not join separate claim words in llms.txt', () => {
+  check(`live ${negative} music`, '', false);
+});
+test('excluding a triple does not join separate claim words in llms-full.txt', () => {
+  check('', `live ${negative} music`, false);
+});
 test('positive claims are still reported for each feed and phrase', () => {
   for (const phrase of ['live instrumentation', 'live instrument', 'live instruments', 'live acoustic instrument', 'live acoustic instruments', 'live orchestra', 'live music']) {
     check(`We produce ${phrase}.`, '', true);
